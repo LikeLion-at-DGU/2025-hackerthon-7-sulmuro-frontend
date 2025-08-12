@@ -14,7 +14,7 @@ const fontGenerator = (
 
 const colors = {
   // 배경색
-  Bg: "#FFF",
+  Bg: "#52525B",
 
   // Netral
   N70: "#2A2A2E",
