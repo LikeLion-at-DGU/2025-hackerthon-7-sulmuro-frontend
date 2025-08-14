@@ -17,5 +17,5 @@ const Wrapper = styled.section`
   min-height: calc(var(--vh, 1vh) * 100);
   /* padding-top: 3.5rem; */
 
-  background-color: ${({ theme }) => theme.colors.Bg};
+  background-color: ${({ theme }) => theme.colors.WHITE};
 `;
