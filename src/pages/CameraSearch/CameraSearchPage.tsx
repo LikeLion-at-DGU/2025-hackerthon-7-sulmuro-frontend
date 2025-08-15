@@ -16,20 +16,20 @@ const handleCaptured = async (dataUrl: string | null, file?: File) => {
 setCaptured(dataUrl);
 
 // 🔧 데모용 목데이터
-setResults([
-    {
-    id: "1",
-    title: "떡볶이",
-    subtitle: "매콤달콤 즉석 떡볶이",
-    thumbnail: dataUrl ?? "",
-    },
-    {
-    id: "2",
-    title: "순대",
-    subtitle: "모둠 순대 & 내장",
-    thumbnail: dataUrl ?? "",
-    },
-]);
+// setResults([
+//     {
+//     id: "1",
+//     title: "떡볶이",
+//     subtitle: "매콤달콤 즉석 떡볶이",
+//     thumbnail: dataUrl ?? "",
+//     },
+//     {
+//     id: "2",
+//     title: "순대",
+//     subtitle: "모둠 순대 & 내장",
+//     thumbnail: dataUrl ?? "",
+//     },
+// ]);
 
 setOpen(true);
 };
@@ -38,10 +38,10 @@ return (
     <S.Wrapper>
         <CameraCapture onCaptured={handleCaptured} />
         <ResultSection
-        open={open}
-        onClose={() => setOpen(false)}
-        captured={captured ?? undefined}
-        items={results}
+            open={open}
+            onClose={() => setOpen(false)}
+            captured={captured ?? undefined}
+            items={results}
         />
     </S.Wrapper>
 );

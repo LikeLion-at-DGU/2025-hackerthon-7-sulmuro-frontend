@@ -1,6 +1,8 @@
 // pages/CameraSearch/_components/_camera/CameraCapture.tsx
 import { useEffect, useRef, useState } from "react";
 import * as S from "./CameraCapture.styled";
+import { IMAGE_CONSTANTS } from "../../../../constants/imageConstants";;
+
 
 type Props = {
     onCaptured: (dataUrl: string | null, file?: File) => void;
@@ -60,13 +62,13 @@ const explainError = (err: unknown) => {
         // 1순위: 후면 카메라 시도
         let stream: MediaStream | null = null;
         try {
-        stream = await navigator.mediaDevices.getUserMedia({
+            stream = await navigator.mediaDevices.getUserMedia({
             video: { facingMode: { ideal: "environment" } },
             audio: false,
         });
         } catch {
-        // 2순위: 아무 비디오(전면일 수 있음)
-        stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+            // 2순위: 아무 비디오(전면일 수 있음)
+            stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
         }
 
         currentStream.current = stream;
@@ -149,59 +151,63 @@ const onSelectFile: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
     reader.readAsDataURL(file);
     };
 
-    // 에러/로딩 오버레이
-    const renderOverlay = () => {
-        if (status === "loading") {
-            return (
-            <S.Overlay role="status" aria-live="polite">
-                <S.Spinner />
-                <S.OverlayTitle>카메라 시작 중…</S.OverlayTitle>
-                <S.OverlayDesc>잠시만 기다려 주세요.</S.OverlayDesc>
-            </S.Overlay>
-            );
-        }
-        if (status === "error") {
-            return (
-            <S.Overlay role="alert" aria-live="assertive" onClick={handleTapToPlay}>
-                <S.OverlayTitle>카메라를 시작할 수 없습니다</S.OverlayTitle>
-                <S.OverlayDesc>{errorMsg}</S.OverlayDesc>
-                <S.OverlayActions>
-                <S.PrimaryButton onClick={openStream}>다시 시도</S.PrimaryButton>
-                <S.UploadLabel>
-                    이미지 업로드
-                    <input type="file" accept="image/*" onChange={onSelectFile} hidden />
-                </S.UploadLabel>
-                </S.OverlayActions>
-                <S.OverlayHint>모바일인 경우 화면을 탭하면 재생이 시작될 수 있어요.</S.OverlayHint>
-            </S.Overlay>
-            );
-        }
-        return null;
-    };
+    // // 에러/로딩 오버레이
+    // const renderOverlay = () => {
+    //     if (status === "loading") {
+    //         return (
+    //         <S.Overlay role="status" aria-live="polite">
+    //             <S.Spinner />
+    //             <S.OverlayTitle>카메라 시작 중…</S.OverlayTitle>
+    //             <S.OverlayDesc>잠시만 기다려 주세요.</S.OverlayDesc>
+    //         </S.Overlay>
+    //         );
+    //     }
+    //     if (status === "error") {
+    //         return (
+    //         <S.Overlay role="alert" aria-live="assertive" onClick={handleTapToPlay}>
+    //             <S.OverlayTitle>카메라를 시작할 수 없습니다</S.OverlayTitle>
+    //             <S.OverlayDesc>{errorMsg}</S.OverlayDesc>
+    //             <S.OverlayActions>
+    //             <S.PrimaryButton onClick={openStream}>다시 시도</S.PrimaryButton>
+    //             <S.UploadLabel>
+    //                 이미지 업로드
+    //                 <input type="file" accept="image/*" onChange={onSelectFile} hidden />
+    //             </S.UploadLabel>
+    //             </S.OverlayActions>
+    //             <S.OverlayHint>모바일인 경우 화면을 탭하면 재생이 시작될 수 있어요.</S.OverlayHint>
+    //         </S.Overlay>
+    //         );
+    //     }
+    //     return null;
+    // };
 
     return (
     <S.Wrap>
+        <S.BackIcon src={IMAGE_CONSTANTS.BackIcon} alt="<"></S.BackIcon>
         <S.Video ref={videoRef} playsInline muted onClick={handleTapToPlay} />
         <S.Frame ref={frameRef}>
-        <S.Crosshair>+</S.Crosshair>
+            <S.Crosshair>
+                <img src={IMAGE_CONSTANTS.Cross} alt ="+" />
+            </S.Crosshair>
         </S.Frame>
+        <S.Hint>Take a picture of the items of market</S.Hint>
 
         <S.BottomBar>
-        <S.Hint>focus on the frame</S.Hint>
-        <S.Actions>
-            <S.CaptureButton aria-label="capture" onClick={handleCapture}>
-            🔍
-            </S.CaptureButton>
+            <S.Actions>
+                <S.Nothing> </S.Nothing>
+                <S.CaptureButton aria-label="capture" onClick={handleCapture}>
+                    <img src={IMAGE_CONSTANTS.CaptureButton} alt ="🔎" />
+                </S.CaptureButton>
 
-            <S.UploadLabel>
-            upload image
-            <input type="file" accept="image/*" onChange={onSelectFile} hidden />
-            </S.UploadLabel>
-        </S.Actions>
+                <S.UploadLabel>
+                    <img src={IMAGE_CONSTANTS.UploadImage} alt="upload image" />
+                    <input type="file" accept="image/*" onChange={onSelectFile} hidden />
+                </S.UploadLabel>
+            </S.Actions>
         </S.BottomBar>
 
-        {/* 상태 오버레이 */}
-        {renderOverlay()}
+        {/* 상태 오버레이
+        {renderOverlay()} */}
 
         {/* 캡쳐용 캔버스 (표시 안 함) */}
         <canvas ref={canvasRef} style={{ display: "none" }} />

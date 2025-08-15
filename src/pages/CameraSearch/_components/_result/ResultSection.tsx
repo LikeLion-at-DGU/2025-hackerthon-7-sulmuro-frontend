@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import * as S from "./SearchResult.styled";
+import { IMAGE_CONSTANTS } from "../../../../constants/imageConstants";
 
 export type SearchItem = {
     id: string;
@@ -51,16 +52,19 @@ const ResultSection = ({ open, onClose, captured, items }: Props) => {
                 onTouchMove={onTouchMove}
                 onTouchEnd={onTouchEnd}
             >
-            <S.Grabber />
+                <S.Grabber />
                 {captured && (
-                    <S.CapturedRow>
-                    <S.CapturedImg src={captured} alt="captured" />
-                    <S.CapturedMeta>
-                        <div className="label">Captured</div>
-                        <div className="hint">스와이프해서 전체 결과를 확인하세요</div>
-                    </S.CapturedMeta>
-                    </S.CapturedRow>
-            )}
+                    <S.Result>
+                        <S.CapturedImg src={captured} alt="captured" />
+                        <S.CapturedResult>
+                            <img src={IMAGE_CONSTANTS.ResultIcon} alt ="🔎" />
+                            <div className="label">Captured</div>
+                        </S.CapturedResult>
+                        <S.CapturedDescription>
+                            <div className="hint">스와이프해서 전체 결과를 확인하세요</div>
+                        </S.CapturedDescription>
+                    </S.Result>
+                )}
 
                 <S.List>
                     {items.map((it) => (
