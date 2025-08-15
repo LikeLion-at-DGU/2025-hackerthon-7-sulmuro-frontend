@@ -5,7 +5,7 @@ import useFooterVisible from "@/hooks/useFooterVisible";
 const DefaultLayout = () => {
   const showFooter = useFooterVisible();
   return (
-    <Wrapper className="tt">
+    <Wrapper>
       <Outlet />
       {showFooter && <Footer />}
     </Wrapper>
