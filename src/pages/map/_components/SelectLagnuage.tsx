@@ -33,4 +33,7 @@ const LanguageButton = styled.button`
   padding: 8px;
   border-radius: 8px;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
