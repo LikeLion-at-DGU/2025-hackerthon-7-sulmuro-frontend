@@ -18,6 +18,11 @@ import LanguageClose from "@/assets/icons/language_closed.svg";
 import LanguageKorean from "@/assets/icons/korean.svg";
 import LanguageEnglish from "@/assets/icons/english.svg";
 
+import FootPrint from "@/assets/icons/foot_print.svg";
+import BookMark from "@/assets/icons/book_mark.svg";
+import CurrentLocation from "@/assets/icons/current_location.svg";
+import information from "@/assets/icons/infomation.svg";
+
 export const IMAGE_CONSTANTS = {
   SearchAI,
   ArticleUnselected,
@@ -33,4 +38,9 @@ export const IMAGE_CONSTANTS = {
   LanguageClose,
   LanguageKorean,
   LanguageEnglish,
+
+  FootPrint,
+  BookMark,
+  CurrentLocation,
+  information,
 };

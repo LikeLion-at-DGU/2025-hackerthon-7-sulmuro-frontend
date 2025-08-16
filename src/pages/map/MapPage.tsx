@@ -2,6 +2,9 @@ import { Status, Wrapper } from "@googlemaps/react-wrapper";
 import GoogleMapView from "./_components/GoogleMapView";
 import ChooseCategory from "./_components/ChooseCategory";
 import SelectLanguage from "./_components/SelectLagnuage";
+import PlaceInfo from "./_components/PlaceInfo";
+import { Button } from "./_components/Mapstyled";
+import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 const MapPage = () => {
   const render = (status: Status) => {
     switch (status) {
@@ -23,6 +26,13 @@ const MapPage = () => {
           <GoogleMapView />
           <ChooseCategory />
           <SelectLanguage />
+          <Button className="left">
+            <img src={IMAGE_CONSTANTS.information} alt="상세 정보" />
+          </Button>
+          <Button className="right">
+            <img src={IMAGE_CONSTANTS.CurrentLocation} alt="현재 위치 추적" />
+          </Button>
+          <PlaceInfo />
         </Wrapper>
       </div>
     </>

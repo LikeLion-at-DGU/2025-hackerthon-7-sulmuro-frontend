@@ -46,19 +46,19 @@ declare module "styled-components" {
       // Body1 16px
       Bold16: any;
       SemiBold16: any;
-      regular16: any;
+      Regular16: any;
 
       // Body2 14px
       SemiBold14: any;
-      regular14: any;
+      Regular14: any;
 
       // small1 12px
       SemiBold12: any;
-      regular12: any;
+      Regular12: any;
       // small2 10px
 
       SemiBold10: any;
-      regular10: any;
+      Regular10: any;
     };
   }
 }
