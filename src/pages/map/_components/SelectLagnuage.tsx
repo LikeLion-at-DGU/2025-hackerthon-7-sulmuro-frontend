@@ -31,7 +31,7 @@ const LanguageContainer = styled.div`
 const LanguageButton = styled.button`
   background-color: ${({ theme }) => theme.colors.WHITE};
   padding: 8px;
-  border-radius: 8px;
+  border-radius: 50%;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: center;

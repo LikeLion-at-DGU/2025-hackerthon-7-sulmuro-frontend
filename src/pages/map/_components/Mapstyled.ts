@@ -45,11 +45,11 @@ export const PlaceInfoWrapper = styled.div`
   bottom: 0;
   width: 100%;
   max-width: 540px;
-  height: 150px;
+  height: 140px;
 
   z-index: 15;
 
-  border-radius: 30px 30px 0 0;
+  border-radius: 50px 50px 0 0;
   background-color: ${({ theme }) => theme.colors.WHITE};
 
   justify-content: center;
@@ -68,7 +68,7 @@ export const SwipeButton = styled.div`
 `;
 
 export const InfoContainer = styled.div`
-  margin-top: 50px;
+  margin-top: 30px;
   margin-bottom: 10px;
   display: flex;
   flex-direction: row;
