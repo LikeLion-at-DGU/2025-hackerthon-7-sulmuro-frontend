@@ -33,7 +33,7 @@ export const Grabber = styled.div`
     height: 6px;
     border-radius: 999px;
     background: #D9D9D9;
-    margin: 0 auto 12px;
+    margin: 0.5rem auto 12px;
 `;
 
 export const Result = styled.div`
