@@ -1,9 +1,13 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
+import Footer from "../footer/Footer";
+import useFooterVisible from "@/hooks/useFooterVisible";
 const DefaultLayout = () => {
+  const showFooter = useFooterVisible();
   return (
     <Wrapper>
       <Outlet />
+      {showFooter && <Footer />}
     </Wrapper>
   );
 };
