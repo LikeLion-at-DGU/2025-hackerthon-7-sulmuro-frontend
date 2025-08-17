@@ -23,6 +23,14 @@ import BookMark from "@/assets/icons/book_mark.svg";
 import CurrentLocation from "@/assets/icons/current_location.svg";
 import information from "@/assets/icons/infomation.svg";
 
+// category icon
+import Food from "@/assets/icons/food.svg";
+import Clothes from "@/assets/icons/cloth.svg";
+import Goods from "@/assets/icons/cloth.svg";
+import Bar from "@/assets/icons/bar.svg";
+import Cafe from "@/assets/icons/cafe.svg";
+import Atm from "@/assets/icons/Atm.svg";
+
 export const IMAGE_CONSTANTS = {
   SearchAI,
   ArticleUnselected,
@@ -43,4 +51,11 @@ export const IMAGE_CONSTANTS = {
   BookMark,
   CurrentLocation,
   information,
+
+  Food,
+  Clothes,
+  Goods,
+  Bar,
+  Cafe,
+  Atm,
 };

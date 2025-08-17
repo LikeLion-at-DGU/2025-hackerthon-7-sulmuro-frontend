@@ -1,7 +1,15 @@
-export type Category = "Food" | "Clothes" | "Foods" | "ATM";
+export type Category =
+  | "All"
+  | "Food"
+  | "Clothes"
+  | "Foods"
+  | "ATM"
+  | "Cafe"
+  | "Bar"
+  | "Goods";
 
 export interface Place {
-  id: string;
+  id?: string;
   name: string; // 장소이름
   address: string; // 주소
   lat: number; // 위도
