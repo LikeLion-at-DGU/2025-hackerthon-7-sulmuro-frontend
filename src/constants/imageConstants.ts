@@ -17,6 +17,7 @@ import ToBack from "../assets/icons/icon_back.png";
 import CaptureButton from "../assets/images/capture_button.png";
 import UploadImage from "../assets/icons/upload.png";
 import ResultIcon from "../assets/icons/ResultIcon.png";
+import SendButton from "../assets/icons/ChatSend.svg";
 
 // language icon
 import LanguageOpen from "@/assets/icons/language_open.svg";
@@ -55,4 +56,5 @@ export const IMAGE_CONSTANTS = {
   UploadImage : UploadImage,
   CaptureButton : CaptureButton,
   ResultIcon : ResultIcon,
+  SendButton : SendButton,
 };

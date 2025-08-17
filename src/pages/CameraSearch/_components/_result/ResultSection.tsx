@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as S from "./SearchResult.styled";
 import { IMAGE_CONSTANTS } from "../../../../constants/imageConstants";
+import Chatting from "../_AIChat/Chatting"; 
 
 export type SearchItem = {
     id: string;
@@ -12,7 +13,7 @@ export type SearchItem = {
 type Props = {
     open: boolean;
     onClose: () => void;
-    captured?: string;     // 상단 미리보기 이미지 (선택)
+    captured?: string;     
     items: SearchItem[];
 };
 
@@ -58,15 +59,23 @@ const ResultSection = ({ open, onClose, captured, items }: Props) => {
                         <S.CapturedImg src={captured} alt="captured" />
                         <S.CapturedResult>
                             <img src={IMAGE_CONSTANTS.ResultIcon} alt ="🔎" />
-                            <div className="label">Captured</div>
+                            <div className="label">야생의 강근우</div>
                         </S.CapturedResult>
                         <S.CapturedDescription>
-                            <div className="hint">스와이프해서 전체 결과를 확인하세요</div>
+                            <div className="hint">
+                                매우 난폭하다!<br />
+                                매우 잔인하다!<br />
+                                매우 잔혹하다!
+                            </div>
                         </S.CapturedDescription>
+                        <S.ToAIChat>
+                            <div className="scrollToAI">스크롤을 올려 AI에게 질문하기</div>
+                        </S.ToAIChat>
+                        
                     </S.Result>
                 )}
 
-                <S.List>
+                {/* <S.List>
                     {items.map((it) => (
                     <S.Item key={it.id}>
                         <S.Thumb src={it.thumbnail} alt={it.title} />
@@ -76,7 +85,7 @@ const ResultSection = ({ open, onClose, captured, items }: Props) => {
                         </div>
                     </S.Item>
                     ))}
-                </S.List>
+                </S.List> */}
             </S.Sheet>
         </S.SheetWrapper>
     );

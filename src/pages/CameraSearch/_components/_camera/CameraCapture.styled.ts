@@ -72,7 +72,7 @@ export const BottomBar = styled.div`
     position: absolute;
     left: 0;
     right: 0;
-    width: 90vw;
+    width: 90%;
     bottom: env(safe-area-inset-bottom, 0);
     display: flex;
     flex-direction: column;

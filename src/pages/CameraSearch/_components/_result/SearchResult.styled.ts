@@ -1,30 +1,44 @@
 import styled from "styled-components";
 
 export const SheetWrapper = styled.div`
-    pointer-events: none; /* sheet가 열릴 때만 내부에서 이벤트 허용 */
+    pointer-events: none;
     position: absolute;
     inset: 0;
     display: grid;
     place-items: end center;
     z-index: 1000;
 `;
+/* ✅ 하단 고정 AI Chat Dock — 시트가 올라가면 드러남 */
+export const ChatDock = styled.div`
+    pointer-events: auto;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
 
+    /* 높이는 inline style로 제어 (RAISE_HEIGHT) */
+    background: rgba(17, 17, 17, 0.96);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 0;
+
+    display: flex;
+    align-items: stretch;
+`;
 export const Sheet = styled.div`
     pointer-events: auto;
     width: 100%;
-    max-width: 640px;
-    background: white;
-    color: black;
-    border-radius: 18px 18px 0 0;
-    padding: 0 12px 24px;
+    max-width: 540px;
+
+    color: Black;
+    border-radius: 40px 40px 0 0;
+    background-color: ${({ theme }) => theme.colors.WHITE};
+    
     box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
 
     transition: transform 180ms ease;
     will-change: transform;
-    border-radius: 10% 10% 0 0;
-
     @media (min-width: 768px) {
-    border-radius: 20px;
+        border-radius: 40px 40px 0 0;
     }
 `;
 
@@ -33,17 +47,18 @@ export const Grabber = styled.div`
     height: 6px;
     border-radius: 999px;
     background: #D9D9D9;
-    margin: 0.5rem auto 12px;
+    margin: 0 auto 12px;
 `;
 
 export const Result = styled.div`
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 20px 0 14px;
+    padding: 20px 10px 14px 10px;
+    box-sizing: border-box;
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    
     .hint {
     opacity: 0.7;
     font-size: 12px;
@@ -51,14 +66,12 @@ export const Result = styled.div`
 `;
 
 export const CapturedImg = styled.img`
-    /* width: 340px;
-    height: 340px; */
-    max-width: 520px;
-    max-height: 520px;
+    max-width: 440px;
+    max-height: 440px;
     width: 100%;
     height: 90dvw;
     object-fit: cover;
-    /* border-radius: 12px; */
+    border-radius: 12px;
     background: #222;
     flex: 0 0 auto;
 `;
@@ -69,7 +82,7 @@ export const CapturedResult = styled.div`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin-left: 3rem;
+    box-sizing: border-box;
     gap: 8px;
     img{
         width: 24px;
@@ -78,7 +91,7 @@ export const CapturedResult = styled.div`
     .label {
         font-weight: bold;
         font-size: 20px;
-        
+        box-sizing: border-box;
     }
 `;
 
@@ -88,14 +101,25 @@ export const CapturedDescription = styled.div`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    margin-left: 3rem;
-    
     .hint {
         font-weight: regular;
         font-size: 14px;
-        
+        width: 80%;
     }
 `;
+
+export const ToAIChat = styled.div`
+    width: 100%;
+    padding: 32px 0 0 0;
+    .scrollToAI{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: ${({theme}) => theme.colors.N40};
+        ${({ theme }) => theme.fonts.SemiBold14}
+    }
+`; 
 
 export const List = styled.div`
 display: flex;
