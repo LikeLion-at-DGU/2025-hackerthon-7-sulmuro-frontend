@@ -8,27 +8,13 @@ export const SheetWrapper = styled.div`
     place-items: end center;
     z-index: 1000;
 `;
-/* ✅ 하단 고정 AI Chat Dock — 시트가 올라가면 드러남 */
-export const ChatDock = styled.div`
-    pointer-events: auto;
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
 
-    /* 높이는 inline style로 제어 (RAISE_HEIGHT) */
-    background: rgba(17, 17, 17, 0.96);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    z-index: 0;
-
-    display: flex;
-    align-items: stretch;
-`;
 export const Sheet = styled.div`
     pointer-events: auto;
     width: 100%;
     max-width: 540px;
-
+    height: fit-content;
+    max-height: 100dvh;
     color: Black;
     border-radius: 40px 40px 0 0;
     background-color: ${({ theme }) => theme.colors.WHITE};
@@ -60,8 +46,9 @@ export const Result = styled.div`
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     .hint {
-    opacity: 0.7;
-    font-size: 12px;
+        opacity: 0.7;
+        font-size: 12px;
+        
     }
 `;
 

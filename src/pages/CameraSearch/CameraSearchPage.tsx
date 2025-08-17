@@ -3,48 +3,55 @@ import { useState } from "react";
 import * as S from "./CameraSearchPage.styled";
 import CameraCapture from "./_components/_camera/CameraCapture";
 import ResultSection, { SearchItem } from "./_components/_result/ResultSection";
+import AIChat from "./_components/_result/AIChat";
+
+type SheetMode = "result" | "chat";
 
 const CameraSearchPage = () => {
-const [open, setOpen] = useState(false);
-const [captured, setCaptured] = useState<string | null>(null);
-const [results, setResults] = useState<SearchItem[]>([]);
+    const [open, setOpen] = useState(false);
+    const [captured, setCaptured] = useState<string | null>(null);
+    const [results, setResults] = useState<SearchItem[]>([]);
+    const [sheetMode, setSheetMode] = useState<SheetMode>("result");
 
-const handleCaptured = async (dataUrl: string | null, file?: File) => {
-// TODO: 백엔드 이미지 검색 API 연동
-// 예시) const form = new FormData(); form.append("image", file ?? dataUrlBlob);
-// const res = await instance.post("/api/search", form); setResults(res.data);
-setCaptured(dataUrl);
+    const handleCaptured = async (dataUrl: string | null, file?: File) => {
+        setCaptured(dataUrl);
+        // setResults([...]); // 필요시 결과 세팅
+        setSheetMode("result");
+        setOpen(true); // 바텀시트 열기
+    };
 
-// 🔧 데모용 목데이터
-// setResults([
-//     {
-//     id: "1",
-//     title: "떡볶이",
-//     subtitle: "매콤달콤 즉석 떡볶이",
-//     thumbnail: dataUrl ?? "",
-//     },
-//     {
-//     id: "2",
-//     title: "순대",
-//     subtitle: "모둠 순대 & 내장",
-//     thumbnail: dataUrl ?? "",
-//     },
-// ]);
+    const closeSheet = () => {
+        setOpen(false);
+        setSheetMode("result");
+    };
 
-setOpen(true);
-};
+    // ✅ ResultSection이 위로 스와이프 전환 신호를 주면: 시트를 닫고 Chat 띄우기
+    const switchToChat = () => {
+        setOpen(false);           // ResultSection 언마운트(닫힘)
+        setSheetMode("chat");     // AIChat 오버레이 표시
+    };
 
-return (
-    <S.Wrapper>
+    return (
+        <S.Wrapper>
         <CameraCapture onCaptured={handleCaptured} />
-        <ResultSection
-            open={open}
-            onClose={() => setOpen(false)}
-            captured={captured ?? undefined}
-            items={results}
-        />
-    </S.Wrapper>
-);
+
+        {sheetMode === "result" && (
+            <ResultSection
+                open={open}
+                onClose={closeSheet}
+                captured={captured ?? undefined}
+                items={results}
+                onSwitchToChat={switchToChat}   // ⬅️ 위로 스와이프 시 호출
+            />
+        )}
+
+        {sheetMode === "chat" && (
+            <S.ChatOverlay>                {/* 얕은 시트 형태의 오버레이 */}
+                <AIChat captured={captured ?? undefined} />
+            </S.ChatOverlay>
+        )}
+        </S.Wrapper>
+    );
 };
 
 export default CameraSearchPage;

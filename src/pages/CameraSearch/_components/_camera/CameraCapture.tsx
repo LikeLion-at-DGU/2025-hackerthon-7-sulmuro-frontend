@@ -151,35 +151,6 @@ const onSelectFile: React.ChangeEventHandler<HTMLInputElement> = async (e) => {
     reader.readAsDataURL(file);
     };
 
-    // // 에러/로딩 오버레이
-    // const renderOverlay = () => {
-    //     if (status === "loading") {
-    //         return (
-    //         <S.Overlay role="status" aria-live="polite">
-    //             <S.Spinner />
-    //             <S.OverlayTitle>카메라 시작 중…</S.OverlayTitle>
-    //             <S.OverlayDesc>잠시만 기다려 주세요.</S.OverlayDesc>
-    //         </S.Overlay>
-    //         );
-    //     }
-    //     if (status === "error") {
-    //         return (
-    //         <S.Overlay role="alert" aria-live="assertive" onClick={handleTapToPlay}>
-    //             <S.OverlayTitle>카메라를 시작할 수 없습니다</S.OverlayTitle>
-    //             <S.OverlayDesc>{errorMsg}</S.OverlayDesc>
-    //             <S.OverlayActions>
-    //             <S.PrimaryButton onClick={openStream}>다시 시도</S.PrimaryButton>
-    //             <S.UploadLabel>
-    //                 이미지 업로드
-    //                 <input type="file" accept="image/*" onChange={onSelectFile} hidden />
-    //             </S.UploadLabel>
-    //             </S.OverlayActions>
-    //             <S.OverlayHint>모바일인 경우 화면을 탭하면 재생이 시작될 수 있어요.</S.OverlayHint>
-    //         </S.Overlay>
-    //         );
-    //     }
-    //     return null;
-    // };
 
     return (
     <S.Wrap>

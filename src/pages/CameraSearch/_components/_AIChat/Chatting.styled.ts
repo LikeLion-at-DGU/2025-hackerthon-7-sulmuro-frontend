@@ -9,7 +9,7 @@ export const ChattingWrapper = styled.div`
     box-sizing: border-box;
     border-top: 1px solid ${({ theme }) => theme.colors.N10};
     /* ChatDock 높이를 꽉 채우도록 */
-    height: 100%;
+    height: fit-content;
 `;
 
 export const ASK = styled.div`
@@ -103,7 +103,7 @@ export const AiChatField = styled.textarea`
     background: ${({ theme }) => theme.colors.N00};
     border-radius: 10px;
     border: 1px solid ${({ theme }) => theme.colors.N10};
-    color: ${({ theme }) => theme.colors.WHITE};
+    color: ${({ theme }) => theme.colors.N70};
     resize: vertical;
     line-height: 1.4;
     outline: none;
@@ -124,7 +124,7 @@ export const SendButton = styled.button`
     align-items: center;
     justify-content: center;
     cursor: pointer;
-
+    color: Black;
     img {
         width: 18px;
         height: 18px;

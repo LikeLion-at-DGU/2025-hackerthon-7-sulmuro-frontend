@@ -44,7 +44,6 @@ const Chatting = () => {
     };
 
     const onKeyDown: React.KeyboardEventHandler<HTMLTextAreaElement> = (e) => {
-        // Enter = 전송, Shift+Enter = 줄바꿈
         if (e.key === "Enter" && !e.shiftKey) {
         e.preventDefault();
         send(text);
@@ -56,7 +55,7 @@ const Chatting = () => {
     return (
         <S.ChattingWrapper>
             <S.ASK>궁금한 것들을 더 물어보세요!</S.ASK>
-            {/* 대화 로그 */}
+            {/* 채팅 로그 */}
             <S.ChatLog>
                 {messages.map((m) => (
                 <S.MsgRow key={m.id} $role={m.role}>
@@ -66,16 +65,13 @@ const Chatting = () => {
                 <div ref={endRef} />
             </S.ChatLog>
 
-            {/* 입력 영역 */}
+            {/* 채팅 보내기 */}
             <S.ChatField>
                 <S.QuickQuestions>
                 <S.RecommendedQuestions onClick={() => useRecommended("어떤 음식이랑 잘 어울릴까?")}>
                     어떤 음식이랑 잘 어울릴까?
                 </S.RecommendedQuestions>
-                {/* 필요하면 칩 더 추가 */}
-                {/* <S.RecommendedQuestions onClick={() => useRecommended("맵기는 어느 정도야?")}>
-                    맵기는 어느 정도야?
-                </S.RecommendedQuestions> */}
+                {/* 추천 질문 받아와서 보내기 */}
                 </S.QuickQuestions>
 
                 <S.InputRow onSubmit={onSubmit}>
@@ -85,7 +81,7 @@ const Chatting = () => {
                     onChange={(e) => setText(e.target.value)}
                     onKeyDown={onKeyDown}
                 />
-                <S.SendButton type="submit" aria-label="send">
+                <S.SendButton type="submit" aria-label="send" >
                     <img src={IMAGE_CONSTANTS.SendButton} alt="send" />
                 </S.SendButton>
                 </S.InputRow>
