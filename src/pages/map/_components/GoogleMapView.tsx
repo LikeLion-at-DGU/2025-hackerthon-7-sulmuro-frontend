@@ -6,10 +6,12 @@ import { Category, Place } from "../_types/Marker.type";
 import { mapTypesToCategory } from "../_hooks/useMaphooks";
 
 const CATEGORY_ICONS: Partial<Record<Category, string>> = {
-  Food: testmarker,
+  Goods: testmarker,
   Foods: testmarker,
   Clothes: testmarker,
   ATM: testmarker,
+  Cafe: testmarker,
+  Bar: testmarker,
 };
 
 declare global {

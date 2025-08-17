@@ -24,12 +24,12 @@ import CurrentLocation from "@/assets/icons/current_location.svg";
 import information from "@/assets/icons/infomation.svg";
 
 // category icon
-import Food from "@/assets/icons/food.svg";
-import Clothes from "@/assets/icons/cloth.svg";
-import Goods from "@/assets/icons/cloth.svg";
-import Bar from "@/assets/icons/bar.svg";
-import Cafe from "@/assets/icons/cafe.svg";
-import Atm from "@/assets/icons/Atm.svg";
+import Food from "@/assets/icons/food.svg?react";
+import Clothes from "@/assets/icons/cloth.svg?react";
+import Goods from "@/assets/icons/cloth.svg?react";
+import Bar from "@/assets/icons/bar.svg?react";
+import Cafe from "@/assets/icons/cafe.svg?react";
+import Atm from "@/assets/icons/Atm.svg?react";
 
 export const IMAGE_CONSTANTS = {
   SearchAI,

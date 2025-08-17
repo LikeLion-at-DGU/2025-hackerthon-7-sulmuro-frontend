@@ -10,7 +10,7 @@ interface ChooseCategoryProps {
 
 const CATEGORIES: Category[] = [
   "ATM",
-  "Food",
+  "Foods",
   "Clothes",
   "Goods",
   "Cafe",
@@ -20,8 +20,7 @@ const CATEGORIES: Category[] = [
 const CATEGORY_ICONS: Record<Category, string> = {
   All: IMAGE_CONSTANTS.Food,
   ATM: IMAGE_CONSTANTS.Atm,
-  Food: IMAGE_CONSTANTS.Food,
-  Foods: IMAGE_CONSTANTS.Food, // Foods는 Food와 동일한 아이콘 사용
+  Foods: IMAGE_CONSTANTS.Food,
   Clothes: IMAGE_CONSTANTS.Clothes,
   Goods: IMAGE_CONSTANTS.Goods,
   Cafe: IMAGE_CONSTANTS.Cafe,
@@ -42,7 +41,10 @@ const ChooseCategory = ({
             onClick={() => setSelectedCategory(c)}
             type="button"
           >
-            <img src={CATEGORY_ICONS[c]} alt="" />
+            <MaskIcon
+              $src={CATEGORY_ICONS[c]}
+              $active={selectedCategory === c}
+            />
             {c}
           </CategoryButton>
         </>
@@ -95,4 +97,16 @@ const CategoryButton = styled.button<{ $active?: boolean }>`
     width: 80px;
     font-size: 14px;
   }
+`;
+
+const MaskIcon = styled.span<{ $src: string; $active?: boolean }>`
+  width: 18px;
+  height: 18px;
+  display: inline-block;
+  mask: url(${({ $src }) => $src}) no-repeat center / contain;
+  -webkit-mask: url(${({ $src }) => $src}) no-repeat center / contain;
+
+  /* ← 여기 색만 바꾸면 아이콘 색이 바뀜 */
+  background-color: ${({ theme, $active }) =>
+    $active ? theme.colors.WHITE : theme.colors.N70};
 `;

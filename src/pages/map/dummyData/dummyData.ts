@@ -1,4 +1,3 @@
-// src/data/dummyData.ts
 import { Place } from "../_types/Marker.type";
 
 export const places: Place[] = [
@@ -6,9 +5,9 @@ export const places: Place[] = [
     id: "p1",
     name: "테스트 음식점 A",
     address: "서울 종로구",
-    lat: 37.570615, // 기본 위치(37.570115, 126.999706) 근처
+    lat: 37.570615,
     lng: 126.999806,
-    category: "Food",
+    category: "Foods",
   },
   {
     id: "p2",
@@ -40,6 +39,6 @@ export const places: Place[] = [
     address: "서울 종로구",
     lat: 37.570315,
     lng: 127.000606,
-    category: "Food",
+    category: "Foods",
   },
 ];

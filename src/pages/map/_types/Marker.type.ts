@@ -1,6 +1,5 @@
 export type Category =
   | "All"
-  | "Food"
   | "Clothes"
   | "Foods"
   | "ATM"
