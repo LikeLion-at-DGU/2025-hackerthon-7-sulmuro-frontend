@@ -1,7 +1,12 @@
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import * as S from "./Mapstyled";
 
-const PlaceInfo = () => {
+interface PlaceInfoProps {
+  name: string;
+  address: string;
+}
+
+const PlaceInfo = ({ name, address }: PlaceInfoProps) => {
   return (
     <>
       <S.FindButton>
@@ -12,10 +17,10 @@ const PlaceInfo = () => {
         <S.SwipeButton />
 
         <S.InfoContainer>
-          <p className="title">Jeolla-do Sasimi Bar</p>
+          <p className="title">{name}</p>
           <img src={IMAGE_CONSTANTS.BookMark} alt="저장하기" />
         </S.InfoContainer>
-        <p className="address">East A 23</p>
+        <p className="address">{address}</p>
       </S.PlaceInfoWrapper>
       ;
     </>

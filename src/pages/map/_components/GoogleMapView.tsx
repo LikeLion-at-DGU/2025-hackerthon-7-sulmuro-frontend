@@ -1,9 +1,8 @@
 import * as S from "./Mapstyled";
 import { useEffect, useRef } from "react";
 
-import { places, Category, Place } from "../dummyData/dummyData";
-
 import testmarker from "@/assets/icons/test_marker.svg";
+import { Category, Place } from "../_types/Marker.type";
 
 const CATEGORY_ICONS: Partial<Record<Category, string>> = {
   Food: testmarker,
@@ -18,11 +17,21 @@ declare global {
   }
 }
 
-const GoogleMapView = () => {
+interface GoogleMapViewProps {
+  places: Place[];
+  setSelectedPlace: React.Dispatch<React.SetStateAction<Place | null>>;
+  setIsPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const GoogleMapView = ({
+  places,
+  setSelectedPlace,
+  setIsPlaceInfo,
+}: GoogleMapViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
   const infoWindowRef = useRef<google.maps.InfoWindow | null>(null);
-  const markersRef = useRef<google.maps.Marker[]>([]);
+  const mapListenersRef = useRef<google.maps.MapsEventListener[]>([]);
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -36,10 +45,16 @@ const GoogleMapView = () => {
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!map) {
-      console.log("실행 ㅌ");
-      return;
-    }
+    if (!map) return;
+
+    const onMapClick = () => {
+      setIsPlaceInfo(false);
+      setSelectedPlace(null);
+    };
+
+    const mapClickL = map.addListener("click", onMapClick);
+
+    mapListenersRef.current.push(mapClickL);
 
     places.forEach((place: Place) => {
       const iconUrl = CATEGORY_ICONS[place.category];
@@ -55,23 +70,11 @@ const GoogleMapView = () => {
             }
           : undefined,
       });
-      marker.addListener("click", () => {
-        if (!infoWindowRef.current) return;
-        infoWindowRef.current.setContent(`
-          <div style="line-height:1.4">
-            <b>${place.name}</b><br/>
-            <div>${place.address}</div>
-            <div>카테고리: ${place.category}</div>
-            <div style="font-size:12px;color:#666">
-              ${place.lat.toFixed(6)}, ${place.lng.toFixed(6)}
-            </div>
-          </div>
-        `);
-        infoWindowRef.current.open({ map, anchor: marker });
-      });
 
-      markersRef.current.push(marker);
-      // bounds.extend(marker.getPosition()!);
+      marker.addListener("click", () => {
+        setSelectedPlace(place);
+        setIsPlaceInfo(true);
+      });
     });
   }, []);
   return <S.MapContainer ref={containerRef} />;
