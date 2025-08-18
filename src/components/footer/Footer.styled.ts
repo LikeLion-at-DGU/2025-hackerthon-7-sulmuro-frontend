@@ -18,7 +18,11 @@ export const FooterWrapper = styled.footer`
   background-color: ${({ theme }) => theme.colors.WHITE};
 `;
 
-export const FooterContent = styled.li`
+interface FooterContentProps {
+  $isSelected?: boolean;
+}
+
+export const FooterContent = styled.li<FooterContentProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,6 +36,8 @@ export const FooterContent = styled.li`
   }
   p {
     ${({ theme }) => theme.fonts.SemiBold10};
+    color: ${({ $isSelected, theme }) =>
+      $isSelected ? theme.colors.N70 : theme.colors.N30};
   }
 `;
 
