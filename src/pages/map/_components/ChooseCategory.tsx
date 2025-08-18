@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Category } from "../_types/Marker.type";
-import { ComponentType, SetStateAction, SVGProps, useEffect } from "react";
+import { ComponentType, SetStateAction, SVGProps } from "react";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 type SvgComp = ComponentType<SVGProps<SVGSVGElement>>;
 
