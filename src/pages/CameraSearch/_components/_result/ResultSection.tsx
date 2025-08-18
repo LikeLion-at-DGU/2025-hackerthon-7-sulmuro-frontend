@@ -5,10 +5,10 @@ import { IMAGE_CONSTANTS } from "../../../../constants/imageConstants";
 import { AnswerPayload } from "../../_apis/GetImageAPI"; // ✅ 타입 재사용
 
 export type SearchItem = {
-    id: string;
-    title: string;
-    subtitle?: string;
-    thumbnail?: string;
+  id: string;
+  title: string;
+  subtitle?: string;
+  thumbnail?: string;
 };
 
 type Props = {
@@ -42,19 +42,23 @@ const ResultSection = ({
     const THRESHOLD_UP = 120; // 위로 이만큼 끌면 Chat 전환
 
     useEffect(() => {
-        if (open) setY(0);
+      if (open) {
+        setY(0);
+        // requestAnimationFrame(() => setY(0)); // 스타일 트랜지션이 있다면 더 안정적
+      }
     }, [open]);
 
-    const onTouchStart: React.TouchEventHandler = (e) => {
-        startY.current = e.touches[0].clientY;
-    };
 
-    const onTouchMove: React.TouchEventHandler = (e) => {
-        if (startY.current == null) return;
-        const diff = e.touches[0].clientY - startY.current; // + 아래 / - 위
-        const next = Math.min(Math.max(diff, -200), MAX_DOWN); // 위는 -200까지만
-        setY(next);
-    };
+  const onTouchStart: React.TouchEventHandler = (e) => {
+    startY.current = e.touches[0].clientY;
+  };
+
+  const onTouchMove: React.TouchEventHandler = (e) => {
+    if (startY.current == null) return;
+    const diff = e.touches[0].clientY - startY.current; // + 아래 / - 위
+    const next = Math.min(Math.max(diff, -200), MAX_DOWN); // 위는 -200까지만
+    setY(next);
+  };
 
     const onTouchEnd: React.TouchEventHandler = () => {
         if (y > THRESHOLD_DOWN) {
@@ -67,16 +71,16 @@ const ResultSection = ({
         startY.current = null;
     };
 
-    return (
-        <S.SheetWrapper data-open={open}>
-        <S.Sheet
-            ref={sheetRef}
-            style={{ transform: `translateY(${open ? y : MAX_DOWN}px)` }}
-            onTouchStart={onTouchStart}
-            onTouchMove={onTouchMove}
-            onTouchEnd={onTouchEnd}
-        >
-            <S.Grabber />
+  return (
+    <S.SheetWrapper data-open={open}>
+      <S.Sheet
+        ref={sheetRef}
+        style={{ transform: `translateY(${open ? y : MAX_DOWN}px)` }}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        <S.Grabber />
 
             {captured && (
             <S.Result>
@@ -100,30 +104,30 @@ const ResultSection = ({
                 {!loading && !errorMsg && answer && (
                 <>
                     <S.CapturedResult>
-                    <img src={IMAGE_CONSTANTS.ResultIcon} alt="🔎" />
-                    <div className="label">{answer.itemName}</div>
+                      <img src={IMAGE_CONSTANTS.ResultIcon} alt="🔎" />
+                      <div className="label">{answer.itemName}</div>
                     </S.CapturedResult>
 
                     <S.CapturedDescription>
-                    <div className="hint">
-                        {answer.description}
-                        <br />
-                        {Array.isArray(answer.recommendedStores) &&
-                        answer.recommendedStores.length > 0 && (
-                            <>
-                            <br />
-                            <strong>추천 가게</strong>
-                            <ul style={{ marginTop: 6 }}>
-                                {answer.recommendedStores.map((s, idx) => (
-                                <li key={idx}>
-                                    {s.name}
-                                    {s.notes ? ` — ${s.notes}` : ""}
-                                </li>
-                                ))}
-                            </ul>
-                            </>
-                        )}
-                    </div>
+                      <div className="hint">
+                          {answer.description}
+                          <br />
+                          {Array.isArray(answer.recommendedStores) &&
+                          answer.recommendedStores.length > 0 && (
+                              <>
+                              <br />
+                              <strong>추천 가게</strong>
+                              <ul style={{ marginTop: 6 }}>
+                                  {answer.recommendedStores.map((s, idx) => (
+                                  <li key={idx}>
+                                      {s.name}
+                                      {s.notes ? ` — ${s.notes}` : ""}
+                                  </li>
+                                  ))}
+                              </ul>
+                              </>
+                          )}
+                      </div>
                     </S.CapturedDescription>
                 </>
                 )}
@@ -135,7 +139,7 @@ const ResultSection = ({
             )}
 
             {/* 추가 리스트(선택 사항) */}
-            <S.List>
+            {/* <S.List>
             {items.map((it) => (
                 <S.Item key={it.id}>
                 <S.Thumb src={it.thumbnail} alt={it.title} />
@@ -145,7 +149,7 @@ const ResultSection = ({
                 </div>
                 </S.Item>
             ))}
-            </S.List>
+            </S.List> */}
         </S.Sheet>
         </S.SheetWrapper>
     );

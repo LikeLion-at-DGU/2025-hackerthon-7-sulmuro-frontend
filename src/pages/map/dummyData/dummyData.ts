@@ -1,23 +1,13 @@
-// src/data/dummyData.ts
-export type Category = "Food" | "Clothes" | "Foods" | "ATM";
-
-export interface Place {
-  id: string;
-  name: string; // 장소이름
-  address: string; // 주소
-  lat: number; // 위도
-  lng: number; // 경도
-  category: Category; // 카테고리
-}
+import { Place } from "../_types/Marker.type";
 
 export const places: Place[] = [
   {
     id: "p1",
     name: "테스트 음식점 A",
     address: "서울 종로구",
-    lat: 37.570615, // 기본 위치(37.570115, 126.999706) 근처
+    lat: 37.570615,
     lng: 126.999806,
-    category: "Food",
+    category: "Foods",
   },
   {
     id: "p2",
@@ -49,6 +39,6 @@ export const places: Place[] = [
     address: "서울 종로구",
     lat: 37.570315,
     lng: 127.000606,
-    category: "Food",
+    category: "Foods",
   },
 ];
