@@ -9,14 +9,17 @@ import useVh from "@/hooks/useCalcVh";
 // router
 import { RouterProvider } from "react-router-dom";
 import router from "@/routes/router";
+import { LanguageProvider } from "./components/contexts/LanguageContext";
 function App() {
   useVh();
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <LanguageProvider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <RouterProvider router={router} />
+      </ThemeProvider>
+    </LanguageProvider>
   );
 }
 
