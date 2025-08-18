@@ -11,6 +11,14 @@ import MapSelected from "@/assets/icons/map_select.svg";
 import SavedSelected from "@/assets/icons/saved_select.svg";
 import TalkSelected from "@/assets/icons/talk_select.svg";
 
+// 근우
+import Cross from "../assets/icons/Cross.png";
+import ToBack from "../assets/icons/icon_back.png";
+import CaptureButton from "../assets/images/capture_button.png";
+import UploadImage from "../assets/icons/upload.png";
+import ResultIcon from "../assets/icons/ResultIcon.png";
+import SendButton from "../assets/icons/ChatSend.svg";
+
 // language icon
 import LanguageOpen from "@/assets/icons/language_open.svg";
 import LanguageClose from "@/assets/icons/language_closed.svg";
@@ -58,4 +66,11 @@ export const IMAGE_CONSTANTS = {
   Bar,
   Cafe,
   Atm,
+
+  Cross: Cross,
+  BackIcon: ToBack,
+  UploadImage: UploadImage,
+  CaptureButton: CaptureButton,
+  ResultIcon: ResultIcon,
+  SendButton: SendButton,
 };
