@@ -33,6 +33,7 @@ const MapPage = () => {
         >
           <GoogleMapView
             places={places}
+            selectedCategory={selectedCategory}
             setSelectedPlace={setSelectPlace}
             setIsPlaceInfo={setIsPlaceInfo}
           />
