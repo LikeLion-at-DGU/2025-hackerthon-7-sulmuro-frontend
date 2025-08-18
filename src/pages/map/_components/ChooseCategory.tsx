@@ -32,9 +32,13 @@ const ChooseCategory = ({
   selectedCategory,
   setSelectedCategory,
 }: ChooseCategoryProps) => {
-  useEffect(() => {
-    console.log(selectedCategory);
-  });
+  const hadleCategory = (c: Category) => {
+    if (selectedCategory === c) {
+      setSelectedCategory("All");
+    } else {
+      setSelectedCategory(c);
+    }
+  };
   return (
     <CategoryContainer>
       {CATEGORIES.map((c) => {
@@ -45,7 +49,7 @@ const ChooseCategory = ({
           <CategoryButton
             key={c}
             $active={active}
-            onClick={() => setSelectedCategory(c)}
+            onClick={() => hadleCategory(c)}
             type="button"
           >
             <MaskIcon $active={active}>
@@ -110,8 +114,8 @@ const MaskIcon = styled.span<{ $active?: boolean }>`
   height: 18px;
   display: inline-block;
   color ${({ theme, $active }) =>
-    $active ? theme.colors.N70 : theme.colors.WHITE};
-}
+    $active ? theme.colors.N70 : theme.colors.WHITE}
+};
   svg {
     width: 100%;
     height: 100%;
