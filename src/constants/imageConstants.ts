@@ -11,7 +11,7 @@ import MapSelected from "@/assets/icons/map_select.svg";
 import SavedSelected from "@/assets/icons/saved_select.svg";
 import TalkSelected from "@/assets/icons/talk_select.svg";
 
-// 근우 
+// 근우
 import Cross from "../assets/icons/Cross.png";
 import ToBack from "../assets/icons/icon_back.png";
 import CaptureButton from "../assets/images/capture_button.png";
@@ -30,6 +30,14 @@ import FootPrint from "@/assets/icons/foot_print.svg";
 import BookMark from "@/assets/icons/book_mark.svg";
 import CurrentLocation from "@/assets/icons/current_location.svg";
 import information from "@/assets/icons/infomation.svg";
+
+// category icon
+import Food from "@/assets/icons/food.svg?react";
+import Clothes from "@/assets/icons/cloth.svg?react";
+import Goods from "@/assets/icons/cloth.svg?react";
+import Bar from "@/assets/icons/bar.svg?react";
+import Cafe from "@/assets/icons/cafe.svg?react";
+import Atm from "@/assets/icons/Atm.svg?react";
 
 export const IMAGE_CONSTANTS = {
   SearchAI,
@@ -51,10 +59,18 @@ export const IMAGE_CONSTANTS = {
   BookMark,
   CurrentLocation,
   information,
-  Cross : Cross,
-  BackIcon : ToBack,
-  UploadImage : UploadImage,
-  CaptureButton : CaptureButton,
-  ResultIcon : ResultIcon,
-  SendButton : SendButton,
+
+  Food,
+  Clothes,
+  Goods,
+  Bar,
+  Cafe,
+  Atm,
+
+  Cross: Cross,
+  BackIcon: ToBack,
+  UploadImage: UploadImage,
+  CaptureButton: CaptureButton,
+  ResultIcon: ResultIcon,
+  SendButton: SendButton,
 };

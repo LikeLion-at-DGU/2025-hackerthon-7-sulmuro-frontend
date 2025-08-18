@@ -4,10 +4,10 @@ import path from "path";
 import svgr from "vite-plugin-svgr";
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [svgr(), react()],
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "src/"),
+    plugins: [svgr(), react()],
+    resolve: {
+        alias: {
+            "@": path.resolve(__dirname, "src/"),
+        },
     },
-  },
 });
