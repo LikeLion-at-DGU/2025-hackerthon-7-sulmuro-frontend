@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { Category } from "../_types/Marker.type";
-import { SetStateAction } from "react";
+import { ComponentType, SetStateAction, SVGProps, useEffect } from "react";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
+type SvgComp = ComponentType<SVGProps<SVGSVGElement>>;
 
 interface ChooseCategoryProps {
   selectedCategory: Category;
@@ -17,7 +18,7 @@ const CATEGORIES: Category[] = [
   "Bar",
 ];
 
-const CATEGORY_ICONS: Record<Category, string> = {
+const CATEGORY_ICONS: Record<Category, SvgComp> = {
   All: IMAGE_CONSTANTS.Food,
   ATM: IMAGE_CONSTANTS.Atm,
   Foods: IMAGE_CONSTANTS.Food,
@@ -31,24 +32,29 @@ const ChooseCategory = ({
   selectedCategory,
   setSelectedCategory,
 }: ChooseCategoryProps) => {
+  useEffect(() => {
+    console.log(selectedCategory);
+  });
   return (
     <CategoryContainer>
-      {CATEGORIES.map((c) => (
-        <>
+      {CATEGORIES.map((c) => {
+        const Icon = CATEGORY_ICONS[c];
+        const active = selectedCategory === c;
+
+        return (
           <CategoryButton
             key={c}
-            $active={selectedCategory === c}
+            $active={active}
             onClick={() => setSelectedCategory(c)}
             type="button"
           >
-            <MaskIcon
-              $src={CATEGORY_ICONS[c]}
-              $active={selectedCategory === c}
-            />
+            <MaskIcon $active={active}>
+              <Icon />
+            </MaskIcon>
             {c}
           </CategoryButton>
-        </>
-      ))}
+        );
+      })}
     </CategoryContainer>
   );
 };
@@ -99,14 +105,15 @@ const CategoryButton = styled.button<{ $active?: boolean }>`
   }
 `;
 
-const MaskIcon = styled.span<{ $src: string; $active?: boolean }>`
+const MaskIcon = styled.span<{ $active?: boolean }>`
   width: 18px;
   height: 18px;
   display: inline-block;
-  mask: url(${({ $src }) => $src}) no-repeat center / contain;
-  -webkit-mask: url(${({ $src }) => $src}) no-repeat center / contain;
-
-  /* ← 여기 색만 바꾸면 아이콘 색이 바뀜 */
-  background-color: ${({ theme, $active }) =>
-    $active ? theme.colors.WHITE : theme.colors.N70};
+  color ${({ theme, $active }) =>
+    $active ? theme.colors.N70 : theme.colors.WHITE};
+}
+  svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor
 `;
