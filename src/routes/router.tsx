@@ -5,6 +5,7 @@ import DefaultLayout from "@/components/layout/DefaultLayout";
 
 // pages
 import MainPage from "@/pages/main/MainPage";
+import CameraSearchPage from "@/pages/CameraSearch/CameraSearchPage";
 import { ROUTE_PATHS } from "@/constants/routeConstants";
 import MapPage from "@/pages/map/MapPage";
 
@@ -14,6 +15,9 @@ const router = createBrowserRouter([
     element: <DefaultLayout />,
     children: [
       { path: "/main", element: <MainPage /> },
+      { path: "/AI", element: <CameraSearchPage /> },
+
+
       { path: ROUTE_PATHS.MAP, element: <MapPage /> },
     ],
   },
