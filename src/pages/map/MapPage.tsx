@@ -13,6 +13,7 @@ const MapPage = () => {
   const [isPlaceInfo, setIsPlaceInfo] = useState<boolean>(false);
   const [selectPlace, setSelectPlace] = useState<Place | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<Category>("All");
+  const [isRegister, setIsRegister] = useState<boolean>(true);
   const render = (status: Status) => {
     switch (status) {
       case Status.LOADING:
@@ -35,6 +36,7 @@ const MapPage = () => {
             places={places}
             selectedCategory={selectedCategory}
             setSelectedPlace={setSelectPlace}
+            setIsRegister={setIsRegister}
             setIsPlaceInfo={setIsPlaceInfo}
           />
           <ChooseCategory
@@ -61,6 +63,7 @@ const MapPage = () => {
                 <PlaceInfo
                   name={selectPlace.name}
                   address={selectPlace.address}
+                  type={isRegister}
                 />
               )}
             </>

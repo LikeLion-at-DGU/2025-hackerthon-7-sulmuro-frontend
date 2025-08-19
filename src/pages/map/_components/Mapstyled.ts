@@ -40,12 +40,12 @@ export const FindButton = styled.button`
   ${({ theme }) => theme.fonts.SemiBold14}
 `;
 
-export const PlaceInfoWrapper = styled.div`
+export const PlaceInfoWrapper = styled.div<{ $expanded?: boolean }>`
   position: fixed;
   bottom: 0;
   width: 100%;
   max-width: 540px;
-  height: 140px;
+  height: ${({ $expanded }) => ($expanded ? "200px" : "140px")};
 
   z-index: 15;
 
@@ -79,5 +79,29 @@ export const InfoContainer = styled.div`
   }
   .address {
     ${({ theme }) => theme.fonts.Regular14}
+  }
+`;
+
+export const ExtendsContaiener = styled.div`
+  margin-top: 28px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  p {
+    ${({ theme }) => theme.fonts.SemiBold14};
+  }
+  div {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
+  }
+  button {
+    ${({ theme }) => theme.fonts.Regular12};
+    color: ${({ theme }) => theme.colors.N70};
+    background-color: ${({ theme }) => theme.colors.N00};
+    padding: 8px 4px;
+    border-radius: 4px;
   }
 `;

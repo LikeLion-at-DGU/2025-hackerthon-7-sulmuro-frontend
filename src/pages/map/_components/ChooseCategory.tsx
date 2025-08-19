@@ -78,6 +78,7 @@ const CategoryContainer = styled.div`
   gap: 8px;
   overflow-y: auto;
   -ms-overflow-style: none;
+  pointer-events: none;
   &::-webkit-scrollbar {
     display: none;
   }
@@ -102,6 +103,7 @@ const CategoryButton = styled.button<{ $active?: boolean }>`
   color: ${({ theme, $active }) =>
     $active ? theme.colors.WHITE : theme.colors.N70};
   ${({ theme }) => theme.fonts.SemiBold12};
+  pointer-events: auto;
 
   @media (min-width: 768px) {
     width: 80px;

@@ -52,6 +52,8 @@ import GoodsPinSelect from "@/assets/icons/shop_pin_select.svg";
 import CafePinSelect from "@/assets/icons/cafe_pin_select.svg";
 import ATMPinSelect from "@/assets/icons/atm_pin_select.svg";
 
+import GoogleMapicon from "@/assets/images/googleMap.png";
+
 export const IMAGE_CONSTANTS = {
   SearchAI,
   ArticleUnselected,
@@ -97,4 +99,6 @@ export const IMAGE_CONSTANTS = {
   GoodsPinSelect,
   CafePinSelect,
   ATMPinSelect,
+
+  GoogleMapicon,
 };
