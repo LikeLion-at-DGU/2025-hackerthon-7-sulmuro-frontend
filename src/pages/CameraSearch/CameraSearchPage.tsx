@@ -59,15 +59,14 @@ const handleCaptured = (dataUrl: string | null, file?: File) => {
 
         {sheetMode === "result" && (
             <ResultSection
-            open={open}
-            onClose={closeSheet}
-            captured={captured ?? undefined}
-            items={results}
-            onSwitchToChat={switchToChat}
-            // ✅ API 데이터 바인딩
-            loading={loading}
-            errorMsg={error instanceof Error ? error.message : undefined}
-            answer={data?.answer}
+              open={open}
+              onClose={closeSheet}
+              captured={captured ?? undefined}
+              items={results}
+              onSwitchToChat={switchToChat}
+              loading={loading}
+              errorMsg={error instanceof Error ? error.message : undefined}
+              answer={data?.answer}
             />
         )}
 

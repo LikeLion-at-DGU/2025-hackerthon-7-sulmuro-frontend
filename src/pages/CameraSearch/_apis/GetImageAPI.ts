@@ -7,6 +7,7 @@ export type AnswerPayload = {
   itemName: string;
   description: string;
   isGwangjangItem: boolean;
+  averagePrice?: string;
   recommendedStores?: RecommendedStore[];
   recommendedquestion?: RecommendedQuestion[];
 };

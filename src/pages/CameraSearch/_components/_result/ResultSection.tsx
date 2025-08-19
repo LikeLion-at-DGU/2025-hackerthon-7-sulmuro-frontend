@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as S from "./SearchResult.styled";
 import { IMAGE_CONSTANTS } from "../../../../constants/imageConstants";
-import { AnswerPayload } from "../../_apis/GetImageAPI"; // ✅ 타입 재사용
+import { AnswerPayload } from "../../_apis/GetImageAPI";
 
 export type SearchItem = {
   id: string;
@@ -17,7 +17,6 @@ type Props = {
     onSwitchToChat: () => void;
     captured?: string;
     items: SearchItem[];
-    // ✅ 추가: API 데이터
     loading?: boolean;
     errorMsg?: string;
     answer?: AnswerPayload;
@@ -73,6 +72,7 @@ const ResultSection = ({
 
   return (
     <S.SheetWrapper data-open={open}>
+      <S.Backfill style={{ height: y < 0 ? Math.abs(y) : 0 }} />
       <S.Sheet
         ref={sheetRef}
         style={{ transform: `translateY(${open ? y : MAX_DOWN}px)` }}
@@ -111,6 +111,15 @@ const ResultSection = ({
                     <S.CapturedDescription>
                       <div className="hint">
                           {answer.description}
+                          {typeof answer.averagePrice === "string" && answer.averagePrice.trim() !== "" && (
+                            <>
+                              <br />
+                              <strong>평균 가격</strong>
+                              <div>
+                                {answer.averagePrice}
+                              </div>
+                            </>
+                          )}
                           <br />
                           {Array.isArray(answer.recommendedStores) &&
                           answer.recommendedStores.length > 0 && (
@@ -137,19 +146,6 @@ const ResultSection = ({
                 </S.ToAIChat>
             </S.Result>
             )}
-
-            {/* 추가 리스트(선택 사항) */}
-            {/* <S.List>
-            {items.map((it) => (
-                <S.Item key={it.id}>
-                <S.Thumb src={it.thumbnail} alt={it.title} />
-                <div className="body">
-                    <div className="title">{it.title}</div>
-                    {it.subtitle && <div className="sub">{it.subtitle}</div>}
-                </div>
-                </S.Item>
-            ))}
-            </S.List> */}
         </S.Sheet>
         </S.SheetWrapper>
     );

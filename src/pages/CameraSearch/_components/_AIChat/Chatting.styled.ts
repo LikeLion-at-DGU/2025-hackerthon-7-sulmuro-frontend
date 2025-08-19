@@ -58,7 +58,7 @@ export const Bubble = styled.div<{ $role: "user" | "assistant" }>`
         : css`
             background: ${p.theme.colors.N20};
             color: ${p.theme.colors.WHITE};
-        `}
+    `}
 `;
 
 /* ====== 입력 영역 ====== */
