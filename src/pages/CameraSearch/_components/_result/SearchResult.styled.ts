@@ -2,27 +2,46 @@ import styled from "styled-components";
 
 export const SheetWrapper = styled.div`
     pointer-events: none;
-    position: absolute;
+    position: fixed;
     inset: 0;
     display: grid;
     place-items: end center;
     z-index: 1000;
 `;
-
+export const Backfill = styled.div`
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 100%;
+    max-width: 540px;
+    background: ${({ theme }) => theme.colors.WHITE};
+    z-index: 999;               /* 시트보다 아래 */
+    pointer-events: none;
+`;
 export const Sheet = styled.div`
     pointer-events: auto;
     width: 100%;
     max-width: 540px;
-    height: fit-content;
-    max-height: 100dvh;
+    /* 시트가 꽉 찼을 때 내부 스크롤이 생기도록 */
+    max-height: calc(100dvh - 12px);
+    overflow-y: auto;
+
     color: Black;
     border-radius: 40px 40px 0 0;
     background-color: ${({ theme }) => theme.colors.WHITE};
-    
     box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
 
     transition: transform 180ms ease;
     will-change: transform;
+
+    /* 드래그 중 바디 스크롤 끌고 가지 않게 */
+    overscroll-behavior: contain;
+    touch-action: pan-y;
+
+    /* 안전 영역 (iOS 하단 홈바) */
+    padding-bottom: env(safe-area-inset-bottom);
+
     @media (min-width: 768px) {
         border-radius: 40px 40px 0 0;
     }

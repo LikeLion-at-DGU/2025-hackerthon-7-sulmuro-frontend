@@ -18,6 +18,8 @@ import CaptureButton from "../assets/images/capture_button.png";
 import UploadImage from "../assets/icons/upload.png";
 import ResultIcon from "../assets/icons/ResultIcon.png";
 import SendButton from "../assets/icons/ChatSend.svg";
+import BackIcon from "../assets/icons/BackIcon2.svg";
+import GwanjangE from "../assets/icons/GwanJangE.svg";
 
 // language icon
 import LanguageOpen from "@/assets/icons/language_open.svg";
@@ -91,6 +93,8 @@ export const IMAGE_CONSTANTS = {
   CaptureButton: CaptureButton,
   ResultIcon: ResultIcon,
   SendButton: SendButton,
+  BackIcon2 : BackIcon,
+  GwanjangE  : GwanjangE,
 
   FoodPinUnSelect,
   ClothesPinUnSelect,
