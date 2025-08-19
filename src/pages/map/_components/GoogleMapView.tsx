@@ -1,17 +1,34 @@
 import * as S from "./Mapstyled";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import testmark from "@/assets/icons/test_marker.svg";
 
-import testmarker from "@/assets/icons/test_marker.svg";
 import { Category, Place } from "../_types/Marker.type";
 import { mapTypesToCategory } from "../_hooks/useMaphooks";
+import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 
-const CATEGORY_ICONS: Partial<Record<Category, string>> = {
-  Goods: testmarker,
-  Foods: testmarker,
-  Clothes: testmarker,
-  ATM: testmarker,
-  Cafe: testmarker,
-  Bar: testmarker,
+const CATEGORY_ICONS: Partial<
+  Record<Category, { selected: string; unselected: string }>
+> = {
+  Goods: {
+    selected: IMAGE_CONSTANTS.GoodsPinSelect,
+    unselected: IMAGE_CONSTANTS.GoodsPinUnSelect,
+  },
+  Foods: {
+    selected: IMAGE_CONSTANTS.FoodPinSelect,
+    unselected: IMAGE_CONSTANTS.FoodPinUnSelect,
+  },
+  Clothes: {
+    selected: IMAGE_CONSTANTS.ClothesPinSelect,
+    unselected: IMAGE_CONSTANTS.ClothesPinUnSelect,
+  },
+  ATM: {
+    selected: IMAGE_CONSTANTS.ATMPinSelect,
+    unselected: IMAGE_CONSTANTS.ATMPinUnSelect,
+  },
+  Cafe: {
+    selected: IMAGE_CONSTANTS.CafePinSelect,
+    unselected: IMAGE_CONSTANTS.CafePinUnSelect,
+  },
 };
 
 declare global {
@@ -22,6 +39,7 @@ declare global {
 
 interface GoogleMapViewProps {
   places: Place[];
+  selectedCategory: Category;
   setSelectedPlace: React.Dispatch<React.SetStateAction<Place | null>>;
   setIsPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -30,6 +48,7 @@ const GoogleMapView = ({
   places,
   setSelectedPlace,
   setIsPlaceInfo,
+  selectedCategory,
 }: GoogleMapViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -38,7 +57,18 @@ const GoogleMapView = ({
   const placesServiceRef = useRef<google.maps.places.PlacesService | null>(
     null
   );
+  const markersRef = useRef<google.maps.Marker[]>([]);
+  const [selectedMarker, setSelectedMarker] =
+    useState<google.maps.Marker | null>(null);
 
+  const filterPlacesByCategory = (category: Category) => {
+    if (category === "All") {
+      return places;
+    }
+    return places.filter((place) => place.category === category);
+  };
+
+  // 초기 마커 찍는 부분
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
     mapRef.current = new window.google.maps.Map(containerRef.current, {
@@ -52,18 +82,22 @@ const GoogleMapView = ({
     );
   }, [places, setIsPlaceInfo, setSelectedPlace]);
 
+  // 카테고리 변경 시 새로 마커 찍기
   useEffect(() => {
     const map = mapRef.current;
     const service = placesServiceRef.current;
 
     if (!map) return;
-
+    // 찍어 놓은 마커 삭제하고 필터된거로 적용
+    markersRef.current.forEach((marker) => marker.setMap(null));
+    markersRef.current = [];
     const onMapClick = (e: google.maps.MapMouseEvent) => {
       if ((e as any).placeId) {
         (e as any).stop();
 
         const placeId = (e as any).placeId as string;
 
+        // 주변 가게 정보 가져오는 부분.
         service?.getDetails(
           {
             placeId,
@@ -75,45 +109,53 @@ const GoogleMapView = ({
               res
             ) {
               const selectedPlace: Place = {
-                // 네 Place 타입에 맞춰 매핑 (필요 시 타입 확장)
                 name: res.name ?? "",
                 address: res.formatted_address ?? "",
                 lat: res.geometry?.location?.lat() ?? 0,
                 lng: res.geometry?.location?.lng() ?? 0,
-                category: mapTypesToCategory(res.types), // 아래 헬퍼 참고
-                // placeId 같은 확장 필드 쓰고 싶으면 Place 타입에 optional로 추가
-                // placeId: res.place_id,
+                category: mapTypesToCategory(res.types),
               };
 
               setSelectedPlace(selectedPlace);
               setIsPlaceInfo(true);
             } else {
-              // 실패하면 닫거나, 기존 로직으로 대체
               setIsPlaceInfo(false);
               setSelectedPlace(null);
             }
           }
         );
       }
+      setSelectedMarker(null);
       setIsPlaceInfo(false);
       setSelectedPlace(null);
     };
 
     const mapClickL = map.addListener("click", onMapClick);
-
     mapListenersRef.current.push(mapClickL);
 
-    places.forEach((place: Place) => {
-      const iconUrl = CATEGORY_ICONS[place.category];
-      console.log("ddd");
+    const filteredPlaces = filterPlacesByCategory(selectedCategory);
+
+    filteredPlaces.forEach((place: Place) => {
+      const iconUrls = CATEGORY_ICONS[place.category];
+      const isSelected =
+        selectedMarker &&
+        selectedMarker.getPosition()?.lat() === place.lat &&
+        selectedMarker.getPosition()?.lng() === place.lng;
+      const markerIcon = isSelected
+        ? iconUrls?.selected
+        : iconUrls?.unselected || testmark;
+
       const marker = new window.google.maps.Marker({
         position: { lat: place.lat, lng: place.lng },
         map,
         title: place.name,
-        icon: iconUrl
+        icon: markerIcon
           ? {
-              url: iconUrl,
-              scaledSize: new window.google.maps.Size(28, 28),
+              url: markerIcon,
+              scaledSize: new window.google.maps.Size(
+                isSelected ? 42 : 28,
+                isSelected ? 42 : 28
+              ),
             }
           : undefined,
       });
@@ -121,9 +163,21 @@ const GoogleMapView = ({
       marker.addListener("click", () => {
         setSelectedPlace(place);
         setIsPlaceInfo(true);
+        marker.setIcon({
+          url: CATEGORY_ICONS[selectedCategory]?.selected || testmark,
+          scaledSize: new window.google.maps.Size(42, 42), // 선택된 마커 크기
+        });
+        if (selectedMarker && selectedMarker !== marker) {
+          selectedMarker.setIcon({
+            url: CATEGORY_ICONS[selectedCategory]?.unselected || testmark,
+            scaledSize: new window.google.maps.Size(28, 28), // 기본 마커 크기
+          });
+        }
+        setSelectedMarker(marker);
       });
+      markersRef.current.push(marker);
     });
-  }, []);
+  }, [places, selectedCategory, selectedMarker]);
   return <S.MapContainer ref={containerRef} />;
 };
 

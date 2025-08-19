@@ -14,10 +14,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <DefaultLayout />,
     children: [
-      { path: "/main", element: <MainPage /> },
       { path: "/AI", element: <CameraSearchPage /> },
-
-
+      { path: ROUTE_PATHS.ARTICLE, element: <MainPage /> },
+      { path: ROUTE_PATHS.SAVED, element: <MainPage /> },
+      { path: ROUTE_PATHS.TALK, element: <MainPage /> },
       { path: ROUTE_PATHS.MAP, element: <MapPage /> },
     ],
   },
