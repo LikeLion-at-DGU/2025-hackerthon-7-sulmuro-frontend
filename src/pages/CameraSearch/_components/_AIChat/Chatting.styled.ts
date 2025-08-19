@@ -2,14 +2,14 @@ import styled, { css } from "styled-components";
 
 export const ChattingWrapper = styled.div`
     width: 100%;
-    padding: 24px 16px;
+    padding: 24px 16px 0 ;
     gap: 2rem;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     border-top: 1px solid ${({ theme }) => theme.colors.N10};
-    /* ChatDock 높이를 꽉 채우도록 */
     height: fit-content;
+    min-height: 0;
 `;
 
 export const ASK = styled.div`
@@ -24,7 +24,10 @@ export const ChatLog = styled.div`
     display: flex;
     flex-direction: column;
     gap: 8px;
-    padding-right: 4px; /* 스크롤 트랙 여유 */
+    padding-right: 4px;
+    scroll-behavior: smooth;     /* ✅ 기본 스무스 스크롤 */
+    overscroll-behavior: contain;/* ✅ 모달/바텀시트 내에서 바운스 방지 */
+    scrollbar-gutter: stable;    /* ✅ 스크롤바 뜰 때 레이아웃 흔들림 최소화 */
 `;
 
 export const MsgRow = styled.div<{ $role: "user" | "assistant" }>`
@@ -55,7 +58,7 @@ export const Bubble = styled.div<{ $role: "user" | "assistant" }>`
         : css`
             background: ${p.theme.colors.N20};
             color: ${p.theme.colors.WHITE};
-        `}
+    `}
 `;
 
 /* ====== 입력 영역 ====== */

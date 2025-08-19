@@ -2,36 +2,78 @@
 import * as S from "./AIChat.styled";
 import { IMAGE_CONSTANTS } from "../../../../constants/imageConstants";
 import Chatting from "../_AIChat/Chatting";
+import type { RecommendedStore } from "../../_apis/GetImageAPI"; // 타입 재사용
 
 type Props = {
     captured?: string;
+    roomId?: number;
+    title?: string;
+    description?: string;
+    recommendedStores?: RecommendedStore[];
+    recommendedQuestions?: string[];
+    introMessage?: string;
 };
 
-const AIChat = ({ captured }: Props) => {
+const AIChat = ({
+        captured,
+        roomId,
+        title,
+        description,
+        recommendedStores = [],
+        recommendedQuestions = [],
+        introMessage,
+    }: Props) => {
     return (
         <S.Wrapper>
+            <S.ChatHeader>
+                <img src={IMAGE_CONSTANTS.BackIcon2} alt="BACK" />
+            </S.ChatHeader>
         {captured && (
             <S.Result>
             <S.CapturedImg src={captured} alt="captured" />
-            <S.CapturedResult>
-                <img src={IMAGE_CONSTANTS.ResultIcon} alt="🔎" />
-                <div className="label">야생의 강근우</div>
-            </S.CapturedResult>
-            <S.CapturedDescription>
-                <div className="hint">
-                매우 난폭하다!
-                <br />
-                매우 잔인하다!
-                <br />
-                매우 잔혹하다!
-                </div>
-            </S.CapturedDescription>
-                <S.ToAIChat>
-                    <div className="scrollToAI">FUCKCKCKCK게 질문하기</div>
-                </S.ToAIChat>
+
+            {(title || description || recommendedStores.length > 0) && (
+                <>
+                <S.CapturedResult>
+                    <img src={IMAGE_CONSTANTS.ResultIcon} alt="🔎" />
+                    <div className="label">
+                    {title ? `분석 결과 : ${title}` : "분석 결과"}
+                    </div>
+                </S.CapturedResult>
+
+                {(description || recommendedStores.length > 0) && (
+                    <S.CapturedDescription>
+                    <div className="hint">
+                        {description}
+
+                        {recommendedStores.length > 0 && (
+                        <>
+                            <br />
+                            <br />
+                            <strong>추천 가게</strong>
+                            <ul style={{ marginTop: 6 }}>
+                            {recommendedStores.map((s, idx) => (
+                                <li key={idx}>
+                                {s.name}
+                                {s.notes ? ` — ${s.notes}` : ""}
+                                </li>
+                            ))}
+                            </ul>
+                        </>
+                        )}
+                    </div>
+                    </S.CapturedDescription>
+                )}
+                </>
+            )}
             </S.Result>
         )}
-            <Chatting />
+        <Chatting
+            roomId={roomId}
+            recommendedQuestions={recommendedQuestions}
+            introMessage={introMessage}
+            capturedPreview={captured}
+        />
         </S.Wrapper>
     );
 };

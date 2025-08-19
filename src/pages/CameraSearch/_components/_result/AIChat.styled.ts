@@ -7,6 +7,21 @@ export const Wrapper = styled.div`
     overflow: scroll;
 `;
 
+export const ChatHeader = styled.div`
+    width: 100%;
+    height: 56px;
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 10px;
+    background : ${({theme}) => theme.colors.WHITE};
+    img{
+        width: 24px;
+        height: 24px;
+    }
+`;
 export const Result = styled.div`
     width: 100%;
     display: flex;
