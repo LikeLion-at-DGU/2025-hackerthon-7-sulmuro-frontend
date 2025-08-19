@@ -52,6 +52,11 @@ import GoodsPinSelect from "@/assets/icons/shop_pin_select.svg";
 import CafePinSelect from "@/assets/icons/cafe_pin_select.svg";
 import ATMPinSelect from "@/assets/icons/atm_pin_select.svg";
 
+// saved page
+import RightBtn from "@/assets/icons/right_btn.svg";
+import Bookmark from "@/assets/icons/bookmark.svg";
+import PlaceIcon from "@/assets/icons/place_icon.svg";
+
 export const IMAGE_CONSTANTS = {
   SearchAI,
   ArticleUnselected,
@@ -97,4 +102,8 @@ export const IMAGE_CONSTANTS = {
   GoodsPinSelect,
   CafePinSelect,
   ATMPinSelect,
+
+  RightBtn,
+  Bookmark,
+  PlaceIcon,
 };
