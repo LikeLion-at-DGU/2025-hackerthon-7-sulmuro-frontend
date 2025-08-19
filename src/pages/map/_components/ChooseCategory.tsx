@@ -113,11 +113,12 @@ const MaskIcon = styled.span<{ $active?: boolean }>`
   width: 18px;
   height: 18px;
   display: inline-block;
-  color ${({ theme, $active }) =>
-    $active ? theme.colors.N70 : theme.colors.WHITE}
-};
+  color: ${({ theme, $active }) =>
+    $active ? theme.colors.WHITE : theme.colors.N70}; /* 세미콜론 추가 */
+
   svg {
     width: 100%;
     height: 100%;
-    fill: currentColor
+    fill: currentColor;
+  }
 `;
