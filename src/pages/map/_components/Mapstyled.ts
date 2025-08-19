@@ -57,6 +57,8 @@ export const PlaceInfoWrapper = styled.div<{ $expanded?: boolean }>`
 
   box-sizing: border-box;
   padding: 0 32px;
+
+  overflow-y: auto;
 `;
 
 export const SwipeButton = styled.div`
