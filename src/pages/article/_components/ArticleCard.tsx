@@ -86,5 +86,4 @@ const ArticleCard = ({ article, onClick }: Props) => {
 
 export default ArticleCard;
 
-/* ================= styled ================= */
 

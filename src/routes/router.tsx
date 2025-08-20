@@ -15,6 +15,9 @@ import ArticlePage from "@/pages/article/ArticlePage";
 
 import ArticleDetailPage from "@/pages/article/ArticleDetailPage"; // ✅ 신규
 
+
+import AssistancePage from "@/pages/assistance/AssistancePage"; //테스트
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +32,7 @@ const router = createBrowserRouter([
       { path: ROUTE_PATHS.SAVED_ARTICLE, element: <DetailArticlePage /> },
       { path: ROUTE_PATHS.ARTICLE, element: <ArticlePage /> },
       { path: `${ROUTE_PATHS.ARTICLE}/:id`, element: <ArticleDetailPage /> },
+      { path: ROUTE_PATHS.ASSISTANCE, element: <AssistancePage /> },
 
     ],
   },
