@@ -26,7 +26,7 @@ const SavePage = () => {
             />
           ))}
         </S.SavedPlaceBox>
-        <MainHeader text="아티클" path={ROUTE_PATHS.SAVED_PLACE} />
+        <MainHeader text="아티클" path={ROUTE_PATHS.SAVED_ARTICLE} />
         <S.SavedArticleBox>
           {savedArticles.slice(0, 1).map((article) => (
             <SavedArticleCard
