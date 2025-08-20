@@ -136,9 +136,9 @@ const GoogleMapView = ({
 
     const mapClickL = map.addListener("click", onMapClick);
     mapListenersRef.current.push(mapClickL);
-
+    console.log("장소", places);
     const filteredPlaces = filterPlacesByCategory(selectedCategory);
-
+    console.log(filteredPlaces);
     filteredPlaces.forEach((place: Place) => {
       const iconUrls = CATEGORY_ICONS[place.category];
       const isSelected =

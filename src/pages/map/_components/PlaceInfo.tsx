@@ -1,32 +1,37 @@
 import { useState, useRef, useEffect } from "react";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
+import testimage from "@/assets/images/testImage.png";
 import * as S from "./Mapstyled";
 
 interface PlaceInfoProps {
   name: string;
   address: string;
   type: boolean;
+  id?: number;
 }
 
-const PlaceInfo = ({ name, address, type }: PlaceInfoProps) => {
-  const [height, setHeight] = useState(200);
+const PlaceInfo = ({ name, address, type, id }: PlaceInfoProps) => {
+  const [height, setHeight] = useState(230);
   const [dragging, setDragging] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const initialY = useRef(0);
 
   const onMouseDown = (e: MouseEvent) => {
+    if (!type) return;
     setDragging(true);
     initialY.current = e.clientY;
     e.preventDefault();
   };
 
   const onTouchStart = (e: TouchEvent) => {
+    if (!type) return;
     setDragging(true);
     initialY.current = e.touches[0].clientY;
     e.preventDefault();
   };
 
   const onMouseMove = (e: MouseEvent) => {
+    if (!type) return;
     if (dragging) {
       const deltaY = initialY.current - e.clientY;
       const newHeight = Math.max(
@@ -38,6 +43,7 @@ const PlaceInfo = ({ name, address, type }: PlaceInfoProps) => {
   };
 
   const onTouchMove = (e: TouchEvent) => {
+    if (type) return;
     if (dragging) {
       const deltaY = initialY.current - e.touches[0].clientY;
       const newHeight = Math.max(
@@ -98,6 +104,17 @@ const PlaceInfo = ({ name, address, type }: PlaceInfoProps) => {
             <button>구글맵에서 확인하기</button>
           </div>
         </S.ExtendsContaiener>
+      )}
+      {height > 230 && type && (
+        <S.AdditionalInfo>
+          <img src={testimage} alt="" />
+          <p>
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum
+            similique quasi quam aperiam. Eum non quia magni. Debitis, eius iure
+            perferendis libero distinctio animi earum aut. Eum cupiditate
+            perferendis ipsa.
+          </p>
+        </S.AdditionalInfo>
       )}
     </S.PlaceInfoWrapper>
   );

@@ -45,7 +45,7 @@ export const PlaceInfoWrapper = styled.div<{ $expanded?: boolean }>`
   bottom: 0;
   width: 100%;
   max-width: 540px;
-  height: ${({ $expanded }) => ($expanded ? "200px" : "140px")};
+  height: ${({ $expanded }) => ($expanded ? "250px" : "140px")};
 
   z-index: 15;
 
@@ -59,6 +59,7 @@ export const PlaceInfoWrapper = styled.div<{ $expanded?: boolean }>`
   padding: 0 32px;
 
   overflow-y: auto;
+  -ms-overflow-style: none;
 `;
 
 export const SwipeButton = styled.div`
@@ -105,5 +106,22 @@ export const ExtendsContaiener = styled.div`
     background-color: ${({ theme }) => theme.colors.N00};
     padding: 8px 4px;
     border-radius: 4px;
+  }
+`;
+
+export const AdditionalInfo = styled.div`
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  gap: 20px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+  p {
+    ${({ theme }) => theme.fonts.Regular14}
   }
 `;
