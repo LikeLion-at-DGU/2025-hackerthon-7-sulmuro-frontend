@@ -1,27 +1,73 @@
+// src/pages/article/ArticlePage.tsx
 import * as S from "./ArticlePage.styled";
+import { useArticle } from "./_hooks/useArticle";
+import { Place } from "./_apis/getArticle";
+import ArticleCard from "./_components/ArticleCard";
+import { useNavigate } from "react-router-dom";
+import { buildRoute } from "@/constants/routeConstants";
 
 const ArticlePage = () => {
+  const {
+    place,
+    category,
+    articles,
+    loading,
+    errorMsg,
+    selectPlace,
+    selectCategory,
+  } = useArticle();
 
-    return (
-        <S.Wrapper>
-            <S.Header>
-                Article
-                <S.PlaceDropdown>
-                    {/* 큰 필터링 : 전체, 광장시장, 양재시장 중 하나 선택해서 해당 값을 바탕으로 아티클 필터링*/}
-                </S.PlaceDropdown>
-            </S.Header>
-            <S.MainContents>
-                {/* 작은 필터링 : 음식, 쇼핑, 역시 중 하나의 주제로 카테고리를 필터링해서 아티클 리스트를 보여줍니다. */}
-                <S.ArticleCategory>
-                    <S.CategoryButton selected={true}>음식</S.CategoryButton>
-                    <S.CategoryButton selected={false}>쇼핑</S.CategoryButton>
-                    <S.CategoryButton selected={false}>역사</S.CategoryButton>
-                </S.ArticleCategory>
-                {articleContent.map(article) => (
-                    <ArticleCard>
-                )}
-            </S.MainContents>
+  const navigate = useNavigate();
 
-        </S.Wrapper>
-    );
-}
+  return (
+    <S.Wrapper>
+      <S.Header>
+        <div>Article</div>
+        <S.PlaceDropdown>
+          {/* 큰 필터: 전체 / 광장시장 / 양재시장 */}
+          <select
+            value={place}
+            onChange={(e) => selectPlace(e.target.value as Place)}
+          >
+            <option value="전체">전체</option>
+            <option value="광장시장">광장시장</option>
+            <option value="양재시장">양재시장</option>
+          </select>
+        </S.PlaceDropdown>
+      </S.Header>
+
+      <S.Contents>
+        {/* 필터 */}
+        <S.FilterRow>
+
+          {(["음식", "쇼핑", "역사"] as const).map((c) => (
+            <S.CategoryButton
+              key={c}
+              selected={category === c}
+              onClick={() => selectCategory(c)}
+            >
+              {c}
+            </S.CategoryButton>
+          ))}
+        </S.FilterRow>
+
+        {/* 리스트 (Grid 없이 map) */}
+        {loading && <div>불러오는 중...</div>}
+        {!loading && errorMsg && <div>{errorMsg}</div>}
+        {!loading && !errorMsg && (
+          <S.SavedArticleBox>
+            {articles.map((a) => (
+              <ArticleCard
+                key={a.id}
+                article={a}
+                onClick={() => navigate(buildRoute.articleDetail(a.id))}
+              />
+            ))}
+          </S.SavedArticleBox>
+        )}
+      </S.Contents>
+    </S.Wrapper>
+  );
+};
+
+export default ArticlePage;

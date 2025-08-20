@@ -20,6 +20,7 @@ import ResultIcon from "../assets/icons/ResultIcon.png";
 import SendButton from "../assets/icons/ChatSend.svg";
 import BackIcon from "../assets/icons/BackIcon2.svg";
 import GwanjangE from "../assets/icons/GwanJangE.svg";
+import FalseBookmark from "../assets/icons/falseBookMark.svg";
 
 // language icon
 import LanguageOpen from "@/assets/icons/language_open.svg";
@@ -95,7 +96,8 @@ export const IMAGE_CONSTANTS = {
   SendButton: SendButton,
   BackIcon2 : BackIcon,
   GwanjangE  : GwanjangE,
-
+  FalseBookmark,
+  
   FoodPinUnSelect,
   ClothesPinUnSelect,
   GoodsPinUnSelect,
