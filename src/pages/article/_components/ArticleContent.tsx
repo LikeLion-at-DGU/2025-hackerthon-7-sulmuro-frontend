@@ -4,21 +4,23 @@ import styled from "styled-components";
 const Section = styled.section`
   display: flex;
   flex-direction: column;
-  gap: 16px;
 `;
 
 const Paragraph = styled.p`
   white-space: pre-wrap;
   line-height: 1.7;
   font-size: 1rem;
-  color: #222;
   margin: 0;
+  padding: 16px;
+  color: #000;
+  ${({ theme }) => theme.fonts.Regular14};
 `;
 
 const Img = styled.img`
   width: 100%;
   border-radius: 12px;
   object-fit: cover;
+  margin: 8px 0;
 `;
 
 type Props = {

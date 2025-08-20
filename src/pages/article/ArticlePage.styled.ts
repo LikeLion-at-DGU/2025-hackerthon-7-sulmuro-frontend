@@ -55,13 +55,13 @@ export const SavedPlaceBox = styled.div`
   gap: 16px;
 `;
 
-export const SavedArticleBox = styled.div`
+export const ArticleBox = styled.div`
   display: flex;
   flex-direction: column; /* ✅ 세로로 리스트 */
   width: 100%;
   padding: 8px 0;
   box-sizing: border-box;
-  gap: 12px; /* 카드 간격 */
+  gap: 1rem; /* 카드 간격 */
 `;
 
 export const FilterRow = styled.div`

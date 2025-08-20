@@ -37,9 +37,7 @@ const ArticlePage = () => {
       </S.Header>
 
       <S.Contents>
-        {/* 필터 */}
         <S.FilterRow>
-
           {(["음식", "쇼핑", "역사"] as const).map((c) => (
             <S.CategoryButton
               key={c}
@@ -51,11 +49,10 @@ const ArticlePage = () => {
           ))}
         </S.FilterRow>
 
-        {/* 리스트 (Grid 없이 map) */}
         {loading && <div>불러오는 중...</div>}
         {!loading && errorMsg && <div>{errorMsg}</div>}
         {!loading && !errorMsg && (
-          <S.SavedArticleBox>
+          <S.ArticleBox>
             {articles.map((a) => (
               <ArticleCard
                 key={a.id}
@@ -63,7 +60,7 @@ const ArticlePage = () => {
                 onClick={() => navigate(buildRoute.articleDetail(a.id))}
               />
             ))}
-          </S.SavedArticleBox>
+          </S.ArticleBox>
         )}
       </S.Contents>
     </S.Wrapper>
