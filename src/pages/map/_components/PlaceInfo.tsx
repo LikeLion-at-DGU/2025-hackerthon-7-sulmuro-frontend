@@ -43,7 +43,7 @@ const PlaceInfo = ({ name, address, type, id }: PlaceInfoProps) => {
   };
 
   const onTouchMove = (e: TouchEvent) => {
-    if (type) return;
+    if (!dragging || !type) return;
     if (dragging) {
       const deltaY = initialY.current - e.touches[0].clientY;
       const newHeight = Math.max(
@@ -105,14 +105,14 @@ const PlaceInfo = ({ name, address, type, id }: PlaceInfoProps) => {
           </div>
         </S.ExtendsContaiener>
       )}
-      {height > 230 && type && (
+      {type && (
         <S.AdditionalInfo>
           <img src={testimage} alt="" />
           <p>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum
             similique quasi quam aperiam. Eum non quia magni. Debitis, eius iure
             perferendis libero distinctio animi earum aut. Eum cupiditate
-            perferendis ipsa.
+            perferendis ipsa.변경벼녀겨여여
           </p>
         </S.AdditionalInfo>
       )}
