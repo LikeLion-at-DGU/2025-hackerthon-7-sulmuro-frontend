@@ -25,6 +25,17 @@ export const Button = styled.button`
 `;
 
 // PlaceInfo
+export const Header = styled.header`
+  transition: opacity 0.3s ease;
+  padding-top: 12px;
+  background-color: ${({ theme }) => theme.colors.WHITE};
+  z-index: 16;
+  img {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
 export const FindButton = styled.button`
   position: absolute;
   left: 15px;
@@ -40,16 +51,18 @@ export const FindButton = styled.button`
   ${({ theme }) => theme.fonts.SemiBold14}
 `;
 
-export const PlaceInfoWrapper = styled.div`
+export const PlaceInfoWrapper = styled.div<{
+  $expanded?: boolean;
+  animate?: boolean;
+}>`
   position: fixed;
   bottom: 0;
   width: 100%;
   max-width: 540px;
-  height: 140px;
+  height: ${({ $expanded }) => ($expanded ? "250px" : "140px")};
 
   z-index: 15;
 
-  border-radius: 50px 50px 0 0;
   background-color: ${({ theme }) => theme.colors.WHITE};
 
   justify-content: center;
@@ -57,6 +70,9 @@ export const PlaceInfoWrapper = styled.div`
 
   box-sizing: border-box;
   padding: 0 32px;
+
+  overflow-y: hidden;
+  transition: ${(props) => (props.animate ? "height 0.3s ease" : "none")};
 `;
 
 export const SwipeButton = styled.div`
@@ -79,5 +95,65 @@ export const InfoContainer = styled.div`
   }
   .address {
     ${({ theme }) => theme.fonts.Regular14}
+  }
+`;
+
+export const ExtendsContaiener = styled.div`
+  margin-top: 28px !important;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  p {
+    ${({ theme }) => theme.fonts.SemiBold14};
+  }
+  div {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 4px;
+  }
+  button {
+    ${({ theme }) => theme.fonts.Regular12};
+    color: ${({ theme }) => theme.colors.N70};
+    background-color: ${({ theme }) => theme.colors.N00};
+    padding: 8px 4px;
+    border-radius: 4px;
+  }
+`;
+
+export const AdditionalInfo = styled.div`
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  gap: 20px;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+  p {
+    ${({ theme }) => theme.fonts.Regular14}
+  }
+`;
+
+export const FindForMapButton = styled.button`
+  display: flex;
+  felx-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  gap: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  width: 100%;
+  color: ${({ theme }) => theme.colors.R60};
+  ${({ theme }) => theme.fonts.SemiBold14};
+  background-color: ${({ theme }) => theme.colors.R10};
+  img {
+    width: 12px;
+    height: 12px;
   }
 `;

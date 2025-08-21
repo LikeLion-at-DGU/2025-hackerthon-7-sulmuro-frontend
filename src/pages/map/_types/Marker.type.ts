@@ -8,7 +8,7 @@ export type Category =
   | "Goods";
 
 export interface Place {
-  id?: string;
+  id?: number;
   name: string; // 장소이름
   address: string; // 주소
   lat: number; // 위도
