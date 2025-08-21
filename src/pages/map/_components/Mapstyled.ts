@@ -25,6 +25,17 @@ export const Button = styled.button`
 `;
 
 // PlaceInfo
+export const Header = styled.header`
+  transition: opacity 0.3s ease;
+  padding-top: 12px;
+  background-color: ${({ theme }) => theme.colors.WHITE};
+  z-index: 16;
+  img {
+    width: 24px;
+    height: 24px;
+  }
+`;
+
 export const FindButton = styled.button`
   position: absolute;
   left: 15px;
@@ -40,7 +51,10 @@ export const FindButton = styled.button`
   ${({ theme }) => theme.fonts.SemiBold14}
 `;
 
-export const PlaceInfoWrapper = styled.div<{ $expanded?: boolean }>`
+export const PlaceInfoWrapper = styled.div<{
+  $expanded?: boolean;
+  animate?: boolean;
+}>`
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -49,7 +63,6 @@ export const PlaceInfoWrapper = styled.div<{ $expanded?: boolean }>`
 
   z-index: 15;
 
-  border-radius: 50px 50px 0 0;
   background-color: ${({ theme }) => theme.colors.WHITE};
 
   justify-content: center;
@@ -58,8 +71,8 @@ export const PlaceInfoWrapper = styled.div<{ $expanded?: boolean }>`
   box-sizing: border-box;
   padding: 0 32px;
 
-  overflow-y: auto;
-  -ms-overflow-style: none;
+  overflow-y: hidden;
+  transition: ${(props) => (props.animate ? "height 0.3s ease" : "none")};
 `;
 
 export const SwipeButton = styled.div`

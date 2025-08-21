@@ -3,6 +3,9 @@ import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import testimage from "@/assets/images/testImage.png";
 import * as S from "./Mapstyled";
 
+const DEFAULT_HOLD = 50;
+const DEFAULT_HEIGHT = 230;
+
 interface PlaceInfoProps {
   name: string;
   address: string;
@@ -11,14 +14,16 @@ interface PlaceInfoProps {
 }
 
 const PlaceInfo = ({ name, address, type, id }: PlaceInfoProps) => {
-  const [height, setHeight] = useState(230);
+  const [height, setHeight] = useState(DEFAULT_HEIGHT);
   const [dragging, setDragging] = useState(false);
+  const [animate, setAnimate] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const initialY = useRef(0);
 
   const onMouseDown = (e: MouseEvent) => {
     if (!type) return;
     setDragging(true);
+    setAnimate(false);
     initialY.current = e.clientY;
     e.preventDefault();
   };
@@ -26,71 +31,93 @@ const PlaceInfo = ({ name, address, type, id }: PlaceInfoProps) => {
   const onTouchStart = (e: TouchEvent) => {
     if (!type) return;
     setDragging(true);
+    setAnimate(false);
     initialY.current = e.touches[0].clientY;
     e.preventDefault();
   };
 
-  const onMouseMove = (e: MouseEvent) => {
-    if (!type) return;
-    if (dragging) {
-      const deltaY = initialY.current - e.clientY;
-      const newHeight = Math.max(
-        200,
-        Math.min(height + deltaY, window.innerHeight * 0.9)
-      );
-      setHeight(newHeight);
+  const handleMove = (currentY: number) => {
+    if (!type || !dragging) return;
+
+    const deltaY = initialY.current - currentY;
+
+    // 위로 드래그
+    if (deltaY > 0) {
+      if (deltaY <= DEFAULT_HOLD) {
+        setHeight(DEFAULT_HEIGHT + deltaY);
+      } else {
+        setAnimate(true);
+        setHeight(window.innerHeight);
+      }
     }
+    // 아래로 드래그
+    else {
+      const downDelta = -deltaY;
+      if (downDelta <= DEFAULT_HOLD) {
+        setHeight(DEFAULT_HEIGHT - downDelta + (height - DEFAULT_HEIGHT));
+      } else {
+        setAnimate(true);
+        setHeight(DEFAULT_HEIGHT);
+      }
+    }
+  };
+
+  const onMouseMove = (e: MouseEvent) => {
+    handleMove(e.clientY);
   };
 
   const onTouchMove = (e: TouchEvent) => {
-    if (!dragging || !type) return;
-    if (dragging) {
-      const deltaY = initialY.current - e.touches[0].clientY;
-      const newHeight = Math.max(
-        200,
-        Math.min(height + deltaY, window.innerHeight * 0.9)
-      );
-      setHeight(newHeight);
-    }
+    handleMove(e.touches[0].clientY);
   };
 
-  const onMouseUp = () => {
-    setDragging(false);
-  };
-
-  const onTouchEnd = () => {
+  const endDrag = () => {
     setDragging(false);
   };
 
   useEffect(() => {
-    // 마우스/터치 이벤트 리스너 등록
-    if (containerRef.current) {
-      containerRef.current.addEventListener("mousemove", onMouseMove);
-      containerRef.current.addEventListener("mouseup", onMouseUp);
-      containerRef.current.addEventListener("touchmove", onTouchMove);
-      containerRef.current.addEventListener("touchend", onTouchEnd);
-    }
+    if (!containerRef.current) return;
 
-    // Cleanup
+    const current = containerRef.current;
+
+    current.addEventListener("mousemove", onMouseMove);
+    current.addEventListener("mouseup", endDrag);
+    current.addEventListener("touchmove", onTouchMove);
+    current.addEventListener("touchend", endDrag);
+
     return () => {
-      if (containerRef.current) {
-        containerRef.current.removeEventListener("mousemove", onMouseMove);
-        containerRef.current.removeEventListener("mouseup", onMouseUp);
-        containerRef.current.removeEventListener("touchmove", onTouchMove);
-        containerRef.current.removeEventListener("touchend", onTouchEnd);
-      }
+      current.removeEventListener("mousemove", onMouseMove);
+      current.removeEventListener("mouseup", endDrag);
+      current.removeEventListener("touchmove", onTouchMove);
+      current.removeEventListener("touchend", endDrag);
     };
   }, [dragging]);
 
   return (
     <S.PlaceInfoWrapper
       ref={containerRef}
-      style={{ height: `${height}px` }}
+      style={{
+        height: `${height}px`,
+        borderRadius: height >= window.innerHeight ? "0" : "50px 50px 0 0",
+      }}
       $expanded={!type}
+      animate={animate}
       onMouseDown={(e) => onMouseDown(e.nativeEvent)}
       onTouchStart={(e) => onTouchStart(e.nativeEvent)}
     >
-      <S.SwipeButton />
+      <S.Header
+        style={{
+          display: height >= window.innerHeight ? "flex " : "none",
+        }}
+      >
+        <button>
+          <img src={IMAGE_CONSTANTS.ATMPinSelect} alt="돌아가기" />
+        </button>
+      </S.Header>
+      <S.SwipeButton
+        style={{
+          display: height == window.innerHeight ? "none" : "flex",
+        }}
+      />
       <S.InfoContainer>
         <p className="title">{name}</p>
         <img src={IMAGE_CONSTANTS.BookMark} alt="저장하기" />
