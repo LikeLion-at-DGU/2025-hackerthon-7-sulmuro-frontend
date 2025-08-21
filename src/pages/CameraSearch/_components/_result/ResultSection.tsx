@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as S from "./SearchResult.styled";
 import { IMAGE_CONSTANTS } from "../../../../constants/imageConstants";
-// import AIChat from "./AIChat"; // ✅ 내용 전용 컴포넌트
+import { AnswerPayload } from "../../_apis/GetImageAPI";
 
 export type SearchItem = {
   id: string;
@@ -12,31 +12,41 @@ export type SearchItem = {
 };
 
 type Props = {
-  open: boolean;
-  onClose: () => void;
-  onSwitchToChat: () => void; // ✅ 추가
-  captured?: string;
-  items: SearchItem[];
+    open: boolean;
+    onClose: () => void;
+    onSwitchToChat: () => void;
+    captured?: string;
+    items: SearchItem[];
+    loading?: boolean;
+    errorMsg?: string;
+    answer?: AnswerPayload;
 };
 
 const ResultSection = ({
-  open,
-  onClose,
-  captured,
-  items,
-  onSwitchToChat,
-}: Props) => {
-  const sheetRef = useRef<HTMLDivElement | null>(null);
-  const [y, setY] = useState(0);
-  const startY = useRef<number | null>(null);
+    open,
+    onClose,
+    captured,
+    items,
+    onSwitchToChat,
+    loading,
+    errorMsg,
+    answer,
+    }: Props) => {
+    const sheetRef = useRef<HTMLDivElement | null>(null);
+    const [y, setY] = useState(0);
+    const startY = useRef<number | null>(null);
 
-  const MAX_DOWN = 500;
-  const THRESHOLD_DOWN = 160; // 아래로 이만큼 끌면 닫힘
-  const THRESHOLD_UP = 120; // 위로 이만큼 끌면 Chat 전환
+    const MAX_DOWN = 500;
+    const THRESHOLD_DOWN = 160; // 아래로 이만큼 끌면 닫힘
+    const THRESHOLD_UP = 120; // 위로 이만큼 끌면 Chat 전환
 
-  useEffect(() => {
-    if (open) setY(0);
-  }, [open]);
+    useEffect(() => {
+      if (open) {
+        setY(0);
+        // requestAnimationFrame(() => setY(0)); // 스타일 트랜지션이 있다면 더 안정적
+      }
+    }, [open]);
+
 
   const onTouchStart: React.TouchEventHandler = (e) => {
     startY.current = e.touches[0].clientY;
@@ -49,19 +59,20 @@ const ResultSection = ({
     setY(next);
   };
 
-  const onTouchEnd: React.TouchEventHandler = () => {
-    if (y > THRESHOLD_DOWN) {
-      onClose(); // 아래로 충분히 → 닫기
-    } else if (y < -THRESHOLD_UP) {
-      onSwitchToChat(); // 위로 충분히 → 부모에서 ResultSection 언마운트 & AIChat 표시
-    } else {
-      setY(0); // 원위치
-    }
-    startY.current = null;
-  };
+    const onTouchEnd: React.TouchEventHandler = () => {
+        if (y > THRESHOLD_DOWN) {
+        onClose(); // 아래로 충분히 → 닫기
+        } else if (y < -THRESHOLD_UP) {
+        onSwitchToChat(); // 위로 충분히 → Chat 전환
+        } else {
+        setY(0); // 원위치
+        }
+        startY.current = null;
+    };
 
   return (
     <S.SheetWrapper data-open={open}>
+      <S.Backfill style={{ height: y < 0 ? Math.abs(y) : 0 }} />
       <S.Sheet
         ref={sheetRef}
         style={{ transform: `translateY(${open ? y : MAX_DOWN}px)` }}
@@ -71,42 +82,73 @@ const ResultSection = ({
       >
         <S.Grabber />
 
-        {captured && (
-          <S.Result>
-            <S.CapturedImg src={captured} alt="captured" />
-            <S.CapturedResult>
-              <img src={IMAGE_CONSTANTS.ResultIcon} alt="🔎" />
-              <div className="label">야생의 강근우</div>
-            </S.CapturedResult>
-            <S.CapturedDescription>
-              <div className="hint">
-                매우 난폭하다!
-                <br />
-                매우 잔인하다!
-                <br />
-                매우 잔혹하다!
-              </div>
-            </S.CapturedDescription>
-            <S.ToAIChat>
-              <div className="scrollToAI">FUCKCKCKCK게 질문하기</div>
-            </S.ToAIChat>
-          </S.Result>
-        )}
+            {captured && (
+            <S.Result>
+                <S.CapturedImg src={captured} alt="captured" />
 
-        <S.List>
-          {items.map((it) => (
-            <S.Item key={it.id}>
-              <S.Thumb src={it.thumbnail} alt={it.title} />
-              <div className="body">
-                <div className="title">{it.title}</div>
-                {it.subtitle && <div className="sub">{it.subtitle}</div>}
-              </div>
-            </S.Item>
-          ))}
-        </S.List>
-      </S.Sheet>
-    </S.SheetWrapper>
-  );
+                {/* ✅ 로딩/에러/성공 상태 출력 */}
+                {loading && (
+                <S.CapturedResult>
+                    <img src={IMAGE_CONSTANTS.ResultIcon} alt="🔎" />
+                    <div className="label">이미지 분석 중...</div>
+                </S.CapturedResult>
+                )}
+
+                {!loading && errorMsg && (
+                <S.CapturedResult>
+                    <img src={IMAGE_CONSTANTS.ResultIcon} alt="⚠️" />
+                    <div className="label">분석 실패: {errorMsg}</div>
+                </S.CapturedResult>
+                )}
+
+                {!loading && !errorMsg && answer && (
+                <>
+                    <S.CapturedResult>
+                      <img src={IMAGE_CONSTANTS.ResultIcon} alt="🔎" />
+                      <div className="label">{answer.itemName}</div>
+                    </S.CapturedResult>
+
+                    <S.CapturedDescription>
+                      <div className="hint">
+                          {answer.description}
+                          {typeof answer.averagePrice === "string" && answer.averagePrice.trim() !== "" && (
+                            <>
+                              <br />
+                              <strong>평균 가격</strong>
+                              <div>
+                                {answer.averagePrice}
+                              </div>
+                            </>
+                          )}
+                          <br />
+                          {Array.isArray(answer.recommendedStores) &&
+                          answer.recommendedStores.length > 0 && (
+                              <>
+                              <br />
+                              <strong>추천 가게</strong>
+                              <ul style={{ marginTop: 6 }}>
+                                  {answer.recommendedStores.map((s, idx) => (
+                                  <li key={idx}>
+                                      {s.name}
+                                      {s.notes ? ` — ${s.notes}` : ""}
+                                  </li>
+                                  ))}
+                              </ul>
+                              </>
+                          )}
+                      </div>
+                    </S.CapturedDescription>
+                </>
+                )}
+
+                <S.ToAIChat>
+                <div className="scrollToAI">스크롤을 올려 AI에게 질문하기</div>
+                </S.ToAIChat>
+            </S.Result>
+            )}
+        </S.Sheet>
+        </S.SheetWrapper>
+    );
 };
 
 export default ResultSection;

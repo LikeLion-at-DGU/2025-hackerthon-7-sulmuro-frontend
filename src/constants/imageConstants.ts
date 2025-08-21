@@ -18,6 +18,8 @@ import CaptureButton from "../assets/images/capture_button.png";
 import UploadImage from "../assets/icons/upload.png";
 import ResultIcon from "../assets/icons/ResultIcon.png";
 import SendButton from "../assets/icons/ChatSend.svg";
+import BackIcon from "../assets/icons/BackIcon2.svg";
+import GwanjangE from "../assets/icons/GwanJangE.svg";
 
 // language icon
 import LanguageOpen from "@/assets/icons/language_open.svg";
@@ -51,6 +53,12 @@ import ClothesPinSelect from "@/assets/icons/cloth_pin_select.svg";
 import GoodsPinSelect from "@/assets/icons/shop_pin_select.svg";
 import CafePinSelect from "@/assets/icons/cafe_pin_select.svg";
 import ATMPinSelect from "@/assets/icons/atm_pin_select.svg";
+
+// saved page
+import RightBtn from "@/assets/icons/right_btn.svg";
+import Bookmark from "@/assets/icons/bookmark.svg";
+import PlaceIcon from "@/assets/icons/place_icon.svg";
+import LeftBtn from "@/assets/icons/left_btn.svg";
 
 import GoogleMapicon from "@/assets/images/googleMap.png";
 import SendArrow from "@/assets/icons/send_arrow.svg";
@@ -89,6 +97,8 @@ export const IMAGE_CONSTANTS = {
   CaptureButton: CaptureButton,
   ResultIcon: ResultIcon,
   SendButton: SendButton,
+  BackIcon2: BackIcon,
+  GwanjangE: GwanjangE,
 
   FoodPinUnSelect,
   ClothesPinUnSelect,
@@ -100,6 +110,11 @@ export const IMAGE_CONSTANTS = {
   GoodsPinSelect,
   CafePinSelect,
   ATMPinSelect,
+
+  RightBtn,
+  Bookmark,
+  PlaceIcon,
+  LeftBtn,
 
   GoogleMapicon,
   SendArrow,
