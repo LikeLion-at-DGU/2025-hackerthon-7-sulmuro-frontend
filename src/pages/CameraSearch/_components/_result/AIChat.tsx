@@ -28,52 +28,55 @@ const AIChat = ({
             <S.ChatHeader>
                 <img src={IMAGE_CONSTANTS.BackIcon2} alt="BACK" />
             </S.ChatHeader>
-        {captured && (
-            <S.Result>
-            <S.CapturedImg src={captured} alt="captured" />
+            {captured && (
+                <S.Result>
+                    <S.CapturedImg src={captured} alt="captured" />
 
-            {(title || description || recommendedStores.length > 0) && (
-                <>
-                <S.CapturedResult>
-                    <img src={IMAGE_CONSTANTS.ResultIcon} alt="🔎" />
-                    <div className="label">
-                    {title ? `분석 결과 : ${title}` : "분석 결과"}
-                    </div>
-                </S.CapturedResult>
-
-                {(description || recommendedStores.length > 0) && (
-                    <S.CapturedDescription>
-                    <div className="hint">
-                        {description}
-
-                        {recommendedStores.length > 0 && (
+                    {(title || description || recommendedStores.length > 0) && (
                         <>
-                            <br />
-                            <br />
-                            <strong>추천 가게</strong>
-                            <ul style={{ marginTop: 6 }}>
-                            {recommendedStores.map((s, idx) => (
-                                <li key={idx}>
-                                {s.name}
-                                {s.notes ? ` — ${s.notes}` : ""}
-                                </li>
-                            ))}
-                            </ul>
-                        </>
+                        <S.CapturedResult>
+                            <img src={IMAGE_CONSTANTS.ResultIcon} alt="🔎" />
+                            <div className="label">
+                            {title ? `분석 결과 : ${title}` : "분석 결과"}
+                            </div>
+                        </S.CapturedResult>
+
+                        {(description || recommendedStores.length > 0) && (
+                            <S.CapturedDescription>
+                            <div className="hint">
+                                {description}
+
+                                {recommendedStores.length > 0 && (
+                                <>
+                                    <br />
+                                    <br />
+                                    <strong>추천 가게</strong>
+                                    <ul style={{ marginTop: 6 }}>
+                                    {recommendedStores.map((s, idx) => (
+                                        <li key={idx}>
+                                        {s.name}
+                                        {s.notes ? ` — ${s.notes}` : ""}
+                                        </li>
+                                    ))}
+                                    </ul>
+                                </>
+                                )}
+                            </div>
+                            </S.CapturedDescription>
                         )}
-                    </div>
-                    </S.CapturedDescription>
-                )}
-                </>
+                        </>
+                    )}
+                </S.Result>
             )}
-            </S.Result>
-        )}
-        <Chatting
-            roomId={roomId}
-            recommendedQuestions={recommendedQuestions}
-            introMessage={introMessage}
-            capturedPreview={captured}
-        />
+            <S.ChattingWrapper>
+                <Chatting
+                    roomId={roomId}
+                    recommendedQuestions={recommendedQuestions}
+                    introMessage={introMessage}
+                    capturedPreview={captured}
+                />  
+            </S.ChattingWrapper>
+        
         </S.Wrapper>
     );
 };

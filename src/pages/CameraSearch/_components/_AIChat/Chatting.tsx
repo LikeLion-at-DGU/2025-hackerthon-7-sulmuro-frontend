@@ -14,6 +14,17 @@ type Props = {
     capturedPreview?: string;
 };;
 
+type AssistantBubbleProps = { text: string };
+function AssistantBubble({ text }: AssistantBubbleProps) {
+    return (
+        <S.MsgRow $role="assistant">
+            <S.BubbleBox>
+                <S.Avatar src={IMAGE_CONSTANTS.GwanjangE} alt="광장이" />
+                <S.Bubble $role="assistant">{text}</S.Bubble>
+            </S.BubbleBox>
+        </S.MsgRow>
+    );
+}
 const Chatting = ({
     roomId,
     recommendedQuestions = [],
@@ -22,8 +33,8 @@ const Chatting = ({
     }: Props) => {
     const [messages, setMessages] = useState<Message[]>(
     introMessage
-      ? [{ id: crypto.randomUUID(), role: "assistant", text: introMessage }]
-      : []
+        ? [{ id: crypto.randomUUID(), role: "assistant", text: introMessage }]
+        : []
     );
     const [text, setText] = useState("");
 
@@ -143,27 +154,21 @@ const Chatting = ({
 
     const useRecommended = (q: string) => setText(q);
 
+    
     return (
         <S.ChattingWrapper>
             <S.ASK>궁금한 것들을 더 물어보세요!</S.ASK>
 
-            {/* 채팅 로그 */}
             <S.ChatLog ref={listRef} onScroll={onScroll}>
-                {/* 필요 시 프리뷰 버블
-                {capturedPreview && (
-                <S.PreviewBubble>
-                    <img src={capturedPreview} alt="preview" />
-                </S.PreviewBubble>
-                )} */}
-
-                {messages.map((m) => (
-                <S.MsgRow key={m.id} $role={m.role}>
-                    <img src={IMAGE_CONSTANTS.GwanjangE} alt = "광장이" />
-                    <S.Bubble $role={m.role}>{m.text}</S.Bubble>
-                </S.MsgRow>
-                ))}
-
-                {/* 바닥 앵커(중복 금지!) */}
+                {messages.map((m) =>
+                m.role === "assistant" ? (
+                    <AssistantBubble key={m.id} text={m.text} />
+                ) : (
+                    <S.MsgRow key={m.id} $role={m.role}>
+                        <S.Bubble $role={m.role}>{m.text}</S.Bubble>
+                    </S.MsgRow>
+                )
+                )}
                 <div ref={endRef} />
             </S.ChatLog>
 
@@ -196,7 +201,6 @@ const Chatting = ({
                     </S.SendButton>
                 </S.InputRow>
             </S.ChatField>
-            {/* ✅ 랩퍼 최하단 앵커: 초기/리사이즈 때 여기로 스크롤 → ChatField가 항상 화면에 */}
             <div ref={endRef} />
         </S.ChattingWrapper>
     );
