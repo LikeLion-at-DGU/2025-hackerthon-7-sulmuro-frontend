@@ -2,13 +2,14 @@ import styled, { css } from "styled-components";
 
 export const ChattingWrapper = styled.div`
     width: 100%;
-    padding: 24px 16px 0 ;
+    padding: 24px 16px 0;
+    
     gap: 2rem;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     border-top: 1px solid ${({ theme }) => theme.colors.N10};
-    height: fit-content;
+    height: fit-content; // ✅ 내용에 맞게 높이 자동 조절
     min-height: 0;
 `;
 
@@ -19,19 +20,20 @@ export const ASK = styled.div`
 
 /* ====== 대화 로그 ====== */
 export const ChatLog = styled.div`
-    flex: 1 1 auto;
-    overflow: auto;
+    flex: 1;              // ✅ ChatLog가 ChattingWrapper의 남은 공간을 모두 채우도록 함
+    /* overflow-y: auto;     // ✅ ChatLog 내부에 스크롤이 발생하도록 함 */
     display: flex;
     flex-direction: column;
     gap: 8px;
     padding-right: 4px;
-    scroll-behavior: smooth;     /* ✅ 기본 스무스 스크롤 */
-    overscroll-behavior: contain;/* ✅ 모달/바텀시트 내에서 바운스 방지 */
-    scrollbar-gutter: stable;    /* ✅ 스크롤바 뜰 때 레이아웃 흔들림 최소화 */
+    scroll-behavior: smooth;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
 `;
 
 export const MsgRow = styled.div<{ $role: "user" | "assistant" }>`
     display: flex;
+    
     ${(p) =>
         p.$role === "user"
         ? css`
@@ -42,22 +44,44 @@ export const MsgRow = styled.div<{ $role: "user" | "assistant" }>`
             `}
 `;
 
+export const BubbleBox = styled.div`
+    position: relative;
+    display: inline-block;   /* 버블 크기에 맞춰 감쌈 */
+    max-width: 80%;
+    
+`;
+
+export const Avatar = styled.img`
+    position: absolute;
+    top: 2px;
+    left: 0px;
+    width: 24px;
+    height: 24px;
+
+    img{
+        width: 24px;
+        height: 24px;
+    }
+`;
+
+// 기존 Bubble 덮어쓰기(assistant일 때 패딩 추가)
 export const Bubble = styled.div<{ $role: "user" | "assistant" }>`
     max-width: 80%;
     padding: 10px 12px;
     border-radius: 12px;
     white-space: pre-wrap;
     word-break: break-word;
-
+    margin-bottom: 20px;
     ${(p) =>
         p.$role === "user"
         ? css`
-            background: ${p.theme.colors.R10};
-            color: ${p.theme.colors.R60};
-            `
+            background: ${p.theme.colors.N00};
+            color: ${p.theme.colors.N70};
+        `
         : css`
-            background: ${p.theme.colors.N20};
-            color: ${p.theme.colors.WHITE};
+            background: ${p.theme.colors.R10};
+            color: ${p.theme.colors.N70};
+            margin-left: 34px;
     `}
 `;
 
@@ -71,24 +95,33 @@ export const ChatField = styled.div`
 `;
 
 export const QuickQuestions = styled.div`
-    width: 100%;
-    box-sizing: border-box;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 0.8rem;
+    gap: 8px;
+    width: 100%;
+    overflow-x: auto; /* ✅ 가로 스크롤 */
+    padding-bottom: 4px;
+    box-sizing: border-box;
+
+    /* 스크롤바 숨기기 */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
 `;
 
 export const RecommendedQuestions = styled.div`
-    width: fit-content;
-    padding: 8px;
+    flex-shrink: 0; /* ✅ 줄어들지 않고 한 줄에 그대로 유지 */
+    padding: 8px 12px;
     border-radius: 8px;
     background: ${({ theme }) => theme.colors.R10};
     color: ${({ theme }) => theme.colors.R60};
     ${({ theme }) => theme.fonts.SemiBold10};
     cursor: pointer;
     user-select: none;
+
+    /* 길어도 한 줄 처리 */
+    white-space: nowrap;
 `;
 
 export const InputRow = styled.form`
