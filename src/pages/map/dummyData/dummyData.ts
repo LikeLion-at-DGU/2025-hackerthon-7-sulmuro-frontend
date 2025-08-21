@@ -2,7 +2,7 @@ import { Place } from "../_types/Marker.type";
 
 export const places: Place[] = [
   {
-    id: "p1",
+    id: 1,
     name: "테스트 음식점 A",
     address: "서울 종로구",
     lat: 37.570615,
@@ -10,7 +10,7 @@ export const places: Place[] = [
     category: "Foods",
   },
   {
-    id: "p2",
+    id: 2,
     name: "테스트 옷가게 B",
     address: "서울 종로구",
     lat: 37.569515,
@@ -18,7 +18,7 @@ export const places: Place[] = [
     category: "Clothes",
   },
   {
-    id: "p3",
+    id: 3,
     name: "테스트 식료 잡화 C",
     address: "서울 종로구",
     lat: 37.570915,
@@ -26,7 +26,7 @@ export const places: Place[] = [
     category: "Foods",
   },
   {
-    id: "p4",
+    id: 4,
     name: "테스트 ATM D",
     address: "서울 종로구",
     lat: 37.569715,
@@ -34,7 +34,7 @@ export const places: Place[] = [
     category: "ATM",
   },
   {
-    id: "p5",
+    id: 5,
     name: "테스트 음식점 E",
     address: "서울 종로구",
     lat: 37.570315,

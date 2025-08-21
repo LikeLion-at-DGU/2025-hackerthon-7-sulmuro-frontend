@@ -31,7 +31,8 @@ export const Contents = styled.div`
 `;
 
 export const SavedPlaceBox = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   width: 100%;
   gap: 16px;
 `;

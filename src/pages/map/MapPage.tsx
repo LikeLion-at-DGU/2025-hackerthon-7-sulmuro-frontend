@@ -6,13 +6,17 @@ import PlaceInfo from "./_components/PlaceInfo";
 import { Button } from "./_components/Mapstyled";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { places } from "./dummyData/dummyData";
 import { Category, Place } from "./_types/Marker.type";
+import { usePointhooks } from "./_hooks/usePointhooks";
 const MapPage = () => {
   const [isPlaceInfo, setIsPlaceInfo] = useState<boolean>(false);
   const [selectPlace, setSelectPlace] = useState<Place | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<Category>("All");
+  const [isRegister, setIsRegister] = useState<boolean>(true);
+  const [places2, setPlaces] = useState<Place[]>([]);
+
   const render = (status: Status) => {
     switch (status) {
       case Status.LOADING:
@@ -23,6 +27,21 @@ const MapPage = () => {
         return <>로드 성공</>;
     }
   };
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const data = await usePointhooks();
+  //       setPlaces(data.data);
+  //     } catch (error) {
+  //       console.log("err", error);
+  //     }
+  //   };
+  //   fetchData();
+  // }, []);
+  useEffect(() => {
+    setPlaces(places);
+  });
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -32,9 +51,10 @@ const MapPage = () => {
           render={render}
         >
           <GoogleMapView
-            places={places}
+            places={places2}
             selectedCategory={selectedCategory}
             setSelectedPlace={setSelectPlace}
+            setIsRegister={setIsRegister}
             setIsPlaceInfo={setIsPlaceInfo}
           />
           <ChooseCategory
@@ -59,8 +79,10 @@ const MapPage = () => {
               )}
               {selectPlace && (
                 <PlaceInfo
+                  id={selectPlace.id}
                   name={selectPlace.name}
                   address={selectPlace.address}
+                  type={isRegister}
                 />
               )}
             </>

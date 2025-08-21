@@ -61,6 +61,10 @@ import ATMPinSelect from "@/assets/icons/atm_pin_select.svg";
 import RightBtn from "@/assets/icons/right_btn.svg";
 import Bookmark from "@/assets/icons/bookmark.svg";
 import PlaceIcon from "@/assets/icons/place_icon.svg";
+import LeftBtn from "@/assets/icons/left_btn.svg";
+
+import GoogleMapicon from "@/assets/images/googleMap.png";
+import SendArrow from "@/assets/icons/send_arrow.svg";
 
 export const IMAGE_CONSTANTS = {
   SearchAI,
@@ -96,6 +100,9 @@ export const IMAGE_CONSTANTS = {
   CaptureButton: CaptureButton,
   ResultIcon: ResultIcon,
   SendButton: SendButton,
+  BackIcon2: BackIcon,
+  GwanjangE: GwanjangE,
+
   BackIcon2 : BackIcon,
   GwanjangE  : GwanjangE,
   FalseBookmark,
@@ -116,4 +123,8 @@ export const IMAGE_CONSTANTS = {
   RightBtn,
   Bookmark,
   PlaceIcon,
+  LeftBtn,
+
+  GoogleMapicon,
+  SendArrow,
 };

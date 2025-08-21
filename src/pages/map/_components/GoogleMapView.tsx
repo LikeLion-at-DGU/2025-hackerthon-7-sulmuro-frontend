@@ -42,6 +42,7 @@ interface GoogleMapViewProps {
   selectedCategory: Category;
   setSelectedPlace: React.Dispatch<React.SetStateAction<Place | null>>;
   setIsPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const GoogleMapView = ({
@@ -49,6 +50,7 @@ const GoogleMapView = ({
   setSelectedPlace,
   setIsPlaceInfo,
   selectedCategory,
+  setIsRegister,
 }: GoogleMapViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -118,9 +120,11 @@ const GoogleMapView = ({
 
               setSelectedPlace(selectedPlace);
               setIsPlaceInfo(true);
+              setIsRegister(false);
             } else {
               setIsPlaceInfo(false);
               setSelectedPlace(null);
+              setIsRegister(false);
             }
           }
         );
@@ -132,9 +136,9 @@ const GoogleMapView = ({
 
     const mapClickL = map.addListener("click", onMapClick);
     mapListenersRef.current.push(mapClickL);
-
+    console.log("장소", places);
     const filteredPlaces = filterPlacesByCategory(selectedCategory);
-
+    console.log(filteredPlaces);
     filteredPlaces.forEach((place: Place) => {
       const iconUrls = CATEGORY_ICONS[place.category];
       const isSelected =
@@ -158,9 +162,27 @@ const GoogleMapView = ({
               ),
             }
           : undefined,
+        label: {
+          text: place.name, // 마커 이름 설정
+          fontFamily: "pretendard",
+          fontSize: "14px", // 글자 크기
+          color: "#000", // 글자 색
+          fontWeight: "600",
+          className: "place-name-label",
+        },
       });
 
-      marker.addListener("click", () => {
+      const style = document.createElement("style");
+      style.innerHTML = `
+  .place-name-label {
+    transform: translateY(20px); 
+    text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white;
+  }
+`;
+      document.head.appendChild(style);
+
+      marker.addListener("click", (e: google.maps.MapMouseEvent) => {
+        e.domEvent?.stopPropagation?.(); // 전파 중단
         setSelectedPlace(place);
         setIsPlaceInfo(true);
         marker.setIcon({
@@ -173,11 +195,19 @@ const GoogleMapView = ({
             scaledSize: new window.google.maps.Size(28, 28), // 기본 마커 크기
           });
         }
+
+        if (place.id) {
+          setIsRegister(true);
+          console.log("클릭됨 ㅇㅇ");
+        } else {
+          setIsRegister(false);
+          console.log("클릭됨 ㄴㄴ");
+        }
         setSelectedMarker(marker);
       });
       markersRef.current.push(marker);
     });
-  }, [places, selectedCategory, selectedMarker]);
+  }, [places, selectedCategory, selectedMarker, setIsRegister]);
   return <S.MapContainer ref={containerRef} />;
 };
 
