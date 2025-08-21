@@ -60,6 +60,9 @@ import Bookmark from "@/assets/icons/bookmark.svg";
 import PlaceIcon from "@/assets/icons/place_icon.svg";
 import LeftBtn from "@/assets/icons/left_btn.svg";
 
+import GoogleMapicon from "@/assets/images/googleMap.png";
+import SendArrow from "@/assets/icons/send_arrow.svg";
+
 export const IMAGE_CONSTANTS = {
   SearchAI,
   ArticleUnselected,
@@ -112,4 +115,7 @@ export const IMAGE_CONSTANTS = {
   Bookmark,
   PlaceIcon,
   LeftBtn,
+
+  GoogleMapicon,
+  SendArrow,
 };
