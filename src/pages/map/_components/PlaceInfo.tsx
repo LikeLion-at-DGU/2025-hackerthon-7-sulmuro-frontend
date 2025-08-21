@@ -141,6 +141,10 @@ const PlaceInfo = ({ name, address, type, id }: PlaceInfoProps) => {
             perferendis libero distinctio animi earum aut. Eum cupiditate
             perferendis ipsa.변경벼녀겨여여
           </p>
+          <S.FindForMapButton>
+            <p>지도에서 찾기</p>
+            <img src={IMAGE_CONSTANTS.SendArrow} alt="지도로 이동" />
+          </S.FindForMapButton>
         </S.AdditionalInfo>
       )}
     </S.PlaceInfoWrapper>

@@ -138,3 +138,22 @@ export const AdditionalInfo = styled.div`
     ${({ theme }) => theme.fonts.Regular14}
   }
 `;
+
+export const FindForMapButton = styled.button`
+  display: flex;
+  felx-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  gap: 8px;
+  padding: 8px;
+  border-radius: 8px;
+  width: 100%;
+  color: ${({ theme }) => theme.colors.R60};
+  ${({ theme }) => theme.fonts.SemiBold14};
+  background-color: ${({ theme }) => theme.colors.R10};
+  img {
+    width: 12px;
+    height: 12px;
+  }
+`;
