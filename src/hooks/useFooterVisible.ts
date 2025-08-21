@@ -1,6 +1,6 @@
 import { useLocation, matchPath } from "react-router-dom";
 
-const hideFooterPatterns = ["/talk", "/ai", "saved/place", "saved/article"];
+const hideFooterPatterns = [ "/ai", "saved/place", "saved/article"];
 
 function useFooterVisible() {
   const location = useLocation();
