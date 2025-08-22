@@ -1,22 +1,23 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, SetStateAction } from "react";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import testimage from "@/assets/images/testImage.png";
 import * as S from "./Mapstyled";
+import { Place } from "../_types/Marker.type";
 
 const DEFAULT_HOLD = 50;
 const DEFAULT_HEIGHT = 230;
 
 interface PlaceInfoProps {
-  name: string;
-  address: string;
+  place: Place;
   type: boolean;
-  id?: number;
+  setMapFocusPlace: React.Dispatch<SetStateAction<Place | null>>;
 }
 
-const PlaceInfo = ({ name, address, type, id }: PlaceInfoProps) => {
+const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
   const [height, setHeight] = useState(DEFAULT_HEIGHT);
   const [dragging, setDragging] = useState(false);
   const [animate, setAnimate] = useState(false);
+  const [isBookMark, setIsBookMark] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const initialY = useRef(0);
 
@@ -74,6 +75,19 @@ const PlaceInfo = ({ name, address, type, id }: PlaceInfoProps) => {
     setDragging(false);
   };
 
+  const handleDragBack = () => {
+    setHeight(230);
+  };
+
+  const findPlace = () => {
+    setMapFocusPlace(place);
+    setAnimate(true);
+    setHeight(230);
+  };
+  const handleBookMark = () => {
+    setIsBookMark((prev) => !prev);
+  };
+
   useEffect(() => {
     if (!containerRef.current) return;
 
@@ -109,8 +123,8 @@ const PlaceInfo = ({ name, address, type, id }: PlaceInfoProps) => {
           display: height >= window.innerHeight ? "flex " : "none",
         }}
       >
-        <button>
-          <img src={IMAGE_CONSTANTS.ATMPinSelect} alt="돌아가기" />
+        <button onClick={handleDragBack}>
+          <img src={IMAGE_CONSTANTS.BackIcon2} alt="돌아가기" />
         </button>
       </S.Header>
       <S.SwipeButton
@@ -119,16 +133,34 @@ const PlaceInfo = ({ name, address, type, id }: PlaceInfoProps) => {
         }}
       />
       <S.InfoContainer>
-        <p className="title">{name}</p>
-        <img src={IMAGE_CONSTANTS.BookMark} alt="저장하기" />
+        <p className="title">{place.name}</p>
+        <img
+          src={
+            isBookMark
+              ? IMAGE_CONSTANTS.BookMarkSelect
+              : IMAGE_CONSTANTS.BookMark
+          }
+          alt="저장하기"
+          onClick={handleBookMark}
+        />
       </S.InfoContainer>
-      <p className="address">{address}</p>
+      <p className="address">{place.address}</p>
       {!type && (
         <S.ExtendsContaiener style={{ marginTop: "8px" }}>
           <p>현재 mark!t에서 제공하지 않는 장소에요.</p>
           <div>
             <img src={IMAGE_CONSTANTS.GoogleMapicon} alt="" />
-            <button>구글맵에서 확인하기</button>
+            <button
+              onClick={() => {
+                const query = encodeURIComponent(
+                  `${place.name} ${place.address}`
+                );
+                const url = `https://www.google.com/maps/search/?api=1&query=${query}`;
+                window.open(url, "_blank");
+              }}
+            >
+              구글맵에서 확인하기
+            </button>
           </div>
         </S.ExtendsContaiener>
       )}
@@ -141,7 +173,7 @@ const PlaceInfo = ({ name, address, type, id }: PlaceInfoProps) => {
             perferendis libero distinctio animi earum aut. Eum cupiditate
             perferendis ipsa.변경벼녀겨여여
           </p>
-          <S.FindForMapButton>
+          <S.FindForMapButton onClick={findPlace}>
             <p>지도에서 찾기</p>
             <img src={IMAGE_CONSTANTS.SendArrow} alt="지도로 이동" />
           </S.FindForMapButton>

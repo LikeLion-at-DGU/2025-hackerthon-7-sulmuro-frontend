@@ -27,12 +27,15 @@ export const Button = styled.button`
 // PlaceInfo
 export const Header = styled.header`
   transition: opacity 0.3s ease;
-  padding-top: 12px;
+  padding-top: 20px;
   background-color: ${({ theme }) => theme.colors.WHITE};
   z-index: 16;
+  button {
+    padding: 0;
+  }
   img {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
   }
 `;
 
@@ -51,7 +54,9 @@ export const FindButton = styled.button`
   ${({ theme }) => theme.fonts.SemiBold14}
 `;
 
-export const PlaceInfoWrapper = styled.div<{
+export const PlaceInfoWrapper = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== "animate", // animate는 div로 전달되지 않음
+})<{
   $expanded?: boolean;
   animate?: boolean;
 }>`
@@ -141,7 +146,7 @@ export const AdditionalInfo = styled.div`
 
 export const FindForMapButton = styled.button`
   display: flex;
-  felx-direction: row;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
 

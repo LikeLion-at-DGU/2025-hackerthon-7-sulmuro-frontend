@@ -40,9 +40,15 @@ declare global {
 interface GoogleMapViewProps {
   places: Place[];
   selectedCategory: Category;
+  mapFocusPlace: Place | null;
   setSelectedPlace: React.Dispatch<React.SetStateAction<Place | null>>;
   setIsPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
   setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
+  setMapFocusPlace: React.Dispatch<React.SetStateAction<Place | null>>;
+}
+
+export interface GoogleMapViewRef {
+  focusMap: (place: Place) => void;
 }
 
 const GoogleMapView = ({
@@ -51,6 +57,8 @@ const GoogleMapView = ({
   setIsPlaceInfo,
   selectedCategory,
   setIsRegister,
+  mapFocusPlace,
+  setMapFocusPlace,
 }: GoogleMapViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -198,16 +206,35 @@ const GoogleMapView = ({
 
         if (place.id) {
           setIsRegister(true);
-          console.log("클릭됨 ㅇㅇ");
         } else {
           setIsRegister(false);
-          console.log("클릭됨 ㄴㄴ");
         }
         setSelectedMarker(marker);
       });
       markersRef.current.push(marker);
     });
   }, [places, selectedCategory, selectedMarker, setIsRegister]);
+  useEffect(() => {
+    if (!mapRef.current || !mapFocusPlace) return;
+
+    const moveMap = () => {
+      const position = new window.google.maps.LatLng(
+        mapFocusPlace.lat,
+        mapFocusPlace.lng
+      );
+      mapRef.current!.panTo(position);
+      mapRef.current!.setZoom(20);
+    };
+
+    // map이 아직 준비 안 된 경우 setTimeout으로 조금 기다림
+    if (mapRef.current) {
+      moveMap();
+    } else {
+      const timer = setTimeout(moveMap, 100);
+      return () => clearTimeout(timer);
+    }
+    setMapFocusPlace(null);
+  }, [mapFocusPlace]);
   return <S.MapContainer ref={containerRef} />;
 };
 

@@ -63,6 +63,7 @@ import ATMPinSelect from "@/assets/icons/atm_pin_select.svg";
 // saved page
 import RightBtn from "@/assets/icons/right_btn.svg";
 import Bookmark from "@/assets/icons/bookmark.svg";
+import BookMarkSelect from "@/assets/icons/bookmark_selected.svg";
 import PlaceIcon from "@/assets/icons/place_icon.svg";
 import LeftBtn from "@/assets/icons/left_btn.svg";
 
@@ -87,6 +88,7 @@ export const IMAGE_CONSTANTS = {
 
   FootPrint,
   BookMark,
+  BookMarkSelect,
   CurrentLocation,
   information,
 
