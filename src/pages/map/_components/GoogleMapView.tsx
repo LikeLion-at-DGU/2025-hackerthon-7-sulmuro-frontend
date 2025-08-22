@@ -13,7 +13,7 @@ const CATEGORY_ICONS: Partial<
     selected: IMAGE_CONSTANTS.GoodsPinSelect,
     unselected: IMAGE_CONSTANTS.GoodsPinUnSelect,
   },
-  Foods: {
+  Food: {
     selected: IMAGE_CONSTANTS.FoodPinSelect,
     unselected: IMAGE_CONSTANTS.FoodPinUnSelect,
   },
@@ -25,7 +25,7 @@ const CATEGORY_ICONS: Partial<
     selected: IMAGE_CONSTANTS.ATMPinSelect,
     unselected: IMAGE_CONSTANTS.ATMPinUnSelect,
   },
-  Cafe: {
+  cafe: {
     selected: IMAGE_CONSTANTS.CafePinSelect,
     unselected: IMAGE_CONSTANTS.CafePinUnSelect,
   },

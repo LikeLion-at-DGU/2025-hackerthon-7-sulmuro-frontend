@@ -1,9 +1,9 @@
 export type Category =
   | "All"
   | "Clothes"
-  | "Foods"
+  | "Food"
   | "ATM"
-  | "Cafe"
+  | "cafe"
   | "Bar"
   | "Goods";
 
