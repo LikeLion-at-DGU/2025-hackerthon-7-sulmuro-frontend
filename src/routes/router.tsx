@@ -30,6 +30,8 @@ const router = createBrowserRouter([
       { path: ROUTE_PATHS.SAVED_ARTICLE, element: <DetailArticlePage /> },
       { path: ROUTE_PATHS.ARTICLE, element: <ArticlePage /> },
       { path: `${ROUTE_PATHS.ARTICLE}/:id`, element: <ArticleDetailPage /> },
+      // { path: ROUTE_PATHS.TextTranslation, element: <TextTranslation /> },
+      // { path: ROUTE_PATHS.VoiceTranslation, element: <VoiceTranslation /> },
 
     ],
   },

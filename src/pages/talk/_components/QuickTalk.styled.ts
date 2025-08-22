@@ -47,21 +47,42 @@ export const IconWrapper = styled.div`
 `;
 
 //QuickTalkPopup 컴포넌트
+export const ModalOverlay = styled.div`
+    position: fixed;
+    top: 40%;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999; /* 페이지 최상단 */
+`;
 
 export const PopupWrapper = styled.div`
     width: 80%;
-    min-height: 110px;
     background: ${({ theme }) => theme.colors.WHITE};
     border-radius: 8px;
     display: flex;
     justify-content: space-between;
+    padding: 1rem;
 `;
+
+// export const PopupHeader = styled.div`
+//     width: 100%;
+//     display: flex;
+//     justify-content: space-between;
+//     color: ${({ theme }) => theme.colors.N70};
+//     ${({ theme }) => theme.fonts.Bold20};
+// `;
 
 export const Lines = styled.div`
     height: 100%;
     display: flex;
     flex-direction: column;
-
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
 `;
 
 export const KoreanLine = styled.div`
@@ -71,7 +92,10 @@ export const KoreanLine = styled.div`
 
 export const EnglishLine = styled.div`
     color: ${({ theme }) => theme.colors.N70};
-    ${({ theme }) => theme.fonts.Bold20};
+    ${({ theme }) => theme.fonts.Regular16};
+    padding-left: 10px;
+    box-sizing: border-box;
+
 `;
 
 export const Sound = styled.div`
