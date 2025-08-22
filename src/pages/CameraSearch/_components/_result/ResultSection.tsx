@@ -26,7 +26,7 @@ const ResultSection = ({
     open,
     onClose,
     captured,
-    items,
+    // items,
     onSwitchToChat,
     loading,
     errorMsg,

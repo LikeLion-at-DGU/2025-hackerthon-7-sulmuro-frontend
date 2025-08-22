@@ -23,6 +23,9 @@ import GwanjangE from "../assets/icons/GwanJangE.svg";
 import FalseBookmark from "../assets/icons/falseBookMark.svg";
 import TrueBookmarkPlain from "../assets/icons/TrueBookmark.svg";
 import FalseBookmarkPlain from "../assets/icons/FalseBookmark_plain.svg";
+import SwitchIcon from "@/assets/icons/switchIcon.svg";
+import SoundIcon from "@/assets/icons/soundIcon.svg";
+import MicIcon from "@/assets/icons/micIcon.svg";
 
 // language icon
 import LanguageOpen from "@/assets/icons/language_open.svg";
@@ -104,13 +107,14 @@ export const IMAGE_CONSTANTS = {
   SendButton: SendButton,
   BackIcon2: BackIcon,
   GwanjangE: GwanjangE,
-
-  BackIcon2: BackIcon,
-  GwanjangE: GwanjangE,
+  
+  SwitchIcon,
+  SoundIcon,
   FalseBookmark,
   TrueBookmarkPlain,
   FalseBookmarkPlain,
-
+  MicIcon,
+  
   FoodPinUnSelect,
   ClothesPinUnSelect,
   GoodsPinUnSelect,

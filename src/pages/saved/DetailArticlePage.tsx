@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ROUTE_PATHS } from "@/constants/routeConstants";
+// import { ROUTE_PATHS } from "@/constants/routeConstants";
 
 //컴포넌트}
 import DetailHeader from "./_components/DetailHeader";
