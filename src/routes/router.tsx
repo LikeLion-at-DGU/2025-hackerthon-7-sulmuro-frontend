@@ -12,9 +12,10 @@ import SavePage from "@/pages/saved/SavedPage";
 import DetailPlacePage from "@/pages/saved/DetailPlacePage";
 import DetailArticlePage from "@/pages/saved/DetailArticlePage";
 import ArticlePage from "@/pages/article/ArticlePage";
-
-import ArticleDetailPage from "@/pages/article/ArticleDetailPage"; // ✅ 신규
+import ArticleDetailPage from "@/pages/article/ArticleDetailPage";
 import TalkPage from "@/pages/talk/TalkPage";
+import TextTranslation from "@/pages/talk/_components/TextTranslation";
+import VoiceTranslation from "@/pages/talk/_components/VoiceTranslation";
 
 const router = createBrowserRouter([
   {
@@ -30,8 +31,8 @@ const router = createBrowserRouter([
       { path: ROUTE_PATHS.SAVED_ARTICLE, element: <DetailArticlePage /> },
       { path: ROUTE_PATHS.ARTICLE, element: <ArticlePage /> },
       { path: `${ROUTE_PATHS.ARTICLE}/:id`, element: <ArticleDetailPage /> },
-      // { path: ROUTE_PATHS.TextTranslation, element: <TextTranslation /> },
-      // { path: ROUTE_PATHS.VoiceTranslation, element: <VoiceTranslation /> },
+      { path: ROUTE_PATHS.TextTranslation, element: <TextTranslation /> },
+      { path: ROUTE_PATHS.VoiceTranslation, element: <VoiceTranslation /> },
 
     ],
   },

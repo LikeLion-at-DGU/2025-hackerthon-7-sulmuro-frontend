@@ -1,0 +1,8 @@
+import styled from "styled-components";
+
+export const Wrapper = styled.div`
+    width: 100%;
+    background-color: white;
+    color: black;
+    font-size: 80px;
+`;

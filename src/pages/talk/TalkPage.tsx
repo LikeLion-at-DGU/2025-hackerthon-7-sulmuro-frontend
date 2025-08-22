@@ -26,12 +26,12 @@ const TalkPage = () => {
             <S.BottomComponentWrapper>
                 {/* 클릭하면 각 전용 페이지로 이동 */}
                 <S.TextTranslate onClick={() => navigate("/talk/text")}>
-                Enter text to translate
+                    Enter text to translate
                 </S.TextTranslate>
 
                 <S.VoiceTranslate onClick={() => navigate("/talk/voice")}>
-                <img src={IMAGE_CONSTANTS.MicIcon} alt="MIC" />
-                <p>Voice Translation</p>
+                    <img src={IMAGE_CONSTANTS.MicIcon} alt="MIC" />
+                    <p>Voice Translation</p>
                 </S.VoiceTranslate>
             </S.BottomComponentWrapper>
         </S.Wrapper>
