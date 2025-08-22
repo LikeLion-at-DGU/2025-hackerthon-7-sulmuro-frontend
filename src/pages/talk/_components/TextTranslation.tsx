@@ -16,7 +16,14 @@ const TextTranslation = () => {
                     <option value="kor">kor</option>
                 </S.LanguageSelect>
                 <img src={IMAGE_CONSTANTS.SwapIcon} alt="교환" />
+                <S.LanguageSelect>
+                    <option value="eng">eng</option>
+                    <option value="kor">kor</option>
+                </S.LanguageSelect>
             </S.LanguageSwitch>
+            <S.TranslateInput placeholder="Enter text to translate">
+                
+            </S.TranslateInput>
         </S.Wrapper>
     );
 }
