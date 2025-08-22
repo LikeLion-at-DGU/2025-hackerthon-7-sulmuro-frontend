@@ -7,7 +7,6 @@ import { Button } from "./_components/Mapstyled";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 
 import { useEffect, useState } from "react";
-import { places } from "./dummyData/dummyData";
 import { Category, Place } from "./_types/Marker.type";
 import { usePointhooks } from "./_hooks/usePointhooks";
 const MapPage = () => {
@@ -15,7 +14,8 @@ const MapPage = () => {
   const [selectPlace, setSelectPlace] = useState<Place | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<Category>("All");
   const [isRegister, setIsRegister] = useState<boolean>(true);
-  const [places2, setPlaces] = useState<Place[]>([]);
+  const [places, setPlaces] = useState<Place[]>([]);
+  const [mapFocusPlace, setMapFocusPlace] = useState<Place | null>(null);
 
   const render = (status: Status) => {
     switch (status) {
@@ -28,20 +28,18 @@ const MapPage = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const data = await usePointhooks();
-  //       setPlaces(data.data);
-  //     } catch (error) {
-  //       console.log("err", error);
-  //     }
-  //   };
-  //   fetchData();
-  // }, []);
   useEffect(() => {
-    setPlaces(places);
-  });
+    const fetchData = async () => {
+      try {
+        const data = await usePointhooks();
+        setPlaces(data.data);
+      } catch (error) {
+        console.log("err", error);
+      }
+    };
+    fetchData();
+    console.log(places);
+  }, []);
   return (
     <>
       <div style={{ position: "relative" }}>
@@ -51,11 +49,13 @@ const MapPage = () => {
           render={render}
         >
           <GoogleMapView
-            places={places2}
+            places={places}
             selectedCategory={selectedCategory}
             setSelectedPlace={setSelectPlace}
             setIsRegister={setIsRegister}
             setIsPlaceInfo={setIsPlaceInfo}
+            mapFocusPlace={mapFocusPlace}
+            setMapFocusPlace={setMapFocusPlace}
           />
           <ChooseCategory
             selectedCategory={selectedCategory}
@@ -79,10 +79,9 @@ const MapPage = () => {
               )}
               {selectPlace && (
                 <PlaceInfo
-                  id={selectPlace.id}
-                  name={selectPlace.name}
-                  address={selectPlace.address}
                   type={isRegister}
+                  place={selectPlace}
+                  setMapFocusPlace={setMapFocusPlace}
                 />
               )}
             </>
