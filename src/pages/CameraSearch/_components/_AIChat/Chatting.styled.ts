@@ -111,7 +111,7 @@ export const QuickQuestions = styled.div`
 `;
 
 export const RecommendedQuestions = styled.div`
-    flex-shrink: 0; /* ✅ 줄어들지 않고 한 줄에 그대로 유지 */
+    flex-shrink: 0; 
     padding: 8px 12px;
     border-radius: 8px;
     background: ${({ theme }) => theme.colors.R10};
@@ -119,8 +119,6 @@ export const RecommendedQuestions = styled.div`
     ${({ theme }) => theme.fonts.SemiBold10};
     cursor: pointer;
     user-select: none;
-
-    /* 길어도 한 줄 처리 */
     white-space: nowrap;
 `;
 
