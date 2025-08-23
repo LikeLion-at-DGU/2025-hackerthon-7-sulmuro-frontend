@@ -21,7 +21,7 @@ const CATEGORIES: Category[] = [
   "Food",
   "Clothes",
   "Goods",
-  "cafe",
+  "Cafe",
   "Bar",
 ];
 
@@ -31,7 +31,7 @@ const CATEGORY_ICONS: Record<Category, SvgComp> = {
   Food: IMAGE_CONSTANTS.Food,
   Clothes: IMAGE_CONSTANTS.Clothes,
   Goods: IMAGE_CONSTANTS.Goods,
-  cafe: IMAGE_CONSTANTS.Cafe,
+  Cafe: IMAGE_CONSTANTS.Cafe,
   Bar: IMAGE_CONSTANTS.Bar,
 };
 
@@ -139,7 +139,7 @@ export default ChooseCategory;
 const CategoryContainer = styled.div<{ $dragging?: boolean }>`
   box-sizing: border-box;
   position: absolute;
-  top: 20px;
+  top: 80px;
   width: 100%;
   padding: 0 16px;
   max-width: 540px;
@@ -150,6 +150,7 @@ const CategoryContainer = styled.div<{ $dragging?: boolean }>`
   overflow-x: hidden;
   -ms-overflow-style: none;
   pointer-events: none;
+  z-index: 5;
   &::-webkit-scrollbar {
     display: none;
   }

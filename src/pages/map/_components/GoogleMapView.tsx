@@ -25,7 +25,7 @@ const CATEGORY_ICONS: Partial<
     selected: IMAGE_CONSTANTS.ATMPinSelect,
     unselected: IMAGE_CONSTANTS.ATMPinUnSelect,
   },
-  cafe: {
+  Cafe: {
     selected: IMAGE_CONSTANTS.CafePinSelect,
     unselected: IMAGE_CONSTANTS.CafePinUnSelect,
   },

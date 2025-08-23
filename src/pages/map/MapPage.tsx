@@ -9,6 +9,8 @@ import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import { useEffect, useState } from "react";
 import { Category, Place } from "./_types/Marker.type";
 import { usePointhooks } from "./_hooks/usePointhooks";
+import ChooseMarket from "./_components/ChooseMarket";
+import MarketModal from "./_components/MarketModal";
 const MapPage = () => {
   const [isPlaceInfo, setIsPlaceInfo] = useState<boolean>(false);
   const [selectPlace, setSelectPlace] = useState<Place | null>(null);
@@ -16,6 +18,7 @@ const MapPage = () => {
   const [isRegister, setIsRegister] = useState<boolean>(true);
   const [places, setPlaces] = useState<Place[]>([]);
   const [mapFocusPlace, setMapFocusPlace] = useState<Place | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const render = (status: Status) => {
     switch (status) {
@@ -48,6 +51,11 @@ const MapPage = () => {
           libraries={["places"]}
           render={render}
         >
+          <ChooseMarket setIsModalOpen={setIsModalOpen} />
+          <ChooseCategory
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
           <GoogleMapView
             places={places}
             selectedCategory={selectedCategory}
@@ -57,11 +65,8 @@ const MapPage = () => {
             mapFocusPlace={mapFocusPlace}
             setMapFocusPlace={setMapFocusPlace}
           />
-          <ChooseCategory
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-          />
           <SelectLanguage />
+          {isModalOpen && <MarketModal setIsModalOpen={setIsModalOpen} />}
           {isPlaceInfo && (
             <>
               {!selectPlace && (

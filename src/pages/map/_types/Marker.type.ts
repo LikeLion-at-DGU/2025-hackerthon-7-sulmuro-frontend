@@ -3,7 +3,7 @@ export type Category =
   | "Clothes"
   | "Food"
   | "ATM"
-  | "cafe"
+  | "Cafe"
   | "Bar"
   | "Goods";
 
