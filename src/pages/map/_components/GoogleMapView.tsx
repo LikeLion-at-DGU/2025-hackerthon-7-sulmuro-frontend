@@ -13,7 +13,7 @@ const CATEGORY_ICONS: Partial<
     selected: IMAGE_CONSTANTS.GoodsPinSelect,
     unselected: IMAGE_CONSTANTS.GoodsPinUnSelect,
   },
-  Foods: {
+  Food: {
     selected: IMAGE_CONSTANTS.FoodPinSelect,
     unselected: IMAGE_CONSTANTS.FoodPinUnSelect,
   },
@@ -45,10 +45,6 @@ interface GoogleMapViewProps {
   setIsPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
   setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
   setMapFocusPlace: React.Dispatch<React.SetStateAction<Place | null>>;
-}
-
-export interface GoogleMapViewRef {
-  focusMap: (place: Place) => void;
 }
 
 const GoogleMapView = ({

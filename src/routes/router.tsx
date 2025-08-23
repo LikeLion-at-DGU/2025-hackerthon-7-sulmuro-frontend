@@ -15,7 +15,7 @@ import ArticlePage from "@/pages/article/ArticlePage";
 
 import ArticleDetailPage from "@/pages/article/ArticleDetailPage"; // ✅ 신규
 import TalkPage from "@/pages/talk/TalkPage";
-
+import MainPage from "@/pages/main/MainPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
       { path: ROUTE_PATHS.SAVED_ARTICLE, element: <DetailArticlePage /> },
       { path: ROUTE_PATHS.ARTICLE, element: <ArticlePage /> },
       { path: `${ROUTE_PATHS.ARTICLE}/:id`, element: <ArticleDetailPage /> },
-
+      { path: "*", element: <MainPage /> }, //근우야 이거 404로 바꾸셈
     ],
   },
 ]);

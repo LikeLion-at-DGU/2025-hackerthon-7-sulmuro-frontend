@@ -1,6 +1,13 @@
 import styled from "styled-components";
 import { Category } from "../_types/Marker.type";
-import { ComponentType, SetStateAction, SVGProps } from "react";
+import {
+  ComponentType,
+  SetStateAction,
+  SVGProps,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 type SvgComp = ComponentType<SVGProps<SVGSVGElement>>;
 
@@ -11,7 +18,7 @@ interface ChooseCategoryProps {
 
 const CATEGORIES: Category[] = [
   "ATM",
-  "Foods",
+  "Food",
   "Clothes",
   "Goods",
   "Cafe",
@@ -21,7 +28,7 @@ const CATEGORIES: Category[] = [
 const CATEGORY_ICONS: Record<Category, SvgComp> = {
   All: IMAGE_CONSTANTS.Food,
   ATM: IMAGE_CONSTANTS.Atm,
-  Foods: IMAGE_CONSTANTS.Food,
+  Food: IMAGE_CONSTANTS.Food,
   Clothes: IMAGE_CONSTANTS.Clothes,
   Goods: IMAGE_CONSTANTS.Goods,
   Cafe: IMAGE_CONSTANTS.Cafe,
@@ -39,8 +46,72 @@ const ChooseCategory = ({
       setSelectedCategory(c);
     }
   };
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isDownRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
+  const [dragging, setDragging] = useState(false);
+
+  // 마우스
+  const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = containerRef.current;
+    if (!el) return;
+    isDownRef.current = true;
+    setDragging(true);
+    startXRef.current = e.clientX;
+    scrollLeftRef.current = el.scrollLeft;
+  };
+
+  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = containerRef.current;
+    if (!el || !isDownRef.current) return;
+    const dx = e.clientX - startXRef.current;
+    el.scrollLeft = scrollLeftRef.current - dx;
+  };
+
+  const endDrag = () => {
+    isDownRef.current = false;
+    setDragging(false);
+  };
+
+  // 터치
+  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const el = containerRef.current;
+    if (!el) return;
+    isDownRef.current = true;
+    setDragging(true);
+    startXRef.current = e.touches[0].clientX;
+    scrollLeftRef.current = el.scrollLeft;
+  };
+
+  const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    const el = containerRef.current;
+    if (!el || !isDownRef.current) return;
+    const dx = e.touches[0].clientX - startXRef.current;
+    el.scrollLeft = scrollLeftRef.current - dx;
+  };
+
+  const onTouchEnd = endDrag;
+
+  // 드래그 중 텍스트 선택 방지
+  useEffect(() => {
+    document.body.style.userSelect = dragging ? "none" : "";
+    return () => {
+      document.body.style.userSelect = "";
+    };
+  }, [dragging]);
   return (
-    <CategoryContainer>
+    <CategoryContainer
+      ref={containerRef}
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseUp={endDrag}
+      onMouseLeave={endDrag}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+      $dragging={dragging}
+    >
       {CATEGORIES.map((c) => {
         const Icon = CATEGORY_ICONS[c];
         const active = selectedCategory === c;
@@ -65,10 +136,10 @@ const ChooseCategory = ({
 
 export default ChooseCategory;
 
-const CategoryContainer = styled.div`
+const CategoryContainer = styled.div<{ $dragging?: boolean }>`
   box-sizing: border-box;
   position: absolute;
-  top: 20px;
+  top: 80px;
   width: 100%;
   padding: 0 16px;
   max-width: 540px;
@@ -76,9 +147,10 @@ const CategoryContainer = styled.div`
   justify-content: flex-start;
   flex-direction: row;
   gap: 8px;
-  overflow-y: auto;
+  overflow-x: hidden;
   -ms-overflow-style: none;
   pointer-events: none;
+  z-index: 5;
   &::-webkit-scrollbar {
     display: none;
   }

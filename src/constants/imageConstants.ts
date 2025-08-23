@@ -70,6 +70,10 @@ import LeftBtn from "@/assets/icons/left_btn.svg";
 import GoogleMapicon from "@/assets/images/googleMap.png";
 import SendArrow from "@/assets/icons/send_arrow.svg";
 
+import CLoseIcon from "@/assets/icons/close_icon.svg";
+import myLocation from "@/assets/icons/mylocation.svg";
+import goMarket from "@/assets/icons/goMarket.svg";
+
 export const IMAGE_CONSTANTS = {
   SearchAI,
   ArticleUnselected,
@@ -107,14 +111,14 @@ export const IMAGE_CONSTANTS = {
   SendButton: SendButton,
   BackIcon2: BackIcon,
   GwanjangE: GwanjangE,
-  
+
   SwitchIcon,
   SoundIcon,
   FalseBookmark,
   TrueBookmarkPlain,
   FalseBookmarkPlain,
   MicIcon,
-  
+
   FoodPinUnSelect,
   ClothesPinUnSelect,
   GoodsPinUnSelect,
@@ -133,4 +137,7 @@ export const IMAGE_CONSTANTS = {
 
   GoogleMapicon,
   SendArrow,
+  CLoseIcon,
+  myLocation,
+  goMarket,
 };

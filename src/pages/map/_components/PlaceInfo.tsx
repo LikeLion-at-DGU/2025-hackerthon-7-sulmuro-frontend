@@ -3,6 +3,7 @@ import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import testimage from "@/assets/images/testImage.png";
 import * as S from "./Mapstyled";
 import { Place } from "../_types/Marker.type";
+import { Api } from "@/api/Api";
 
 const DEFAULT_HOLD = 50;
 const DEFAULT_HEIGHT = 230;
@@ -18,8 +19,28 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
   const [dragging, setDragging] = useState(false);
   const [animate, setAnimate] = useState(false);
   const [isBookMark, setIsBookMark] = useState(false);
+  const [placeImg, setPlaceImg] = useState<Array<{ url: string }> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const initialY = useRef(0);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [isCarouselDragging, setIsCarouselDragging] = useState(false);
+  const dragStartX = useRef(0);
+  const scrollStartLeft = useRef(0);
+
+  const fetchData = async () => {
+    try {
+      const response = await Api.get(`/api/v1/places/${place.id}/images`);
+      setPlaceImg(response.data.data.content);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+  useEffect(() => {
+    console.log("imgs updated:", placeImg);
+  }, [placeImg]);
 
   const onMouseDown = (e: MouseEvent) => {
     if (!type) return;
@@ -106,6 +127,37 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
     };
   }, [dragging]);
 
+  const onCarouselPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!carouselRef.current) return;
+    setIsCarouselDragging(true);
+    carouselRef.current.setPointerCapture(e.pointerId);
+    dragStartX.current = e.clientX;
+    scrollStartLeft.current = carouselRef.current.scrollLeft;
+
+    // 부모로 버블링 막기 (부모의 세로 드래그 방지)
+    e.stopPropagation();
+    (e.nativeEvent as PointerEvent).stopPropagation?.();
+    e.preventDefault();
+  };
+
+  const onCarouselPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (!isCarouselDragging || !carouselRef.current) return;
+    const dx = e.clientX - dragStartX.current;
+    carouselRef.current.scrollLeft = scrollStartLeft.current - dx;
+
+    e.stopPropagation();
+    (e.nativeEvent as PointerEvent).stopPropagation?.();
+  };
+
+  const onCarouselPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
+    setIsCarouselDragging(false);
+    try {
+      carouselRef.current?.releasePointerCapture(e.pointerId);
+    } catch {}
+    e.stopPropagation();
+    (e.nativeEvent as PointerEvent).stopPropagation?.();
+  };
+
   return (
     <S.PlaceInfoWrapper
       ref={containerRef}
@@ -166,7 +218,23 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
       )}
       {type && (
         <S.AdditionalInfo>
-          <img src={testimage} alt="" />
+          <S.ImageCarousel
+            ref={carouselRef}
+            $dragging={isCarouselDragging}
+            onPointerDown={onCarouselPointerDown}
+            onPointerMove={onCarouselPointerMove}
+            onPointerUp={onCarouselPointerUp}
+            onPointerLeave={onCarouselPointerUp}
+          >
+            {(placeImg && placeImg.length > 0
+              ? placeImg
+              : [{ url: testimage }]
+            ).map((src, idx) => (
+              <S.ImageSlide key={idx}>
+                <img src={src.url} alt={`${place.name} 이미지 ${idx + 1}`} />
+              </S.ImageSlide>
+            ))}
+          </S.ImageCarousel>
           <p>
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum
             similique quasi quam aperiam. Eum non quia magni. Debitis, eius iure
