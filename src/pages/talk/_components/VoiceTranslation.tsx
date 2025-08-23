@@ -1,4 +1,3 @@
-// talk/_components/VoiceTranslation.tsx
 import * as S from "./VoiceTranslation.styled";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import { useNavigate } from "react-router-dom";
@@ -8,47 +7,84 @@ import { useSpeachText } from "../_hooks/UseSpeachText";
 const VoiceTranslation = () => {
     const navigate = useNavigate();
 
-    // 첫 번째(입력) 언어 선택: kor / eng → ko-KR / en-US 로 매핑
+    /** ==============================
+     *  첫 번째 언어 박스 상태 (기본: 한국어)
+     =============================== */
     const [firstLang, setFirstLang] = useState<"kor" | "eng">("kor");
-    const sttLocale = useMemo(() => (firstLang === "kor" ? "ko-KR" : "en-US"), [firstLang]);
+    const firstLocale = useMemo(
+        () => (firstLang === "kor" ? "ko-KR" : "en-US"),
+        [firstLang]
+    );
 
-    // STT 훅: 표시 언어에 맞춰 인식 언어 적용
     const {
-        listening,
-        supported,
-        finalText,
-        interimText,
-        error: sttError,
-        start,
-        stop,
-        reset,
-    } = useSpeachText({ lang: sttLocale, continuous: true, interimResults: true });
+        listening: firstListening,
+        supported: firstSupported,
+        finalText: firstFinalText,
+        interimText: firstInterimText,
+        error: firstError,
+        start: firstStart,
+        stop: firstStop,
+        reset: firstReset,
+    } = useSpeachText({ lang: firstLocale, continuous: true, interimResults: true });
 
-    // 클릭 시 녹음 시작/종료 토글
-    const handleMicClick = () => {
-        if (!supported) return;
-        if (listening) stop();
+    const handleFirstMicClick = () => {
+        if (!firstSupported) return;
+        if (firstListening) firstStop();
         else {
-        // 이전 결과 지우고 다시 시작
-        reset();
-        start();
+        firstReset();
+        firstStart();
+        }
+    };
+
+    /** ==============================
+     *  두 번째 언어 박스 상태 (기본: 영어)
+     =============================== */
+    const [secondLang, setSecondLang] = useState<"eng" | "kor">("eng");
+    const secondLocale = useMemo(
+        () => (secondLang === "kor" ? "ko-KR" : "en-US"),
+        [secondLang]
+    );
+
+    const {
+        listening: secondListening,
+        supported: secondSupported,
+        finalText: secondFinalText,
+        interimText: secondInterimText,
+        error: secondError,
+        start: secondStart,
+        stop: secondStop,
+        reset: secondReset,
+    } = useSpeachText({ lang: secondLocale, continuous: true, interimResults: true });
+
+    const handleSecondMicClick = () => {
+        if (!secondSupported) return;
+        if (secondListening) secondStop();
+        else {
+        secondReset();
+        secondStart();
         }
     };
 
     return (
         <S.Wrapper>
         <S.Header>
-            <img onClick={() => navigate("/talk")} src={IMAGE_CONSTANTS.BackIcon2} alt="뒤로가기" />
-            Text Translation
+            <img
+            onClick={() => navigate("/talk")}
+            src={IMAGE_CONSTANTS.BackIcon2}
+            alt="뒤로가기"
+            />
+            Voice Translation
         </S.Header>
 
         <S.TranslationWrapper>
-            {/* ===== 첫 번째 언어 박스 (음성 입력 → 텍스트 표시) ===== */}
+            {/* ===== 첫 번째 언어 박스 ===== */}
             <S.FirstLanguageBox>
             <S.FirstLanguageSelect>
                 <select
                 value={firstLang}
-                onChange={(e) => setFirstLang(e.target.value as "kor" | "eng")}
+                onChange={(e) =>
+                    setFirstLang(e.target.value as "kor" | "eng")
+                }
                 aria-label="입력 언어 선택"
                 >
                 <option value="kor">kor</option>
@@ -57,64 +93,112 @@ const VoiceTranslation = () => {
             </S.FirstLanguageSelect>
 
             <S.FristLanguageResult>
-                {/* 인식 중간결과 + 최종결과 표현 */}
-                {supported ? (
-                (interimText || finalText) ? (
+                {firstSupported ? (
+                firstFinalText || firstInterimText ? (
                     <>
-                    {finalText}
-                    {interimText && (
+                    {firstFinalText}
+                    {firstInterimText && (
                         <>
-                        {finalText && " "}
-                        <span style={{ opacity: 0.5 }}>{interimText}</span>
+                        {firstFinalText && " "}
+                        <span style={{ opacity: 0.5 }}>
+                            {firstInterimText}
+                        </span>
                         </>
                     )}
                     </>
-                ) : listening ? (
+                ) : firstListening ? (
                     "Listening..."
                 ) : (
-                    "Tap the mic and start speaking"
+                    "마이크 버튼을 눌러서 말하세요"
                 )
                 ) : (
-                "이 브라우저는 음성 인식을 지원하지 않습니다."
+                "이 브라우저는 음성 인식을 지원하지 않아요."
                 )}
             </S.FristLanguageResult>
 
-            <S.VoiceIcon as="button" type="button" onClick={handleMicClick} aria-label="음성 입력">
+            <S.VoiceIcon
+                as="button"
+                type="button"
+                onClick={handleFirstMicClick}
+                aria-label="첫 번째 언어 음성 입력"
+            >
                 <img
                 src={IMAGE_CONSTANTS.VoiceButton}
-                alt={listening ? "음성 입력 중지" : "음성 입력 시작"}
-                style={{ opacity: supported ? 1 : 0.4 }}
+                alt={firstListening ? "음성 입력 중지" : "음성 입력 시작"}
+                style={{ opacity: firstSupported ? 1 : 0.4 }}
                 />
             </S.VoiceIcon>
 
-            {/* 에러 메시지(권한 거부/네트워크 등) */}
-            {sttError && (
-                <div style={{ color: "#d9534f", marginTop: 8, fontSize: 12 }}>
-                STT Error: {sttError}
+            {firstError && (
+                <div style={{ color: "#d9534f", marginTop: 6, fontSize: 12 }}>
+                STT Error: {firstError}
                 </div>
             )}
             </S.FirstLanguageBox>
 
-            {/* ===== 두 번째 언어 박스 (지금은 UI만 유지) ===== */}
+            {/* ===== 두 번째 언어 박스 ===== */}
             <S.SecondLanguageBox>
             <S.SecondLanguageSelect>
-                <select aria-label="출력 언어 선택">
+                <select
+                value={secondLang}
+                onChange={(e) =>
+                    setSecondLang(e.target.value as "eng" | "kor")
+                }
+                aria-label="출력 언어 선택"
+                >
                 <option value="eng">eng</option>
                 <option value="kor">kor</option>
                 </select>
             </S.SecondLanguageSelect>
+
             <S.SecondLanguageResult>
-                Listening...
+                {secondSupported ? (
+                secondFinalText || secondInterimText ? (
+                    <>
+                    {secondFinalText}
+                    {secondInterimText && (
+                        <>
+                        {secondFinalText && " "}
+                        <span style={{ opacity: 0.5 }}>
+                            {secondInterimText}
+                        </span>
+                        </>
+                    )}
+                    </>
+                ) : secondListening ? (
+                    "Listening..."
+                ) : (
+                    "Tap mic and start speaking"
+                )
+                ) : (
+                "이 브라우저는 음성 인식을 지원하지 않아요."
+                )}
             </S.SecondLanguageResult>
-            <S.VoiceIcon>
-                <img src={IMAGE_CONSTANTS.VoiceButton} alt="음성 입력" />
+
+            <S.VoiceIcon
+                as="button"
+                type="button"
+                onClick={handleSecondMicClick}
+                aria-label="두 번째 언어 음성 입력"
+            >
+                <img
+                src={IMAGE_CONSTANTS.VoiceButton}
+                alt={secondListening ? "음성 입력 중지" : "음성 입력 시작"}
+                style={{ opacity: secondSupported ? 1 : 0.4 }}
+                />
             </S.VoiceIcon>
+
+            {secondError && (
+                <div style={{ color: "#d9534f", marginTop: 6, fontSize: 12 }}>
+                STT Error: {secondError}
+                </div>
+            )}
             </S.SecondLanguageBox>
         </S.TranslationWrapper>
 
         <S.BottomContainer>
             <S.TextTranslate onClick={() => navigate("/talk/text")}>
-            <img src={IMAGE_CONSTANTS.MicIcon} alt="MIC" />
+            <img src={IMAGE_CONSTANTS.ChatIcon} alt="CHAT" />
             <p>Text Translation</p>
             </S.TextTranslate>
         </S.BottomContainer>

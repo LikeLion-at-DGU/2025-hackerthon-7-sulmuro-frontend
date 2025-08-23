@@ -11,6 +11,7 @@ type Props = {
     description?: string;
     recommendedStores?: RecommendedStore[];
     recommendedQuestions?: string[];
+    averagePrice?: string;
     introMessage?: string;
 };
 
@@ -22,11 +23,17 @@ const AIChat = ({
         recommendedStores = [],
         recommendedQuestions = [],
         introMessage,
+        averagePrice,
     }: Props) => {
+
+    const handleReload = () => {
+        window.location.reload(); // 페이지 새로고침
+    };
+
     return (
         <S.Wrapper>
             <S.ChatHeader>
-                <img src={IMAGE_CONSTANTS.BackIcon2} alt="BACK" />
+                <img onClick={handleReload} src={IMAGE_CONSTANTS.BackIcon2} alt="BACK" />
             </S.ChatHeader>
             {captured && (
                 <S.Result>
@@ -45,10 +52,17 @@ const AIChat = ({
                             <S.CapturedDescription>
                             <div className="hint">
                                 {description}
-
+                                {typeof averagePrice === "string" && averagePrice.trim() !== "" && (
+                                    <>
+                                    <br />
+                                    <strong>평균 가격</strong>
+                                    <div>
+                                        {averagePrice}
+                                    </div>
+                                    </>
+                                )}
                                 {recommendedStores.length > 0 && (
                                 <>
-                                    <br />
                                     <br />
                                     <strong>추천 가게</strong>
                                     <ul style={{ marginTop: 6 }}>
