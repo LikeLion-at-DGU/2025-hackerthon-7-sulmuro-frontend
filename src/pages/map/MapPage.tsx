@@ -66,7 +66,12 @@ const MapPage = () => {
             setMapFocusPlace={setMapFocusPlace}
           />
           <SelectLanguage />
-          {isModalOpen && <MarketModal setIsModalOpen={setIsModalOpen} />}
+          {isModalOpen && (
+            <MarketModal
+              setIsModalOpen={setIsModalOpen}
+              setMapFocusPlace={setMapFocusPlace}
+            />
+          )}
           {isPlaceInfo && (
             <>
               {!selectPlace && (

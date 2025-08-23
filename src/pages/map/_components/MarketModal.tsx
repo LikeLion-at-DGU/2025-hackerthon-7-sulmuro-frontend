@@ -1,14 +1,30 @@
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import { SetStateAction } from "react";
 import styled from "styled-components";
+import { Place } from "../_types/Marker.type";
 
 interface MarketModalProps {
   setIsModalOpen: React.Dispatch<SetStateAction<boolean>>;
+  setMapFocusPlace: React.Dispatch<SetStateAction<Place | null>>;
 }
-
-const MarketModal = ({ setIsModalOpen }: MarketModalProps) => {
+const kwangjang: Place = {
+  id: 0,
+  name: "광장시장",
+  address: "광장시장",
+  lat: 37.570115,
+  lng: 126.999706,
+  category: "All",
+};
+const MarketModal = ({
+  setIsModalOpen,
+  setMapFocusPlace,
+}: MarketModalProps) => {
   const modalClose = () => {
     setIsModalOpen(false);
+  };
+
+  const moveFocus = () => {
+    setMapFocusPlace(kwangjang);
   };
   return (
     <MarketModalContainer>
@@ -21,7 +37,7 @@ const MarketModal = ({ setIsModalOpen }: MarketModalProps) => {
       </ModalHeader>
       <ModalBody>
         <Title>서울의 대표 전통시작</Title>
-        <button>서울광장시장</button>
+        <button onClick={moveFocus}>서울광장시장</button>
         <span>더 많은 시장들이 업데이트될 예정이예요.</span>
       </ModalBody>
     </MarketModalContainer>
