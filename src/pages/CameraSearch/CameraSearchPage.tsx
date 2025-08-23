@@ -82,6 +82,7 @@ const handleCaptured = (dataUrl: string | null, file?: File) => {
               // introMessage={
               //   data?.answer ? `분석 결과: ${data.answer.itemName} — 무엇이든 물어보세요!` : undefined
               // }
+              averagePrice={data?.answer?.averagePrice}
             />
             </S.ChatOverlay>
         )}

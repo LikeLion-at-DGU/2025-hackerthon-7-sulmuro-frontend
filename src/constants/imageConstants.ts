@@ -26,6 +26,9 @@ import FalseBookmarkPlain from "../assets/icons/FalseBookmark_plain.svg";
 import SwitchIcon from "@/assets/icons/switchIcon.svg";
 import SoundIcon from "@/assets/icons/soundIcon.svg";
 import MicIcon from "@/assets/icons/micIcon.svg";
+import SwapIcon from "@/assets/icons/swapIcon.svg";
+import VoiceButton from "@/assets/icons/voiceButton.svg";
+import ChatIcon from "@/assets/icons/chatIcon.svg";
 
 // language icon
 import LanguageOpen from "@/assets/icons/language_open.svg";
@@ -118,6 +121,10 @@ export const IMAGE_CONSTANTS = {
   TrueBookmarkPlain,
   FalseBookmarkPlain,
   MicIcon,
+
+  SwapIcon,
+  VoiceButton,
+  ChatIcon,
 
   FoodPinUnSelect,
   ClothesPinUnSelect,

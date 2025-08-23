@@ -38,7 +38,7 @@ const ResultSection = ({
 
     const MAX_DOWN = 500;
     const THRESHOLD_DOWN = 160; // 아래로 이만큼 끌면 닫힘
-    const THRESHOLD_UP = 120; // 위로 이만큼 끌면 Chat 전환
+    const THRESHOLD_UP = 80; // 위로 이만큼 끌면 Chat 전환
 
     useEffect(() => {
       if (open) {
@@ -142,7 +142,7 @@ const ResultSection = ({
                 )}
 
                 <S.ToAIChat>
-                <div className="scrollToAI">스크롤을 올려 AI에게 질문하기</div>
+                  <div className="scrollToAI">스크롤을 올려 AI에게 질문하기</div>
                 </S.ToAIChat>
             </S.Result>
             )}

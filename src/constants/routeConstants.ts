@@ -7,6 +7,8 @@ export const ROUTE_PATHS = {
   SAVED_PLACE: "/saved/place",
   SAVED_ARTICLE: "/saved/article",
   ASSISTANCE : "/assistance",
+  TextTranslation : "/talk/text",
+  VoiceTranslation : "/talk/voice",
 };
 
 export const buildRoute = {
