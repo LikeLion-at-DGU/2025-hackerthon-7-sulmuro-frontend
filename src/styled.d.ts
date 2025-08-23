@@ -35,6 +35,9 @@ declare module "styled-components" {
     fonts: {
       // pretendard
 
+      //32px
+      Semibold32: any;
+      
       // Head 24px
       ExtraBold24: any;
       Bold24: any;

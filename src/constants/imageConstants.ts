@@ -27,6 +27,8 @@ import SwitchIcon from "@/assets/icons/switchIcon.svg";
 import SoundIcon from "@/assets/icons/soundIcon.svg";
 import MicIcon from "@/assets/icons/micIcon.svg";
 import SwapIcon from "@/assets/icons/swapIcon.svg";
+import VoiceButton from "@/assets/icons/voiceButton.svg";
+
 
 // language icon
 import LanguageOpen from "@/assets/icons/language_open.svg";
@@ -116,7 +118,8 @@ export const IMAGE_CONSTANTS = {
   FalseBookmarkPlain,
   MicIcon,
   SwapIcon,
-  
+  VoiceButton,
+
   FoodPinUnSelect,
   ClothesPinUnSelect,
   GoodsPinUnSelect,
