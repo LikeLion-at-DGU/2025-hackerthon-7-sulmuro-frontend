@@ -1,61 +1,97 @@
 // talk/_hooks/useTranslate.ts
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import {
-    postTranslate,
-    type TranslatePayload,
-    type TranslateResult,
+    getTranslate,
+    TranslateRequest,
+    TranslateSuccess,
+    TranslateError,
 } from "../_apis/GetTranslation";
 
-type UseTranslateOptions = {
-  /** 기본 대상 언어 (UI에서 바꿀 수 있음) */
-  defaultTarget?: string; // e.g. "en"
-  /** 기본 소스 언어 ('auto' 권장) */
-  defaultSource?: string; // e.g. "auto"
-};
+type Status = "idle" | "loading" | "success" | "error";
 
-export function useTranslate(options?: UseTranslateOptions) {
-    const [loading, setLoading] = useState(false);
+export function useTranslate() {
+    const [status, setStatus] = useState<Status>("idle");
+    const [data, setData] = useState<TranslateSuccess["data"] | null>(null);
+    const [message, setMessage] = useState<string | null>(null);
+    const [code, setCode] = useState<number | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const [result, setResult] = useState<TranslateResult | null>(null);
 
     const abortRef = useRef<AbortController | null>(null);
 
     const translate = useCallback(
-        async (input: Partial<TranslatePayload> & { text: string }) => {
-        // 이전 요청 중단
-        abortRef.current?.abort();
+        async (req: TranslateRequest, opts?: { timeoutMs?: number }) => {
+        // 진행 중인 요청이 있다면 취소
+        if (abortRef.current) {
+            abortRef.current.abort();
+        }
         const controller = new AbortController();
         abortRef.current = controller;
 
-        setLoading(true);
+        setStatus("loading");
         setError(null);
-
-        const payload: TranslatePayload = {
-            text: input.text,
-            target: input.target ?? options?.defaultTarget ?? "en",
-            source: input.source ?? options?.defaultSource ?? "auto",
-        };
+        setMessage(null);
+        setCode(null);
 
         try {
-            const data = await postTranslate(payload, controller.signal);
-            setResult(data);
-            return data;
-        } catch (e: any) {
-            if (e?.name === "AbortError") return; // 사용자가 취소
-            const message =
-            typeof e?.message === "string" ? e.message : "번역 중 오류가 발생했습니다.";
-            setError(message);
-            throw e;
+            const res = await getTranslate(req, {
+            signal: controller.signal,
+            timeoutMs: opts?.timeoutMs ?? 15000,
+            });
+            setData(res.data);
+            setMessage(res.message ?? null);
+            setCode(typeof res.code === "number" ? res.code : null);
+            setStatus("success");
+            return res.data; // { translatedText }
+        } catch (e) {
+            const err = e as TranslateError;
+            setError(err.message);
+            setStatus("error");
+            throw err;
         } finally {
-            setLoading(false);
+            // 종료 시 컨트롤러 정리
+            if (abortRef.current === controller) {
+            abortRef.current = null;
+            }
         }
         },
-        [options?.defaultSource, options?.defaultTarget]
+        []
     );
 
     const cancel = useCallback(() => {
         abortRef.current?.abort();
+        abortRef.current = null;
+        setStatus("idle");
     }, []);
 
-    return { loading, error, result, translate, cancel };
+    const reset = useCallback(() => {
+        setStatus("idle");
+        setData(null);
+        setMessage(null);
+        setCode(null);
+        setError(null);
+    }, []);
+
+    const loading = status === "loading";
+    const success = status === "success";
+    const failure = status === "error";
+
+    return useMemo(
+        () => ({
+        // state
+        status,
+        loading,
+        success,
+        failure,
+        data, // { translatedText }
+        message, // "번역이 완료되었습니다."
+        code, // 200
+        error,
+
+        // actions
+        translate,
+        cancel,
+        reset,
+        }),
+        [status, loading, success, failure, data, message, code, error, translate, cancel, reset]
+    );
 }

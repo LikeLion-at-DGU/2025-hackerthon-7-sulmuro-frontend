@@ -1,55 +1,95 @@
 // talk/_apis/getTranslate.ts
-export type TranslatePayload = {
-  text: string;
-  target: string;     // 예: 'ko', 'en', 'ja'
-  source?: string;    // 예: 'auto' | 'en' | 'ko' ...
-};
+/**
+ * 번역 API 호출 모듈
+ * POST /api/v1/translate/recommend
+ */
 
-export type TranslateResult = {
-  translatedText: string;
-  detectedLanguage?: string;
-  confidence?: number; // 0 ~ 1
-};
+export type LanguageCode = "ko" | "en" | "zh" | string;
 
-const API_BASE = import.meta.env.VITE_BASE_URL as string;
+export interface TranslateRequest {
+    sourceLanguageCode: LanguageCode;
+    targetLanguageCode: LanguageCode;
+    text: string;
+}
+
+export interface TranslateSuccess {
+    message: string; // "번역이 완료되었습니다."
+    code: number;    // 200
+    data: {
+        translatedText: string;
+    };
+}
+
+export class TranslateError extends Error {
+    status?: number;
+    constructor(message: string, status?: number) {
+        super(message);
+        this.name = "TranslateError";
+        this.status = status;
+    }
+}
+
+const BASE_URL =
+    (import.meta as any).env?.VITE_BASE_URL?.replace(/\/+$/, "") ?? "";
 
 /**
- * Google Translation v3를 호출하는 백엔드 엔드포인트:
- * POST {BASE}/api/translate
+ * 서버 스펙상 헤더 요구사항은 없지만,
+ * JSON 전송을 위해 Content-Type은 명시합니다.
  */
-export async function postTranslate(
-    payload: TranslatePayload,
-    signal?: AbortSignal
-    ): Promise<TranslateResult> {
-    if (!API_BASE) {
-        throw new Error("환경변수 VITE_BASE_URL이 설정되어 있지 않습니다.");
-    }
+export async function getTranslate(
+    body: TranslateRequest,
+    opts?: { signal?: AbortSignal; timeoutMs?: number }
+): Promise<TranslateSuccess> {
+    const controller = new AbortController();
+    const timeout =
+        typeof opts?.timeoutMs === "number" && opts.timeoutMs > 0
+        ? opts.timeoutMs
+        : 15000;
 
-    const res = await fetch(`${API_BASE}/api/translate`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-        body: JSON.stringify(payload),
-        signal,
-    });
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
 
-    // 2xx 외 에러 처리
-    if (!res.ok) {
-        const text = await safeReadText(res);
-        throw new Error(
-        `Translate API 실패 (${res.status})${
-            text ? `: ${text}` : ""
-        }`.trim()
-        );
-    }
-
-    return (await res.json()) as TranslateResult;
-    }
-
-    async function safeReadText(res: Response) {
     try {
-        return await res.text();
-    } catch {
-        return "";
+        const res = await fetch(
+            `${BASE_URL}/api/v1/translate/recommend`,
+            {
+                method: "POST",
+                headers: {
+                "Content-Type": "application/json",
+                },
+                signal: opts?.signal ?? controller.signal,
+                body: JSON.stringify(body),
+        }
+    );
+
+    const contentType = res.headers.get("content-type") || "";
+    const isJson = contentType.includes("application/json");
+    const payload = isJson ? await res.json() : null;
+
+    if (!res.ok) {
+      // 서버가 JSON 에러 메시지를 준 경우 최대한 살려서 throw
+    const msg =
+        payload?.message ||
+        payload?.error ||
+        `Translate API Error (status ${res.status})`;
+        throw new TranslateError(msg, res.status);
+    }
+
+    // 성공 응답 스펙에 맞춰 검증
+    if (
+        !payload ||
+        typeof payload?.data?.translatedText !== "string"
+    ) {
+        throw new TranslateError("Unexpected API response shape");
+    }
+
+    return payload as TranslateSuccess;
+    } catch (err: any) {
+        if (err?.name === "AbortError") {
+        throw new TranslateError("Request aborted (timeout or manual cancel)");
+        }
+        if (err instanceof TranslateError) throw err;
+        throw new TranslateError(err?.message ?? "Unknown translate error");
+    } finally {
+        clearTimeout(timeoutId);
     }
 }
