@@ -2,7 +2,7 @@
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./ArticleDetailPage.styled";
-import { Article, getArticles } from "./_apis/getArticle";
+import { Article, getArticleDetail } from "./_apis/getArticle";
 import ArticleContent from "./_components/ArticleContent"; // ✅ 본문 인터리브 렌더러 (아래 제공)
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 
@@ -25,20 +25,21 @@ const ArticleDetailPage = () => {
   }, [storageKey]);
   
   useEffect(() => {
-    const run = async () => {
-      try {
-        setLoading(true);
-        setErrorMsg(null);
-        const res = await getArticles({ id }); // 더미 API: id로 필터
-        setArticle(res.data[0] ?? null);
-      } catch (e) {
-        setErrorMsg("아티클을 불러오지 못했어요.");
-      } finally {
-        setLoading(false);
-      }
-    };
-    run();
-  }, [id]);
+  const run = async () => {
+    if (!id) return;
+    try {
+      setLoading(true);
+      setErrorMsg(null);
+      const data = await getArticleDetail(Number(id), "ko");
+      setArticle(data);
+    } catch (e) {
+      setErrorMsg("아티클을 불러오지 못했어요.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  run();
+}, [id]);
 
   const handleBack = () => navigate(-1);
 
