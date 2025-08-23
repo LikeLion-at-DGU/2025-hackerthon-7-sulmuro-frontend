@@ -162,3 +162,38 @@ export const FindForMapButton = styled.button`
     height: 12px;
   }
 `;
+
+export const ImageCarousel = styled.div<{ $dragging?: boolean }>`
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  -ms-overflow-style: none; /* IE/Edge */
+  scrollbar-width: none; /* Firefox */
+  &::-webkit-scrollbar {
+    display: none;
+  } /* Chrome/Safari */
+  padding: 0 16px;
+
+  /* 손가락/마우스 드래그 UX */
+  cursor: ${({ $dragging }) => ($dragging ? "grabbing" : "grab")};
+  user-select: none;
+  touch-action: pan-x; /* 가로 제스처는 여기서, 세로는 부모에게 */
+`;
+
+// 개별 슬라이드(이미지 박스)
+export const ImageSlide = styled.div`
+  flex: 0 0 85%; /* 한 화면에 1장(85%) 정도 보이게 */
+  scroll-snap-align: start;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #00000010;
+
+  img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+  }
+`;
