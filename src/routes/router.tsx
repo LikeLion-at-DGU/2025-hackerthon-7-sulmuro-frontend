@@ -1,10 +1,6 @@
+// router.tsx
 import { createBrowserRouter } from "react-router-dom";
-
-// components
 import DefaultLayout from "@/components/layout/DefaultLayout";
-
-// pages
-// import MainPage from "@/pages/main/MainPage";
 import CameraSearchPage from "@/pages/CameraSearch/CameraSearchPage";
 import { ROUTE_PATHS } from "@/constants/routeConstants";
 import MapPage from "@/pages/map/MapPage";
@@ -16,6 +12,7 @@ import ArticleDetailPage from "@/pages/article/ArticleDetailPage";
 import TalkPage from "@/pages/talk/TalkPage";
 import TextTranslation from "@/pages/talk/_components/TextTranslation";
 import VoiceTranslation from "@/pages/talk/_components/VoiceTranslation";
+import NotFound from "@/pages/notFound/NotFound";
 
 const router = createBrowserRouter([
   {
@@ -23,7 +20,6 @@ const router = createBrowserRouter([
     element: <DefaultLayout />,
     children: [
       { path: ROUTE_PATHS.AI, element: <CameraSearchPage /> },
-      // { path: ROUTE_PATHS.ARTICLE, element: <MainPage /> },
       { path: ROUTE_PATHS.SAVED, element: <SavePage /> },
       { path: ROUTE_PATHS.TALK, element: <TalkPage /> },
       { path: ROUTE_PATHS.MAP, element: <MapPage /> },
@@ -33,9 +29,11 @@ const router = createBrowserRouter([
       { path: `${ROUTE_PATHS.ARTICLE}/:id`, element: <ArticleDetailPage /> },
       { path: ROUTE_PATHS.TextTranslation, element: <TextTranslation /> },
       { path: ROUTE_PATHS.VoiceTranslation, element: <VoiceTranslation /> },
-
     ],
   },
+
+  
+  { path: "*", element: <NotFound /> },
 ]);
 
 export default router;

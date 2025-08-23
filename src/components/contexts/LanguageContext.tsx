@@ -1,6 +1,13 @@
-import React, { createContext, ReactNode, useContext, useState } from "react";
+import { setApiLanguage } from "@/api/Api";
+import React, {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
-type Language = "ko" | "en";
+type Language = "ko" | "en" | "zh";
 
 interface LanguageContextType {
   language: Language;
@@ -27,6 +34,10 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
 }: any) => {
   const [language, setLanguage] = useState<Language>("ko");
 
+  useEffect(() => {
+    setApiLanguage(language);
+    localStorage.setItem("lang", language);
+  }, [language]);
   return (
     <LanguageContext.Provider value={{ language, setLanguage }}>
       {children}

@@ -3,12 +3,13 @@ import GoogleMapView from "./_components/GoogleMapView";
 import ChooseCategory from "./_components/ChooseCategory";
 import SelectLanguage from "./_components/SelectLagnuage";
 import PlaceInfo from "./_components/PlaceInfo";
-import { Button } from "./_components/Mapstyled";
-import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 
 import { useEffect, useState } from "react";
 import { Category, Place } from "./_types/Marker.type";
 import { usePointhooks } from "./_hooks/usePointhooks";
+import ChooseMarket from "./_components/ChooseMarket";
+import MarketModal from "./_components/MarketModal";
+import MapControll from "./_components/MapControll";
 const MapPage = () => {
   const [isPlaceInfo, setIsPlaceInfo] = useState<boolean>(false);
   const [selectPlace, setSelectPlace] = useState<Place | null>(null);
@@ -16,6 +17,7 @@ const MapPage = () => {
   const [isRegister, setIsRegister] = useState<boolean>(true);
   const [places, setPlaces] = useState<Place[]>([]);
   const [mapFocusPlace, setMapFocusPlace] = useState<Place | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const render = (status: Status) => {
     switch (status) {
@@ -48,6 +50,11 @@ const MapPage = () => {
           libraries={["places"]}
           render={render}
         >
+          <ChooseMarket setIsModalOpen={setIsModalOpen} />
+          <ChooseCategory
+            selectedCategory={selectedCategory}
+            setSelectedCategory={setSelectedCategory}
+          />
           <GoogleMapView
             places={places}
             selectedCategory={selectedCategory}
@@ -57,26 +64,16 @@ const MapPage = () => {
             mapFocusPlace={mapFocusPlace}
             setMapFocusPlace={setMapFocusPlace}
           />
-          <ChooseCategory
-            selectedCategory={selectedCategory}
-            setSelectedCategory={setSelectedCategory}
-          />
           <SelectLanguage />
+          <MapControll setMapFocusPlace={setMapFocusPlace} />
+          {isModalOpen && (
+            <MarketModal
+              setIsModalOpen={setIsModalOpen}
+              setMapFocusPlace={setMapFocusPlace}
+            />
+          )}
           {isPlaceInfo && (
             <>
-              {!selectPlace && (
-                <>
-                  <Button className="left">
-                    <img src={IMAGE_CONSTANTS.information} alt="상세 정보" />
-                  </Button>
-                  <Button className="right">
-                    <img
-                      src={IMAGE_CONSTANTS.CurrentLocation}
-                      alt="현재 위치 추적"
-                    />
-                  </Button>
-                </>
-              )}
               {selectPlace && (
                 <PlaceInfo
                   type={isRegister}
