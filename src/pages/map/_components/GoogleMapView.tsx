@@ -47,10 +47,6 @@ interface GoogleMapViewProps {
   setMapFocusPlace: React.Dispatch<React.SetStateAction<Place | null>>;
 }
 
-export interface GoogleMapViewRef {
-  focusMap: (place: Place) => void;
-}
-
 const GoogleMapView = ({
   places,
   setSelectedPlace,

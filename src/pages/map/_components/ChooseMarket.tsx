@@ -26,7 +26,7 @@ const ChooseMarketContainer = styled.div`
   transform: translateX(-50%);
   width: 80%;
   height: 50px;
-  border-radius: 5px;
+  border-radius: 10px;
   background-color: ${({ theme }) => theme.colors.N70};
   color: ${({ theme }) => theme.colors.WHITE};
   ${({ theme }) => theme.fonts.SemiBold14};

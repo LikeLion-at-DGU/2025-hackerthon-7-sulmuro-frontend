@@ -25,6 +25,7 @@ const MarketModal = ({
 
   const moveFocus = () => {
     setMapFocusPlace(kwangjang);
+    modalClose();
   };
   return (
     <MarketModalContainer>

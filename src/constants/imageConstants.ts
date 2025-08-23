@@ -71,6 +71,8 @@ import GoogleMapicon from "@/assets/images/googleMap.png";
 import SendArrow from "@/assets/icons/send_arrow.svg";
 
 import CLoseIcon from "@/assets/icons/close_icon.svg";
+import myLocation from "@/assets/icons/mylocation.svg";
+import goMarket from "@/assets/icons/goMarket.svg";
 
 export const IMAGE_CONSTANTS = {
   SearchAI,
@@ -136,4 +138,6 @@ export const IMAGE_CONSTANTS = {
   GoogleMapicon,
   SendArrow,
   CLoseIcon,
+  myLocation,
+  goMarket,
 };
