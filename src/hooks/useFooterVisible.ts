@@ -1,12 +1,14 @@
 import { useLocation, matchPath } from "react-router-dom";
 
-const hideFooterPatterns = [ "/ai", "saved/place", "saved/article"];
-
 function useFooterVisible() {
-  const location = useLocation();
-  const isHidden = hideFooterPatterns.some((pattern: string) =>
-    matchPath({ path: pattern, end: true }, location.pathname)
-  );
+  const { pathname } = useLocation();
+
+  const isHidden =
+    !!matchPath({ path: "/ai", end: true }, pathname) ||
+    !!matchPath({ path: "/saved/place", end: true }, pathname) ||
+    !!matchPath({ path: "/saved/article", end: true }, pathname) ||
+    !!matchPath({ path: "/article/:id", end: true }, pathname); 
+
   return !isHidden;
 }
 
