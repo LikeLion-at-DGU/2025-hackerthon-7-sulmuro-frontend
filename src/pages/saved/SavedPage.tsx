@@ -7,10 +7,8 @@ import MainHeader from "./_components/MainHeader";
 import SavePlaceCard from "./_components/SavedPlaceCard";
 import SavedArticleCard from "./_components/SavedArticleCard";
 
-//더미데이터 연결
-import { savedPlaces, savedArticles } from "./dummy/dummyData";
-import { useState } from "react";
-import { Article } from "../article/_apis/getArticle";
+import { useEffect, useState } from "react";
+
 import { useLanguage } from "@/components/contexts/LanguageContext";
 import {
   SavedPageArticleEmptyCase,
@@ -18,24 +16,48 @@ import {
   SavedPagePlaceEmptyCase,
   SavedPagePlaceTitle,
 } from "../map/languages/Translate";
+import { ArticleType } from "./_types/ArticleType";
+import { PlaceWithImage } from "../map/_types/Marker.type";
+import { Api } from "@/api/Api";
+import { getArticleBookmarks, getPlaceBookmarks } from "@/utils/SavedBookMark";
 const SavePage = () => {
-  const [_markedPlaces, _setMarkedPlaces] = useState<Article[]>();
+  const [markedPlaces, setMarkedPlaces] = useState<PlaceWithImage[]>([]);
+  const [markedArticles, setMarkedArticles] = useState<ArticleType[]>([]);
   const { language } = useLanguage();
-  // const sfetchData = () => {};
+  const fetchData = async () => {
+    try {
+      const response = await Api.post("/api/v1/places/search", {
+        ids: getPlaceBookmarks(),
+      });
+      const response2 = await Api.post("/api/v1/articles/search", {
+        ids: getArticleBookmarks(),
+      });
+      setMarkedPlaces(response.data.data);
+      setMarkedArticles(response2.data.data);
+      console.log("places:", response.data.data);
+      console.log("articles:", response2.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <S.Wrapper>
-      <S.Header>Saved</S.Header>
+      <S.Header>Marked</S.Header>
       <S.Contents>
         <MainHeader
           text={SavedPagePlaceTitle[language]}
           path={ROUTE_PATHS.SAVED_PLACE}
         />
-        <S.SavedPlaceBox isEmpty={savedPlaces.length === 0}>
-          {savedPlaces.length === 0 ? (
+        <S.SavedPlaceBox isEmpty={markedPlaces.length === 0}>
+          {markedPlaces.length === 0 ? (
             <S.EmptyBox>{SavedPagePlaceEmptyCase[language]}</S.EmptyBox>
           ) : (
-            savedPlaces
+            markedPlaces
               .slice(0, 2)
               .map((place) => (
                 <SavePlaceCard
@@ -43,8 +65,8 @@ const SavePage = () => {
                   id={place.id}
                   name={place.name}
                   path={`${ROUTE_PATHS.MAP}?place=${place.id}`}
-                  thumbnailUrl={place.thumbnailUrl}
-                  address={place.address}
+                  thumbnailUrl={place.image[0]}
+                  address={place.location}
                 />
               ))
           )}
@@ -54,17 +76,17 @@ const SavePage = () => {
           path={ROUTE_PATHS.SAVED_ARTICLE}
         />
         <S.SavedArticleBox>
-          {savedArticles.length === 0 ? (
+          {markedArticles.length === 0 ? (
             <S.EmptyBox>{SavedPageArticleEmptyCase[language]}</S.EmptyBox>
           ) : (
-            savedArticles
+            markedArticles
               .slice(0, 1)
               .map((article) => (
                 <SavedArticleCard
                   key={article.id}
                   id={article.id}
                   title={article.title}
-                  images={article.images}
+                  images={article.imageUrls}
                   location={article.location}
                 />
               ))
