@@ -15,6 +15,7 @@ const DetailPlacePage = () => {
         {savedPlaces.map((place) => (
           <SavePlaceCard
             key={place.id}
+            id={place.id}
             name={place.name}
             path={ROUTE_PATHS.MAP} //추후 지도경로로 변경핑핑
             thumbnailUrl={place.thumbnailUrl}
