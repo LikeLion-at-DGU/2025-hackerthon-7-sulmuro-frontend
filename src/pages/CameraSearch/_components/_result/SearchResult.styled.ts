@@ -142,8 +142,9 @@ export const RecommendStrores = styled.div`
     width: 100%;
     height: fit-content;
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     gap: 1rem;
     height: fit-content;
     color: ${({theme}) => theme.colors.N70};
@@ -153,10 +154,20 @@ export const RecommendStrores = styled.div`
         ${({ theme }) => theme.fonts.SemiBold14};
     }
 
-    .Price{
-        /* color: ${({theme}) => theme.colors.N70}; */
-        color: black;
-        ${({ theme }) => theme.fonts.Regular12};
+`;
+
+export const PriceWrapper = styled.div`
+    padding: 5px 8px;
+    background: ${({theme}) => theme.colors.N00};
+    color: ${({theme}) => theme.colors.N70};
+    ${({ theme }) => theme.fonts.SemiBold12}
+    border-radius: 8px;
+    .price{
+        padding: 5px 8px;
+    background: ${({theme}) => theme.colors.N00};
+    color: ${({theme}) => theme.colors.N70};
+    ${({ theme }) => theme.fonts.SemiBold12}
+    border-radius: 8px;
     }
 `;
 
@@ -168,19 +179,23 @@ export const RecommendedStoreList = styled.ul`
     gap: 1rem; /* 항목 간의 간격 */
 `;
 export const RecommendedStoreItem = styled.li`
+    padding: 5px 8px;
+    background: ${({theme}) => theme.colors.N00};
+    color: ${({theme}) => theme.colors.N70};
+    ${({ theme }) => theme.fonts.SemiBold12}
 
+    border-radius: 8px;
 `;
 export const ToAIChat = styled.div`
     width: 100%;
-    padding: 32px 0 12px 0;
-    margin-top: 0.8rem;
+    padding: 28px 0 12px 0;
     .scrollToAI{
         width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         color: ${({theme}) => theme.colors.N70};
-        ${({ theme }) => theme.fonts.Regular12}
+        ${({ theme }) => theme.fonts.Regular14}
     }
 `; 
 

@@ -53,7 +53,19 @@ export const FirstLanguageSelect = styled.div`
         border: none;
     }
 `;
-
+export const LanguageTrigger = styled.button<{ boxType: "first" | "second" }>`
+    padding: 6px 12px;
+    border-radius: 8px;
+    ${({ theme }) => theme.fonts.SemiBold16};
+ color: ${({ theme, boxType }) => boxType === "first" ? theme.colors.R60 : theme.colors.N70};    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    img{
+        width: 14px;
+        height: 14px;
+    }
+`;
 export const FristLanguageResult = styled.div`
     padding: 1rem 0;
     width: 100%;
