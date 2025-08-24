@@ -87,6 +87,7 @@ import goMarket from "@/assets/icons/goMarket.svg";
 import goMarketActive from "@/assets/icons/goMarket_active.svg";
 
 import splash from "@/assets/images/splash.png";
+import splash2 from "@/assets/images/splash2.gif";
 export const IMAGE_CONSTANTS = {
   SearchAI,
   ArticleUnselected,
@@ -168,4 +169,5 @@ export const IMAGE_CONSTANTS = {
   goMarketActive,
 
   splash,
+  splash2,
 };

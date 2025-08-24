@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import Loading from "./Loading";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -11,14 +10,13 @@ const SplashPage = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate(ROUTE_PATHS.MAP, { replace: true });
-    }, 2000);
+    }, 3500);
 
     return () => clearTimeout(timer);
   }, [navigate]);
   return (
     <Wrapper>
-      <SplashImg src={IMAGE_CONSTANTS.splash} />
-      <Loading />
+      <SplashImg src={IMAGE_CONSTANTS.splash2} />
     </Wrapper>
   );
 };
