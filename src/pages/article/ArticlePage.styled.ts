@@ -12,6 +12,18 @@ export const Wrapper = styled.div`
   flex-grow: 1;
 `;
 
+
+export const PlaceTrigger = styled.button`
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: ${({ theme }) => theme.colors.WHITE};
+  ${({ theme }) => theme.fonts.SemiBold14};
+  color: ${({ theme }) => theme.colors.N70};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+`;
 export const Header = styled.div`
   display: flex;
   width: 100%;
@@ -28,7 +40,6 @@ export const PlaceDropdown = styled.div`
   select {
     padding: 8px 10px;
     border-radius: 8px;
-    border: 1px solid #ddd;
     background: #fff;
   }
 `;

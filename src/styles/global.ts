@@ -3,35 +3,36 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
 // 폰트설정
 /* SUIT 폰트 설정 */
+/* Pretendard 폰트 설정 */
 @font-face {
-  font-family: 'Pretendard-ExtraBold';
-  src: url('/fonts/Pretendard-ExtraBold.otf') format('opentype'),
-      url('/fonts/Pretendard-ExtraBold.woff2') format('woff2');
-  font-weight: 800;
+  font-family: 'Pretendard'; // font-family를 'Pretendard'로 통일
+  src: url('/fonts/Pretendard-ExtraBold.woff2') format('woff2'),
+       url('/fonts/Pretendard-ExtraBold.otf') format('opentype');
+  font-weight: 800; // 굵기 지정
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Pretendard-Bold';
-  src: url('/fonts/Pretendard-Bold.otf') format('opentype'),
-        url('/fonts/Pretendard-Bold.woff2') format('woff2');
-  font-weight: 700;
+  font-family: 'Pretendard'; // 통일
+  src: url('/fonts/Pretendard-Bold.woff2') format('woff2'),
+       url('/fonts/Pretendard-Bold.otf') format('opentype');
+  font-weight: 700; // 굵기 지정
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Pretendard-Regular';
-  src: url('/fonts/Pretendard-Regular.otf') format('opentype'),
-      url('/fonts/Pretendard-Regular.woff2') format('woff2');
-  font-weight: 400;
+  font-family: 'Pretendard'; // 통일
+  src: url('/fonts/Pretendard-SemiBold.woff2') format('woff2'),
+       url('/fonts/Pretendard-SemiBold.otf') format('opentype');
+  font-weight: 600; // 굵기 지정
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Pretendard-SemiBold';
-  src: url('/fonts/Pretendard-SemiBold.otf') format('opentype'),
-  url('/fonts/Pretendard-SemiBold.woff2') format('woff2');
-  font-weight: 600;
+  font-family: 'Pretendard'; // 통일
+  src: url('/fonts/Pretendard-Regular.woff2') format('woff2'),
+       url('/fonts/Pretendard-Regular.otf') format('opentype');
+  font-weight: 400; // 굵기 지정
   font-style: normal;
 }
 
@@ -57,7 +58,7 @@ body {
 
 	background-color: ${({ theme }) => theme.colors.WHITE};
 	color: ${({ theme }) => theme.colors.N70};
-  font-family: 'Pretendard-Regular', sans-serif;
+  font-family: 'Pretendard', sans-serif;
   line-height: 1.5;
 }
 

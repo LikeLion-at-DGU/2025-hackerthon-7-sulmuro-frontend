@@ -7,7 +7,26 @@ export const Wrapper = styled.div`
     height: 90dvh;
     overflow: scroll;
 `;
-
+export const SelectButton = styled.button`
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    color: ${({ theme }) => theme.colors.N50};
+    background: transparent;
+    ${({ theme }) => theme.fonts.Regular12};
+    cursor: pointer;
+`;
+export const MarketTrigger = styled.button`
+    padding: 6px 10px;
+    border-radius: 8px;
+    border: 1px solid ${({ theme }) => theme.colors.N10};
+    background: ${({ theme }) => theme.colors.WHITE};
+    ${({ theme }) => theme.fonts.SemiBold14};
+    color: ${({ theme }) => theme.colors.N70};
+    cursor: pointer;
+`;
 export const Header = styled.div`
     display : flex;
     justify-content: space-between;
