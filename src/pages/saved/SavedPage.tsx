@@ -34,8 +34,6 @@ const SavePage = () => {
       });
       setMarkedPlaces(response.data.data);
       setMarkedArticles(response2.data.data);
-      console.log("places:", response.data.data);
-      console.log("articles:", response2.data.data);
     } catch (err) {
       console.log(err);
     }
@@ -66,7 +64,7 @@ const SavePage = () => {
                   name={place.name}
                   path={`${ROUTE_PATHS.MAP}?place=${place.id}`}
                   thumbnailUrl={place.image[0]}
-                  address={place.location}
+                  address={place.address}
                 />
               ))
           )}

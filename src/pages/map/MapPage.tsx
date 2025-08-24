@@ -13,7 +13,7 @@ import MapControll from "./_components/MapControll";
 import { useLanguage } from "@/components/contexts/LanguageContext";
 // import { useResetGoogleMaps } from "./_hooks/useResetGoogleMap";
 
-import Loading from "@/pages/splash/Loading";
+import Loading from "@/components/loading/Loading";
 import { useSearchParams } from "react-router-dom";
 const MapPage = () => {
   const [isPlaceInfo, setIsPlaceInfo] = useState<boolean>(false);
@@ -24,6 +24,7 @@ const MapPage = () => {
   const [mapFocusPlace, setMapFocusPlace] = useState<Place | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [isMarketMode, setIsMarketMode] = useState(false);
   const [searchParams] = useSearchParams();
   const focusPlaceId = searchParams.get("place");
   const { language } = useLanguage();
@@ -48,10 +49,9 @@ const MapPage = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              flexGrow: "1",
               width: "100%",
               maxWidth: "540px",
-              height: "100%",
+              height: "90vh",
               zIndex: 20,
             }}
           >
@@ -64,9 +64,7 @@ const MapPage = () => {
         return <>로드 성공</>;
     }
   };
-
   useEffect(() => {
-    // places 로딩 후에만 처리
     if (!focusPlaceId || !places.length) return;
 
     const p = places.find((pl) => String(pl.id) === String(focusPlaceId));
@@ -116,12 +114,15 @@ const MapPage = () => {
             setMapFocusPlace={setMapFocusPlace}
             isFollowing={isFollowing}
             setIsFollowing={setIsFollowing}
+            setIsMarketMode={setIsMarketMode}
           />
           <SelectLanguage />
           <MapControll
             setMapFocusPlace={setMapFocusPlace}
             isFollowing={isFollowing}
             setIsFollowing={setIsFollowing}
+            isMarketMode={isMarketMode}
+            setIsMarketMode={setIsMarketMode}
           />
           {isModalOpen && (
             <MarketModal

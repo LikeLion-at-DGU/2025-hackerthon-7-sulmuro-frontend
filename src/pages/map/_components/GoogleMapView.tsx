@@ -1,5 +1,5 @@
 import * as S from "./Mapstyled";
-import React, { useEffect, useRef, useState } from "react";
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import testmark from "@/assets/icons/test_marker.svg";
 
 import { Category, Place } from "../_types/Marker.type";
@@ -31,6 +31,10 @@ const CATEGORY_ICONS: Partial<
     selected: IMAGE_CONSTANTS.CafePinSelect,
     unselected: IMAGE_CONSTANTS.CafePinUnSelect,
   },
+  Bar: {
+    selected: IMAGE_CONSTANTS.BarPinSelect,
+    unselected: IMAGE_CONSTANTS.BarPinUnSelect,
+  },
 };
 
 declare global {
@@ -43,12 +47,13 @@ interface GoogleMapViewProps {
   places: Place[];
   selectedCategory: Category;
   mapFocusPlace: Place | null;
-  setSelectedPlace: React.Dispatch<React.SetStateAction<Place | null>>;
-  setIsPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
-  setMapFocusPlace: React.Dispatch<React.SetStateAction<Place | null>>;
+  setSelectedPlace: React.Dispatch<SetStateAction<Place | null>>;
+  setIsPlaceInfo: React.Dispatch<SetStateAction<boolean>>;
+  setIsRegister: React.Dispatch<SetStateAction<boolean>>;
+  setMapFocusPlace: React.Dispatch<SetStateAction<Place | null>>;
   isFollowing: boolean;
-  setIsFollowing: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsFollowing: React.Dispatch<SetStateAction<boolean>>;
+  setIsMarketMode: React.Dispatch<SetStateAction<boolean>>;
 }
 
 const GoogleMapView = ({
@@ -61,6 +66,7 @@ const GoogleMapView = ({
   setMapFocusPlace,
   setIsFollowing,
   isFollowing,
+  setIsMarketMode,
 }: GoogleMapViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -75,6 +81,7 @@ const GoogleMapView = ({
     useState<google.maps.Marker | null>(null);
   const { language } = useLanguage();
   const labelFontSize = language === "zh" ? "10px" : "12px";
+
   const filterPlacesByCategory = (category: Category) => {
     if (category === "All") {
       return places;
@@ -94,12 +101,14 @@ const GoogleMapView = ({
     placesServiceRef.current = new window.google.maps.places.PlacesService(
       mapRef.current
     );
-    const offFollow = () => setIsFollowing(false);
+    const offFollowAndMarket = () => {
+      setIsFollowing(false);
+      setIsMarketMode(false);
+    };
 
-    // 드래그/마우스다운/터치 시작 시 따라가기 종료
-    const l1 = mapRef.current.addListener("dragstart", offFollow);
-    const l2 = mapRef.current.addListener("mousedown", offFollow);
-    const l3 = mapRef.current.addListener("touchstart", offFollow);
+    const l1 = mapRef.current.addListener("dragstart", offFollowAndMarket);
+    const l2 = mapRef.current.addListener("mousedown", offFollowAndMarket);
+    const l3 = mapRef.current.addListener("touchstart", offFollowAndMarket);
     mapListenersRef.current.push(l1, l2, l3);
   }, [
     places,
@@ -107,6 +116,7 @@ const GoogleMapView = ({
     setSelectedPlace,
     setIsFollowing,
     SelectLanguage,
+    setIsMarketMode,
   ]);
 
   // 카테고리 변경 시  새로 마커 찍기
@@ -316,8 +326,8 @@ const GoogleMapView = ({
             zIndex: 9999,
             icon: {
               path: window.google.maps.SymbolPath.CIRCLE,
-              scale: 8, // 점 크기
-              fillColor: "#4285F4",
+              scale: 8,
+              fillColor: "rgba(173, 0, 2, 1)",
               fillOpacity: 1,
               strokeColor: "white",
               strokeWeight: 2,
@@ -328,7 +338,7 @@ const GoogleMapView = ({
       }
     };
 
-    // map이 아직 준비 안 된 경우 setTimeout으로 조금 기다림
+    // map이 아직 준비 안 된 경우 타이머 발행
     if (mapRef.current) {
       moveMap();
     } else {

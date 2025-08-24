@@ -1,11 +1,12 @@
 import styled from "styled-components";
 
 export const Wrapper = styled.div`
-    width: 100%;
-    height: 100vh - 80px;
-    display: flex;
-    flex-direction: column; 
-    position: relative;
+  width: 100%;
+  height: calc(100vh - 2rem);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-y: auto; // This line is added to enable vertical scrolling
 `;
 
 
@@ -29,16 +30,15 @@ export const Header = styled.div`
 
 export const TranslationWrapper = styled.div`
     width: 100%;
-    height: 80%;
-    display: flex;
-    flex-direction: column;
+    //   height: 80%;
+    display: grid;
+    grid-template: 1fr, 1fr;
 `;
 
 export const FirstLanguageBox = styled.div`
     width: 100%;
-    height: 40vh;
     min-height: 220px;
-    height: 1rem;
+    height: 35vh;
     padding: 1.2rem;
     box-sizing: border-box;
     background: ${({ theme }) => theme.colors.R10};
@@ -56,7 +56,7 @@ export const FirstLanguageSelect = styled.div`
     }
 `;
 export const LanguageTrigger = styled.button<{ boxType: "first" | "second" }>`
-    padding: 6px 12px;
+    padding: 6px 0;
     border-radius: 8px;
     ${({ theme }) => theme.fonts.SemiBold16};
     color: ${({ theme, boxType }) => boxType === "first" ? theme.colors.R60 : theme.colors.N70};    display: flex;
@@ -82,22 +82,23 @@ export const VoiceIcon = styled.div`
     bottom: 1rem;
     right: 1rem;
     box-sizing: border-box;
-    width: 100px;
-    height: 100px;
-    width: 100%;
+    width: 28vw;
     display: flex;
     justify-content: flex-end;
+    img{
+        width: 100%;
+        height: fit-content;
+    }
 `;
 
 export const SecondLanguageBox = styled.div`
     width: 100%;
-    height: 40%;
-
     min-height: 220px;
-    height: 50%;
+    height: 35vh;
     padding: 1.2rem;
     box-sizing: border-box;
     background: ${({ theme }) => theme.colors.WHITE};
+    position: relative;
 `;
 
 export const SecondLanguageSelect = styled.div`
@@ -126,10 +127,8 @@ export const BottomContainer = styled.div`
     flex-direction: column;
     box-sizing: border-box;
     align-items: center;
-    position: fixed;
-    bottom: 4.8rem;
     max-width: 540px;
-    
+    margin-bottom: 52px;
 `;
 
 export const TextTranslate = styled.div`

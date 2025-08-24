@@ -63,12 +63,14 @@ import ClothesPinUnSelect from "@/assets/icons/cloth_pin_unselect.svg";
 import GoodsPinUnSelect from "@/assets/icons/shop_pin_unselect.svg";
 import CafePinUnSelect from "@/assets/icons/cafe_pin_unselect.svg";
 import ATMPinUnSelect from "@/assets/icons/atm_pin_unselect.svg";
+import BarPinUnSelect from "@/assets/icons/bar_pin_unselect.svg";
 
 import FoodPinSelect from "@/assets/icons/food_pin_select.svg";
 import ClothesPinSelect from "@/assets/icons/cloth_pin_select.svg";
 import GoodsPinSelect from "@/assets/icons/shop_pin_select.svg";
 import CafePinSelect from "@/assets/icons/cafe_pin_select.svg";
 import ATMPinSelect from "@/assets/icons/atm_pin_select.svg";
+import BarPinSelect from "@/assets/icons/bar_pin_select.svg";
 
 // saved page
 import RightBtn from "@/assets/icons/right_btn.svg";
@@ -85,8 +87,10 @@ import CLoseIcon from "@/assets/icons/close_icon.svg";
 import myLocation from "@/assets/icons/mylocation.svg";
 import myLocationSelect from "@/assets/icons/mylocation_select.svg";
 import goMarket from "@/assets/icons/goMarket.svg";
+import goMarketActive from "@/assets/icons/goMarket_active.svg";
 
 import splash from "@/assets/images/splash.png";
+import splash2 from "@/assets/images/splash2.gif";
 export const IMAGE_CONSTANTS = {
   SearchAI,
   ArticleUnselected,
@@ -149,11 +153,13 @@ export const IMAGE_CONSTANTS = {
   GoodsPinUnSelect,
   CafePinUnSelect,
   ATMPinUnSelect,
+  BarPinUnSelect,
   FoodPinSelect,
   ClothesPinSelect,
   GoodsPinSelect,
   CafePinSelect,
   ATMPinSelect,
+  BarPinSelect,
 
   RightBtn,
   Bookmark,
@@ -166,6 +172,8 @@ export const IMAGE_CONSTANTS = {
   myLocation,
   myLocationSelect,
   goMarket,
+  goMarketActive,
 
   splash,
+  splash2,
 };

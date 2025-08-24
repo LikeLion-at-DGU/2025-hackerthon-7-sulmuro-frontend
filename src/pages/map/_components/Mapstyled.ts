@@ -78,7 +78,7 @@ export const PlaceInfoWrapper = styled.div.withConfig({
   box-sizing: border-box;
   padding: 0 32px;
 
-  overflow-y: hidden;
+  overflow-y: auto;
   transition: ${(props) => (props.animate ? "height 0.3s ease" : "none")};
   flex-grow: 1;
 `;

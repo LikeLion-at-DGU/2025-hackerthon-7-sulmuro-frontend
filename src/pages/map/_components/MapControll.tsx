@@ -17,12 +17,16 @@ interface MapControllProps {
   setMapFocusPlace: React.Dispatch<SetStateAction<Place | null>>;
   isFollowing: boolean;
   setIsFollowing: React.Dispatch<SetStateAction<boolean>>;
+  isMarketMode: boolean;
+  setIsMarketMode: React.Dispatch<SetStateAction<boolean>>;
 }
 
 const MapControll = ({
   setMapFocusPlace,
   isFollowing,
   setIsFollowing,
+  isMarketMode,
+  setIsMarketMode,
 }: MapControllProps) => {
   const watchIdRef = useRef<number | null>(null);
   const lastRef = useRef<{ lat: number; lng: number } | null>(null);
@@ -45,7 +49,7 @@ const MapControll = ({
     if (!("geolocation" in navigator))
       return alert("이 브라우저는 위치를 지원하지 않습니다.");
     if (watchIdRef.current != null) return;
-
+    setIsMarketMode(false);
     // 처음에 이거로 포커스
     navigator.geolocation.getCurrentPosition(
       (pos) => {
@@ -106,26 +110,41 @@ const MapControll = ({
       watchIdRef.current = null;
     }
     setIsFollowing(false);
+    setIsMarketMode(false);
   };
 
   useEffect(() => {
     if (!isFollowing && watchIdRef.current != null) {
       navigator.geolocation.clearWatch(watchIdRef.current);
       watchIdRef.current = null;
-      // 여기서 setIsFollowing(false) 다시 호출할 필요 없음 (이미 false)
     }
   }, [isFollowing]);
+
   useEffect(() => {
-    return () => stopFollow(); // 컴포넌트 unmount 시 정리
+    return () => stopFollow();
   }, []);
 
   const moveFocus = () => {
+    if (isMarketMode) {
+      setIsMarketMode(false);
+      return;
+    }
+    if (isFollowing) stopFollow();
+    setIsMarketMode(true);
     setMapFocusPlace(kwangjang);
   };
+
   return (
     <ControllContainer>
       <Button onClick={moveFocus}>
-        <img src={IMAGE_CONSTANTS.goMarket} alt="근처 시장으로 이동" />
+        <img
+          src={
+            isMarketMode
+              ? IMAGE_CONSTANTS.goMarketActive
+              : IMAGE_CONSTANTS.goMarket
+          }
+          alt="근처 시장으로 이동"
+        />
       </Button>
       <Button onClick={isFollowing ? stopFollow : startFollow}>
         <img
