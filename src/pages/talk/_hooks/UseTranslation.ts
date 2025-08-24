@@ -52,13 +52,19 @@ export function useTranslate(options?: UseTranslateOptions) {
                     timeoutMs: opts?.timeoutMs ?? 15000,
                 });
 
-            // 공통 데이터(번역문 + 선택적 추천) 저장
             setData(res.data);
             setMessage(res.message ?? null);
             setCode(typeof res.code === "number" ? res.code : null);
             setStatus("success");
             return res.data; // { translatedText, recommendations? }
-        } catch (e) {
+        } catch (e: any) {
+            // ✅ 취소는 조용히 무시 (UI에 에러 노출 X)
+            if (e?.name === "AbortError") {
+            // 상태를 되돌릴지 유지할지는 취향인데, 흔히 'idle'로 돌리거나
+            // 최근 성공 결과가 있다면 그대로 두기도 합니다.
+            setStatus("idle");
+            return;
+            }
             const err = e as TranslateError;
             setError(err.message);
             setStatus("error");
@@ -92,17 +98,14 @@ export function useTranslate(options?: UseTranslateOptions) {
 
     return useMemo(
         () => ({
-        // state
         status,
         loading,
         success,
         failure,
-        data,       // { translatedText, recommendations? }
-        message,    // ex) "번역이 완료되었습니다."
-        code,       // 200
+        data,
+        message,
+        code,
         error,
-
-        // actions
         translate,
         cancel,
         reset,

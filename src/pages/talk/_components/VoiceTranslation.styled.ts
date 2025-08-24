@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
     position: relative;
 `;
 
+
 export const Header = styled.div`
     width: 100%;
     padding: 1rem;
