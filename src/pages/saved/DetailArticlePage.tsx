@@ -5,20 +5,40 @@ import styled from "styled-components";
 import DetailHeader from "./_components/DetailHeader";
 import SavedArticleCard from "./_components/SavedArticleCard";
 
-//더미데이터 연결
-import { savedArticles } from "./dummy/dummyData";
+import { getArticleBookmarks } from "@/utils/SavedBookMark";
+import { Api } from "@/api/Api";
+import { useLanguage } from "@/components/contexts/LanguageContext";
+import { useEffect, useState } from "react";
+import { ArticleType } from "./_types/ArticleType";
+import { DetailArticleTitle } from "../map/languages/Translate";
 
 const DetailArticlePage = () => {
+  const [markedArticles, setMarkedArticles] = useState<ArticleType[]>([]);
+  const { language } = useLanguage();
+  const fetchData = async () => {
+    try {
+      const response2 = await Api.post("/api/v1/articles/search", {
+        ids: getArticleBookmarks(),
+      });
+      setMarkedArticles(response2.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <Wrapper>
-      <DetailHeader text="아티클" />
+      <DetailHeader text={DetailArticleTitle[language]} />
       <SavedArticleBox>
-        {savedArticles.map((article) => (
+        {markedArticles.map((article) => (
           <SavedArticleCard
             key={article.id}
             id={article.id}
             title={article.title}
-            images={article.images}
+            images={article.imageUrls}
             location={article.location}
           />
         ))}

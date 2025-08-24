@@ -16,7 +16,7 @@ const DetailHeader = ({ text }: MainHeaderProps) => {
       <Btn onClick={handleNavigate}>
         <img src={IMAGE_CONSTANTS.LeftBtn} alt="왼쪽 화실표" />
       </Btn>
-      <Text>저장한 {text}</Text>
+      <Text>{text}</Text>
     </Wrapper>
   );
 };
