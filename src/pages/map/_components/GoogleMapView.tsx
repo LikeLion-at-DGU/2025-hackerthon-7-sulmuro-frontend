@@ -64,6 +64,7 @@ const GoogleMapView = ({
     null
   );
   const markersRef = useRef<google.maps.Marker[]>([]);
+  const myLocationMarkerRef = useRef<google.maps.Marker | null>(null);
   const [selectedMarker, setSelectedMarker] =
     useState<google.maps.Marker | null>(null);
 
@@ -219,7 +220,38 @@ const GoogleMapView = ({
         mapFocusPlace.lng
       );
       mapRef.current!.panTo(position);
-      mapRef.current!.setZoom(20);
+      const customZoom = (mapFocusPlace as any).zoom as number | undefined;
+      const acc = (mapFocusPlace as any).accuracy as number | undefined;
+      const accBasedZoom =
+        acc != null
+          ? acc > 150
+            ? 16
+            : acc > 80
+            ? 17
+            : acc > 30
+            ? 18
+            : 19
+          : undefined;
+
+      mapRef.current!.setZoom(customZoom ?? accBasedZoom ?? 20);
+      if (mapFocusPlace.name === "내 위치") {
+        if (!myLocationMarkerRef.current) {
+          myLocationMarkerRef.current = new window.google.maps.Marker({
+            map: mapRef.current,
+            title: "내 위치",
+            zIndex: 9999,
+            icon: {
+              path: window.google.maps.SymbolPath.CIRCLE,
+              scale: 8, // 점 크기
+              fillColor: "#4285F4",
+              fillOpacity: 1,
+              strokeColor: "white",
+              strokeWeight: 2,
+            },
+          });
+        }
+        myLocationMarkerRef.current.setPosition(position);
+      }
     };
 
     // map이 아직 준비 안 된 경우 setTimeout으로 조금 기다림
