@@ -2,8 +2,7 @@ import styled, { css } from "styled-components";
 
 export const ChattingWrapper = styled.div`
     width: 100%;
-    padding: 24px 16px 0;
-    
+    padding: 24px 16px 12px;
     gap: 2rem;
     display: flex;
     flex-direction: column;

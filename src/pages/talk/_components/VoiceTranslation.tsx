@@ -1,4 +1,3 @@
-// talk/_components/VoiceTranslation.tsx
 import * as S from "./VoiceTranslation.styled";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import { useNavigate } from "react-router-dom";
@@ -6,22 +5,23 @@ import { useState, useMemo, useEffect, useRef } from "react";
 import { useSpeachText } from "../_hooks/UseSpeachText";
 import { useTranslate } from "../_hooks/UseTranslation";
 import { useLanguage } from "@/components/contexts/LanguageContext";
+import LanguageSheet from "./LanguageSheet"; // ✅ 제네릭 시트 재사용
 
 // ✅ ko/en/zh 확장
-type UIChoice = "kor" | "eng" | "chi";            // 드롭다운 value
-type ApiCode = "ko" | "en" | "zh";                // 번역 API 코드
+type UIChoice = "ko" | "en" | "zh"; // 드롭다운 value
+type ApiCode = "ko" | "en" | "zh"; // 번역 API 코드
 
-const toApiLang = (v: UIChoice): ApiCode => (v === "kor" ? "ko" : v === "eng" ? "en" : "zh");
-const toLocale = (v: UIChoice) => (v === "kor" ? "ko-KR" : v === "eng" ? "en-US" : "zh-CN");
+const toApiLang = (v: UIChoice): ApiCode => (v === "ko" ? "ko" : v === "en" ? "en" : "zh");
+const toLocale = (v: UIChoice) => (v === "ko" ? "ko-KR" : v === "en" ? "en-US" : "zh-CN");
 
 // 컨텍스트 언어를 "출력 박스(second)"에 반영
 const secondFromCtx = (ctx: "ko" | "en" | "zh"): UIChoice =>
-  ctx === "ko" ? "kor" : ctx === "en" ? "eng" : "chi";
+  ctx === "ko" ? "ko" : ctx === "en" ? "en" : "zh";
 
 // second(출력)가 정해졌을 때 추천 입력(first)
 const defaultFirstForSecond = (second: UIChoice): UIChoice => {
-  // 한국 현장 가정: second가 kor이 아니면 first는 kor, second가 kor이면 first는 eng
-  return second === "kor" ? "eng" : "kor";
+  // 한국 현장 가정: second가 ko이 아니면 first는 ko, second가 ko이면 first는 en
+  return second === "ko" ? "en" : "ko";
 };
 
 // ✅ UI 라벨 다국어
@@ -34,8 +34,8 @@ const labels = {
     tapMic: "마이크 버튼을 눌러서 말하세요",
     back: "뒤로가기",
     textTranslation: "텍스트 번역",
-    kor: "한국어",
-    eng: "영어",
+    ko: "한국어",
+    en: "영어",
     zh: "중국어",
   },
   en: {
@@ -46,9 +46,9 @@ const labels = {
     tapMic: "Tap mic and start speaking",
     back: "Back",
     textTranslation: "Text Translation",
-    kor: "Korean",
-    eng: "English",
-    zh: "Chinese",
+    ko: "Korean", // 'koean' -> 'Korean'
+    en: "English", // 'enlish' -> 'English'
+    zh: "Chinese", // 'zhnese' -> 'Chinese'
   },
   zh: {
     header: "语音翻译",
@@ -58,8 +58,8 @@ const labels = {
     tapMic: "点击麦克风并开始说话",
     back: "返回",
     textTranslation: "文本翻译",
-    kor: "韩语",
-    eng: "英语",
+    ko: "韩语",
+    en: "英语",
     zh: "中文",
   },
 } as const;
@@ -73,6 +73,11 @@ const VoiceTranslation = () => {
   const [secondLang, setSecondLang] = useState<UIChoice>(secondFromCtx(language));
   const [firstLang, setFirstLang] = useState<UIChoice>(defaultFirstForSecond(secondFromCtx(language)));
 
+  //language sheet open
+  const [isFirstOpen, setIsFirstOpen] = useState(false);
+  const [isSecondOpen, setIsSecondOpen] = useState(false);
+  const [firstExclude, setFirstExclude] = useState<UIChoice[]>([]);
+  const [secondExclude, setSecondExclude] = useState<UIChoice[]>([]);
   // 컨텍스트 변경 시 박스 언어 재설정(혼선 방지)
   useEffect(() => {
     const nextSecond = secondFromCtx(language);
@@ -252,6 +257,9 @@ const VoiceTranslation = () => {
 
   // 박스 문구 현지화
   const renderFirstBoxText = () => {
+    // 🟢 첫 번째 박스의 언어에 맞는 텍스트 객체 가져오기
+    const firstLabels = labels[firstLang];
+    
     if (toFirstFinal) return toFirstFinal;
     if (toFirstInterim) return <>{toFirstInterim}</>;
     if (firstFinalText || firstInterimText) {
@@ -267,10 +275,14 @@ const VoiceTranslation = () => {
         </>
       );
     }
-    return firstListening ? t.listening : t.tapMic;
+    // 🟢 첫 번째 박스의 언어에 맞는 텍스트 사용
+    return firstListening ? firstLabels.listening : firstLabels.tapMic;
   };
 
   const renderSecondBoxText = () => {
+    // 🟢 두 번째 박스의 언어에 맞는 텍스트 객체 가져오기
+    const secondLabels = labels[secondLang];
+    
     if (toSecondFinal) return toSecondFinal;
     if (toSecondInterim) return <>{toSecondInterim}</>;
     if (secondFinalText || secondInterimText) {
@@ -286,8 +298,19 @@ const VoiceTranslation = () => {
         </>
       );
     }
-    return secondListening ? t.listening : t.tapMic;
+    // 🟢 두 번째 박스의 언어에 맞는 텍스트 사용
+    return secondListening ? secondLabels.listening : secondLabels.tapMic;
   };
+
+  const VOICE_OPTIONS = useMemo(
+    () =>
+      [
+        { code: "ko", label: labels.ko.ko, short: "KR" },
+        { code: "en", label: labels.en.en, short: "EN" },
+        { code: "zh", label: labels.zh.zh, short: "ZH" },
+      ] as const,
+    []
+  );
 
   return (
     <S.Wrapper>
@@ -300,15 +323,20 @@ const VoiceTranslation = () => {
         {/* ===== 첫 번째 언어 박스 ===== */}
         <S.FirstLanguageBox>
           <S.FirstLanguageSelect>
-            <select
-              value={firstLang}
-              onChange={(e) => setFirstLang(e.target.value as UIChoice)}
-              aria-label={t.chooseInput}
+            {/* ▼ select -> trigger 버튼으로 교체 */}
+            <S.LanguageTrigger
+              type="button"
+              boxType="first"
+              onClick={() => {
+                setFirstExclude([]); // 직접 열 때 제한 없음
+                setIsFirstOpen(true);
+              }}
+              aria-haspopup="dialog"
+              aria-expanded={isFirstOpen}
             >
-              <option value="kor">{t.kor}</option>
-              <option value="eng">{t.eng}</option>
-              <option value="chi">{t.zh}</option>
-            </select>
+              {firstLang.toUpperCase()}
+              <img src={IMAGE_CONSTANTS.DropDownRed} alt="▽" />
+            </S.LanguageTrigger>
           </S.FirstLanguageSelect>
 
           <S.FristLanguageResult>{renderFirstBoxText()}</S.FristLanguageResult>
@@ -325,15 +353,19 @@ const VoiceTranslation = () => {
         {/* ===== 두 번째 언어 박스 ===== */}
         <S.SecondLanguageBox>
           <S.SecondLanguageSelect>
-            <select
-              value={secondLang}
-              onChange={(e) => setSecondLang(e.target.value as UIChoice)}
-              aria-label={t.chooseOutput}
+            <S.LanguageTrigger
+              type="button"
+              boxType="second"
+              onClick={() => {
+                setSecondExclude([]);
+                setIsSecondOpen(true);
+              }}
+              aria-haspopup="dialog"
+              aria-expanded={isSecondOpen}
             >
-              <option value="eng">{t.eng}</option>
-              <option value="kor">{t.kor}</option>
-              <option value="chi">{t.zh}</option>
-            </select>
+              {secondLang.toUpperCase()}
+              <img src={IMAGE_CONSTANTS.DropDown} alt="▽" />
+            </S.LanguageTrigger>
           </S.SecondLanguageSelect>
 
           <S.SecondLanguageResult>{renderSecondBoxText()}</S.SecondLanguageResult>
@@ -362,6 +394,44 @@ const VoiceTranslation = () => {
           <p>{t.textTranslation}</p>
         </S.TextTranslate>
       </S.BottomContainer>
+
+      {/* 첫 번째 시트 */}
+      {isFirstOpen && (
+        <LanguageSheet
+          setIsOpen={setIsFirstOpen}
+          current={firstLang}
+          exclude={firstExclude}
+          options={VOICE_OPTIONS}
+          onSelect={(c) => {
+            setFirstLang(c);
+            if (c === secondLang) {
+              setSecondExclude([c]);
+              setTimeout(() => setIsSecondOpen(true), 0);
+            }
+          }}
+          title={t.chooseInput}
+          subtitle=""
+        />
+      )}
+
+      {/* 두 번째 시트 */}
+      {isSecondOpen && (
+        <LanguageSheet
+          setIsOpen={setIsSecondOpen}
+          current={secondLang}
+          exclude={secondExclude}
+          options={VOICE_OPTIONS}
+          onSelect={(c) => {
+            setSecondLang(c);
+            if (c === firstLang) {
+              setFirstExclude([c]);
+              setTimeout(() => setIsFirstOpen(true), 0);
+            }
+          }}
+          title={t.chooseOutput}
+          subtitle=""
+        />
+      )}
     </S.Wrapper>
   );
 };
