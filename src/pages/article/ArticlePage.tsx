@@ -57,7 +57,7 @@ const ArticlePage = () => {
               <ArticleCard
                 key={a.id}
                 article={a}
-                onClick={() => navigate(buildRoute.articleDetail(a.id))}
+                onClick={(id) => navigate(buildRoute.articleDetail(id))}
               />
             ))}
           </S.ArticleBox>

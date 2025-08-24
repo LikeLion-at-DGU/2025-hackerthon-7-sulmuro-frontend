@@ -6,7 +6,7 @@ import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 
 type Props = {
     article: Article;
-    onClick?: (id: string) => void;
+    onClick?: (id: number) => void; // ✅ string → number
 };
 
 const ArticleCard = ({ article, onClick }: Props) => {
