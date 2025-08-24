@@ -33,6 +33,7 @@ import RecordingButtonRed from "@/assets/icons/recordingButton.svg";
 import RecordingButtonBlack from "@/assets/icons/recordingButton_black.svg";
 import VoiceButtonBlack from "@/assets/icons/VoiceButton_Black.svg";
 import DropDown from "@/assets/icons/DownIcon.svg";
+import DropDownRed from "@/assets/icons/DownIcon_Red.svg";
 
 // language icon
 import LanguageOpen from "@/assets/icons/language_open.svg";
@@ -83,6 +84,7 @@ import CLoseIcon from "@/assets/icons/close_icon.svg";
 import myLocation from "@/assets/icons/mylocation.svg";
 import myLocationSelect from "@/assets/icons/mylocation_select.svg";
 import goMarket from "@/assets/icons/goMarket.svg";
+import goMarketActive from "@/assets/icons/goMarket_active.svg";
 
 import splash from "@/assets/images/splash.png";
 import splash2 from "@/assets/images/splash2.gif";
@@ -135,8 +137,8 @@ export const IMAGE_CONSTANTS = {
   RecordingButtonRed,
   RecordingButtonBlack,
   VoiceButtonBlack,
-
   DropDown,
+  DropDownRed,
 
   SwapIcon,
   VoiceButton,
@@ -164,6 +166,7 @@ export const IMAGE_CONSTANTS = {
   myLocation,
   myLocationSelect,
   goMarket,
+  goMarketActive,
 
   splash,
   splash2,

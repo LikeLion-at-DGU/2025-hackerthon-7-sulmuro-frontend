@@ -1,6 +1,8 @@
 // src/pages/article/_components/ArticleContent.tsx
 import styled from "styled-components";
 import type { ContentBlock } from "../_apis/getArticle";
+import { useLanguage } from "@/components/contexts/LanguageContext";
+import { useMemo } from "react";
 
 const Section = styled.section`
   display: flex;
@@ -19,15 +21,15 @@ const Paragraph = styled.p`
 
 const Img = styled.img`
   width: 100%;
-  border-radius: 12px;
+        height: 250px;
   object-fit: cover;
   margin: 8px 0;
 `;
 
 type Props = {
-  /** ✅ position 정렬된 블록 배열을 우선 사용 */
+  /** position 정렬된 블록 배열 */
   blocks?: ContentBlock[];
-  /** 과거 방식과의 호환(없으면 무시) */
+  /** Fallback 용 */
   images?: string[];
   content?: string[];
   heroIndex?: number;
@@ -41,13 +43,23 @@ const ArticleContent = ({
   heroIndex = 0,
   showHero = true,
 }: Props) => {
-  // ✅ blocks가 오면 blocks 기준으로 그대로 렌더 (position asc, IMAGE → TEXT 순)
+  const { language } = useLanguage();
+
+  const t = useMemo(() => {
+    return {
+      heroAlt: language === "ko" ? "대표 이미지" : language === "zh" ? "主图" : "Hero image",
+      imageAlt: (i: number) =>
+        language === "ko" ? `이미지 ${i}` : language === "zh" ? `图片 ${i}` : `Image ${i}`,
+    };
+  }, [language]);
+
+  // ✅ blocks가 오면 blocks 기준 렌더
   if (blocks && blocks.length > 0) {
     return (
       <Section>
         {blocks.map((b, i) =>
           b.type === "IMAGE" ? (
-            <Img key={`img-${i}`} src={b.data} alt={`image-${i}`} />
+            <Img key={`img-${i}`} src={b.data} alt={t.imageAlt(i + 1)} />
           ) : (
             <Paragraph key={`txt-${i}`}>{b.data}</Paragraph>
           )
@@ -56,15 +68,15 @@ const ArticleContent = ({
     );
   }
 
-  // ⛳️ Fallback: 기존 방식(히어로 → 문단 → 이미지[+1] …)
+  // ⛳️ Fallback: 기존 방식
   const hero = showHero ? images?.[heroIndex] : undefined;
   return (
     <Section>
-      {hero && <Img src={hero} alt="hero" />}
+      {hero && <Img src={hero} alt={t.heroAlt} />}
       {content.map((para, i) => (
         <div key={i}>
           <Paragraph>{para}</Paragraph>
-          {images?.[i + 1] && <Img src={images[i + 1]} alt={`image-${i + 1}`} />}
+          {images?.[i + 1] && <Img src={images[i + 1]} alt={t.imageAlt(i + 1)} />}
         </div>
       ))}
     </Section>

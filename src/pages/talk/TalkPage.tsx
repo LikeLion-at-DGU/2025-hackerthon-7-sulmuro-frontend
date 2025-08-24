@@ -31,7 +31,8 @@ const TalkPage = () => {
           aria-haspopup="dialog"
           aria-expanded={isMarketOpen}
         >
-          {market} ▼
+          {market} 
+          <img src={IMAGE_CONSTANTS.DropDown} alt="선택" />
         </S.MarketTrigger>
       </S.Header>
 

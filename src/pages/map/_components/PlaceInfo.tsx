@@ -37,7 +37,7 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
   const fetchData = async () => {
     try {
       const response = await Api.get(`/api/v1/places/${place.id}/images`);
-      const response2 = await Api.get(`api/v1/places/${place.id}`);
+      const response2 = await Api.get(`/api/v1/places/${place.id}`);
       setPlaceData(response2.data.data.content);
       setPlaceImg(response.data.data.content);
     } catch (err) {
@@ -75,7 +75,6 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
 
     const deltaY = initialY.current - currentY;
 
-    // 위로 드래그
     if (deltaY > 0) {
       if (deltaY <= DEFAULT_HOLD) {
         setHeight(DEFAULT_HEIGHT + deltaY);
@@ -83,9 +82,7 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
         setAnimate(true);
         setHeight(window.innerHeight);
       }
-    }
-    // 아래로 드래그
-    else {
+    } else {
       const downDelta = -deltaY;
       if (downDelta <= DEFAULT_HOLD) {
         setHeight(DEFAULT_HEIGHT - downDelta + (height - DEFAULT_HEIGHT));
@@ -151,7 +148,6 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
     dragStartX.current = e.clientX;
     scrollStartLeft.current = carouselRef.current.scrollLeft;
 
-    // 부모로 버블링 막기 (부모의 세로 드래그 방지)
     e.stopPropagation();
     (e.nativeEvent as PointerEvent).stopPropagation?.();
     e.preventDefault();
@@ -184,24 +180,29 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
       }}
       $expanded={!type}
       animate={animate}
-      onMouseDown={(e) => onMouseDown(e.nativeEvent)}
-      onTouchStart={(e) => onTouchStart(e.nativeEvent)}
     >
-      <S.Header
-        style={{
-          display: height >= window.innerHeight ? "flex " : "none",
-        }}
-      >
-        <button onClick={handleDragBack}>
-          <img src={IMAGE_CONSTANTS.BackIcon2} alt="돌아가기" />
-        </button>
-      </S.Header>
       <S.SwipeButton
         style={{
           display: height == window.innerHeight ? "none" : "flex",
         }}
       />
-      <S.InfoContainer>
+      <S.Header
+        style={{
+          display: "flex",
+          opacity: height >= window.innerHeight ? "1" : "0",
+        }}
+        onMouseDown={(e) => onMouseDown(e.nativeEvent)}
+        onTouchStart={(e) => onTouchStart(e.nativeEvent)}
+      >
+        <button onClick={handleDragBack}>
+          <img src={IMAGE_CONSTANTS.BackIcon2} alt="돌아가기" />
+        </button>
+      </S.Header>
+
+      <S.InfoContainer
+        onMouseDown={(e) => onMouseDown(e.nativeEvent)}
+        onTouchStart={(e) => onTouchStart(e.nativeEvent)}
+      >
         <p className="title">{place.name}</p>
         <img
           src={

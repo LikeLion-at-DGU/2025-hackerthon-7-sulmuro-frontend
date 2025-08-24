@@ -20,11 +20,13 @@ export const SelectButton = styled.button`
 `;
 export const MarketTrigger = styled.button`
     padding: 6px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
     border-radius: 8px;
-    border: 1px solid ${({ theme }) => theme.colors.N10};
     background: ${({ theme }) => theme.colors.WHITE};
-    ${({ theme }) => theme.fonts.SemiBold14};
-    color: ${({ theme }) => theme.colors.N70};
+    ${({ theme }) => theme.fonts.Regular12};
+    color: ${({ theme }) => theme.colors.N50};
     cursor: pointer;
 `;
 export const Header = styled.div`
