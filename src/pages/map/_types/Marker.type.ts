@@ -16,4 +16,5 @@ export interface Place {
   category: Category; // 카테고리
   accuracy?: number;
   zoom?: number;
+  follow?: boolean;
 }
