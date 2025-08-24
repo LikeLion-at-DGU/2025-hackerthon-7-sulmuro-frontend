@@ -33,3 +33,28 @@ export const PlaceModalWithGoogle = {
   ko: "구글맵에서 확인하기",
   zh: "在 Google 地图中打开",
 };
+
+// SavedPage
+export const SavedPagePlaceTitle = {
+  en: "Marked Place",
+  ko: "저장한 장소",
+  zh: "已保存地点",
+};
+
+export const savedPageArticleTitle = {
+  en: "Marked Article",
+  ko: "저장한 아티클",
+  zh: "已保存文章",
+};
+
+export const SavedPagePlaceEmptyCase = {
+  en: "No place had marked",
+  ko: "저장된 장소가 없습니다.",
+  zh: "没有保存的地点",
+};
+
+export const SavedPageArticleEmptyCase = {
+  en: "No Article had marked",
+  ko: "저장된 아티클이 없습니다.",
+  zh: "没有保存的文章",
+};
