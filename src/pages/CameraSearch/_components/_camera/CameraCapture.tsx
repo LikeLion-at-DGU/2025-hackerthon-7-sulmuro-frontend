@@ -1,8 +1,9 @@
 // pages/CameraSearch/_components/_camera/CameraCapture.tsx
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useMemo, useState } from "react";
 import * as S from "./CameraCapture.styled";
 import { IMAGE_CONSTANTS } from "../../../../constants/imageConstants";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/components/contexts/LanguageContext"; // ⬅ LanguageContext 연결
 
 type Props = {
   onCaptured: (dataUrl: string | null, file?: File) => void;
@@ -15,6 +16,7 @@ const CameraCapture = ({ onCaptured }: Props) => {
   const frameRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const navigate = useNavigate();
+  const { language } = useLanguage(); 
 
   const [_status, setStatus] = useState<CameraStatus>("init");
   const [_errorMsg, setErrorMsg] = useState<string>("");
@@ -167,6 +169,15 @@ const CameraCapture = ({ onCaptured }: Props) => {
     reader.onload = () => onCaptured(String(reader.result), file);
     reader.readAsDataURL(file);
   };
+// ⬅ 언어별 힌트 문구
+  const hintText = useMemo(() => {
+    const map: Record<"ko" | "en" | "zh", string> = {
+      ko: "시장에서 파는 물건을 찍어보세요",
+      en: "Take a picture of the market items",
+      zh: "请拍摄市场的商品",
+    };
+    return map[language] ?? map.en;
+  }, [language]);
 
   return (
     <S.Wrap>
@@ -178,8 +189,8 @@ const CameraCapture = ({ onCaptured }: Props) => {
             <img src={IMAGE_CONSTANTS.Cross} alt="+" />
           </S.Crosshair>
       </S.Frame>
-      <S.Hint>Take a picture of the items of market</S.Hint>
-
+      {/* ⬇️ 설정 언어에 따라 힌트 표시 */}
+      <S.Hint>{hintText}</S.Hint>
       <S.BottomBar>
         <S.Actions>
           <S.Nothing> </S.Nothing>

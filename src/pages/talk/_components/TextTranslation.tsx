@@ -1,4 +1,3 @@
-// src/pages/talk/_components/TextTranslation.tsx
 import * as S from "./TextTranslation.styled";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import { useNavigate } from "react-router-dom";
@@ -31,7 +30,7 @@ const TextTranslation = () => {
 
   // 컨텍스트 language 변경 시 기본 규칙 재적용
   useEffect(() => {
-    setTargetLanguageCode(DEFAULT_TARGET);              // 항상 ko
+    setTargetLanguageCode(DEFAULT_TARGET); // 항상 ko
     setSourceLanguageCode(pickDefaultSource(language)); // ko면 en, 아니면 그대로
     // 필요 시 번역 결과 초기화가 필요하면 주석 해제
     // reset();
@@ -88,15 +87,61 @@ const TextTranslation = () => {
     () => (language === "ko" ? "텍스트 번역" : language === "zh" ? "文本翻译" : "Text Translation"),
     [language]
   );
-  const placeholder = useMemo(
-    () =>
-      language === "ko"
-        ? "번역할 문장을 입력하세요"
-        : language === "zh"
-        ? "输入要翻译的句子"
-        : "Enter text to translate",
-    [language]
-  );
+
+  // 🔧 placeholder 텍스트를 입력 언어(sourceLanguageCode)에 맞게 동적으로 변경
+  const placeholder = useMemo(() => {
+    switch (sourceLanguageCode) {
+      case "ko":
+        return "번역할 문장을 입력하세요";
+      case "en":
+        return "Enter text to translate";
+      case "zh":
+        return "输入要翻译的句子";
+      default:
+        return "Enter text to translate";
+    }
+  }, [sourceLanguageCode]);
+
+  // 🔧 결과 텍스트(로딩, 에러, 기본 문구)를 목표 언어(targetLanguageCode)에 맞게 동적으로 변경
+  const resultText = useMemo(() => {
+    if (loading) {
+      switch (targetLanguageCode) {
+        case "ko":
+          return "번역 중...";
+        case "en":
+          return "Translating...";
+        case "zh":
+          return "翻译中...";
+        default:
+          return "Translating...";
+      }
+    }
+    if (error) {
+      switch (targetLanguageCode) {
+        case "ko":
+          return `에러: ${error}`;
+        case "en":
+          return `Error: ${error}`;
+        case "zh":
+          return `错误: ${error}`;
+        default:
+          return `Error: ${error}`;
+      }
+    }
+    if (data?.translatedText) {
+      return data.translatedText;
+    }
+    switch (targetLanguageCode) {
+      case "ko":
+        return "번역 결과가 여기에 표시됩니다.";
+      case "en":
+        return "Translation will appear here.";
+      case "zh":
+        return "翻译结果显示在此处。";
+      default:
+        return "Translation will appear here.";
+    }
+  }, [loading, error, data, targetLanguageCode]);
 
   return (
     <S.Wrapper>
@@ -166,20 +211,7 @@ const TextTranslation = () => {
               opacity: data?.translatedText ? 1 : 0.5,
             }}
           />
-          <p>
-            {loading &&
-              (language === "ko" ? "번역 중..." : language === "zh" ? "翻译中..." : "Translating...")}
-            {error &&
-              (language === "ko" ? `에러: ${error}` : language === "zh" ? `错误: ${error}` : `Error: ${error}`)}
-            {!loading &&
-              !error &&
-              (data?.translatedText ||
-                (language === "ko"
-                  ? "번역 결과가 여기에 표시됩니다."
-                  : language === "zh"
-                  ? "翻译结果显示在此处。"
-                  : "Translation will appear here."))}
-          </p>
+          <p>{resultText}</p>
         </S.TranslateResult>
       </S.TopContainer>
 
@@ -203,12 +235,12 @@ const TextTranslation = () => {
           }
         />
       )}
-        <S.BottomContainer>
-            <S.VoiceTranslate onClick={() => navigate("/talk/voice")}>
-            <img src={IMAGE_CONSTANTS.ChatIcon} alt="CHAT" />
-            <p>Text Translation</p>
-            </S.VoiceTranslate>
-        </S.BottomContainer>
+      <S.BottomContainer>
+        <S.VoiceTranslate onClick={() => navigate("/talk/voice")}>
+          <img src={IMAGE_CONSTANTS.ChatIcon} alt="CHAT" />
+          <p>Text Translation</p>
+        </S.VoiceTranslate>
+      </S.BottomContainer>
       {isTargetOpen && (
         <LanguageSheet
           setIsOpen={setIsTargetOpen}

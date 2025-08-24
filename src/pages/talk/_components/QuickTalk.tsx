@@ -53,9 +53,6 @@ const QuickTalk = () => {
 
   return (
     <S.Wrapper>
-      {/* ✅ 상단 섹션 타이틀 추가 */}
-      <S.ContainerHeader>{t.quick}</S.ContainerHeader>
-
       <S.LineContainer>
         <S.ContainerHeader>{t.price}</S.ContainerHeader>
         {pricePhrases.map((p, i) => (
