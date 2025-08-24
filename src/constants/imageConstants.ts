@@ -83,6 +83,7 @@ import CLoseIcon from "@/assets/icons/close_icon.svg";
 import myLocation from "@/assets/icons/mylocation.svg";
 import myLocationSelect from "@/assets/icons/mylocation_select.svg";
 import goMarket from "@/assets/icons/goMarket.svg";
+import goMarketActive from "@/assets/icons/goMarket_active.svg";
 
 import splash from "@/assets/images/splash.png";
 export const IMAGE_CONSTANTS = {
@@ -136,7 +137,7 @@ export const IMAGE_CONSTANTS = {
   VoiceButtonBlack,
 
   DropDown,
-  
+
   SwapIcon,
   VoiceButton,
   ChatIcon,
@@ -163,6 +164,7 @@ export const IMAGE_CONSTANTS = {
   myLocation,
   myLocationSelect,
   goMarket,
+  goMarketActive,
 
   splash,
 };

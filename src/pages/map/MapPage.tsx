@@ -24,6 +24,7 @@ const MapPage = () => {
   const [mapFocusPlace, setMapFocusPlace] = useState<Place | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [isMarketMode, setIsMarketMode] = useState(false);
   const [searchParams] = useSearchParams();
   const focusPlaceId = searchParams.get("place");
   const { language } = useLanguage();
@@ -116,12 +117,15 @@ const MapPage = () => {
             setMapFocusPlace={setMapFocusPlace}
             isFollowing={isFollowing}
             setIsFollowing={setIsFollowing}
+            setIsMarketMode={setIsMarketMode}
           />
           <SelectLanguage />
           <MapControll
             setMapFocusPlace={setMapFocusPlace}
             isFollowing={isFollowing}
             setIsFollowing={setIsFollowing}
+            isMarketMode={isMarketMode}
+            setIsMarketMode={setIsMarketMode}
           />
           {isModalOpen && (
             <MarketModal
