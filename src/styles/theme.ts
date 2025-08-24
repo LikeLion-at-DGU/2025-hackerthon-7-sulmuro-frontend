@@ -51,7 +51,7 @@ const theme = {
     ExtraBold90: fontGenerator(
       "Pretendard-ExtraBold",
       "90px",
-      "900",
+      "800",
       "auto",
       "normal"
     ),
