@@ -14,6 +14,7 @@ import { useLanguage } from "@/components/contexts/LanguageContext";
 // import { useResetGoogleMaps } from "./_hooks/useResetGoogleMap";
 
 import Loading from "@/pages/splash/SplashPage";
+import { useSearchParams } from "react-router-dom";
 const MapPage = () => {
   const [isPlaceInfo, setIsPlaceInfo] = useState<boolean>(false);
   const [selectPlace, setSelectPlace] = useState<Place | null>(null);
@@ -23,7 +24,8 @@ const MapPage = () => {
   const [mapFocusPlace, setMapFocusPlace] = useState<Place | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isFollowing, setIsFollowing] = useState(false);
-
+  const [searchParams] = useSearchParams();
+  const focusPlaceId = searchParams.get("place");
   const { language } = useLanguage();
 
   // const LANG = {
@@ -62,6 +64,22 @@ const MapPage = () => {
         return <>로드 성공</>;
     }
   };
+
+  useEffect(() => {
+    // places 로딩 후에만 처리
+    if (!focusPlaceId || !places.length) return;
+
+    const p = places.find((pl) => String(pl.id) === String(focusPlaceId));
+    if (!p) return;
+    setSelectPlace(p);
+    setIsRegister(!!p.id);
+    setIsPlaceInfo(true);
+    setMapFocusPlace({ ...p, zoom: 19 });
+
+    const url = new URL(window.location.href);
+    url.searchParams.delete("place");
+    window.history.replaceState({}, "", url.toString());
+  }, [focusPlaceId, places]);
 
   useEffect(() => {
     const fetchData = async () => {
