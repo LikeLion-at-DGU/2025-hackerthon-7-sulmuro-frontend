@@ -37,7 +37,7 @@ const MarketModal = ({
         </button>
       </ModalHeader>
       <ModalBody>
-        <Title>서울의 대표 전통시작</Title>
+        <Title>서울의 대표 전통시장</Title>
         <button onClick={moveFocus}>서울광장시장</button>
         <span>더 많은 시장들이 업데이트될 예정이예요.</span>
       </ModalBody>

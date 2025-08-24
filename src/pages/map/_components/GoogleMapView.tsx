@@ -45,7 +45,7 @@ interface GoogleMapViewProps {
   setIsPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
   setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
   setMapFocusPlace: React.Dispatch<React.SetStateAction<Place | null>>;
-  isfollowing: boolean;
+  isFollowing: boolean;
   setIsFollowing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -58,7 +58,7 @@ const GoogleMapView = ({
   mapFocusPlace,
   setMapFocusPlace,
   setIsFollowing,
-  isfollowing,
+  isFollowing,
 }: GoogleMapViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -135,6 +135,7 @@ const GoogleMapView = ({
               };
 
               setSelectedPlace(selectedPlace);
+
               setIsPlaceInfo(true);
               setIsRegister(false);
             } else {
@@ -152,9 +153,9 @@ const GoogleMapView = ({
 
     const mapClickL = map.addListener("click", onMapClick);
     mapListenersRef.current.push(mapClickL);
-    console.log("장소", places);
+
     const filteredPlaces = filterPlacesByCategory(selectedCategory);
-    console.log(filteredPlaces);
+
     filteredPlaces.forEach((place: Place) => {
       const iconUrls = CATEGORY_ICONS[place.category];
       const isSelected =
@@ -198,17 +199,18 @@ const GoogleMapView = ({
       document.head.appendChild(style);
 
       marker.addListener("click", (e: google.maps.MapMouseEvent) => {
-        e.domEvent?.stopPropagation?.(); // 전파 중단
+        e.domEvent?.stopPropagation?.();
         setSelectedPlace(place);
+        console.log(setSelectedPlace);
         setIsPlaceInfo(true);
         marker.setIcon({
           url: CATEGORY_ICONS[selectedCategory]?.selected || testmark,
-          scaledSize: new window.google.maps.Size(42, 42), // 선택된 마커 크기
+          scaledSize: new window.google.maps.Size(42, 42),
         });
         if (selectedMarker && selectedMarker !== marker) {
           selectedMarker.setIcon({
             url: CATEGORY_ICONS[selectedCategory]?.unselected || testmark,
-            scaledSize: new window.google.maps.Size(28, 28), // 기본 마커 크기
+            scaledSize: new window.google.maps.Size(0, 0),
           });
         }
 
@@ -222,12 +224,56 @@ const GoogleMapView = ({
       markersRef.current.push(marker);
     });
   }, [places, selectedCategory, selectedMarker, setIsRegister]);
+
+  // 내 위치 관련 코드
   useEffect(() => {
-    if (!isfollowing && myLocationMarkerRef.current) {
-      myLocationMarkerRef.current.setMap(null); // 지도에서 제거
-      myLocationMarkerRef.current = null;
+    if (!mapRef.current || !mapFocusPlace) return;
+
+    const position = new google.maps.LatLng(
+      mapFocusPlace.lat,
+      mapFocusPlace.lng
+    );
+
+    // 지도 이동 + 줌
+    mapRef.current.panTo(position);
+    const customZoom = (mapFocusPlace as any).zoom as number | undefined;
+    const acc = (mapFocusPlace as any).accuracy as number | undefined;
+    const accBasedZoom =
+      acc != null
+        ? acc > 150
+          ? 16
+          : acc > 80
+          ? 17
+          : acc > 30
+          ? 18
+          : 19
+        : undefined;
+    mapRef.current.setZoom(customZoom ?? accBasedZoom ?? 20);
+
+    // 내 위치 마커 처리: "내 위치"이고, 따라가기 중일 때만 유지
+    if (mapFocusPlace.name === "내 위치" && isFollowing) {
+      if (!myLocationMarkerRef.current) {
+        myLocationMarkerRef.current = new google.maps.Marker({
+          map: mapRef.current,
+          title: "내 위치",
+          clickable: false,
+          zIndex: 9999,
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: 8,
+            fillColor: "rgba(173, 0, 2, 1)",
+            fillOpacity: 1,
+            strokeColor: "#FFFFFF",
+            strokeWeight: 2,
+          },
+        });
+      }
+      myLocationMarkerRef.current.setPosition(position);
     }
-  }, [isfollowing]);
+
+    // 한 번 처리 후 초기화
+    setMapFocusPlace(null);
+  }, [mapFocusPlace, isFollowing, setMapFocusPlace]);
 
   useEffect(() => {
     if (!mapRef.current || !mapFocusPlace) return;

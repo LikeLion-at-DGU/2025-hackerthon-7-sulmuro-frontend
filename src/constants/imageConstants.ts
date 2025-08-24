@@ -36,6 +36,7 @@ import LanguageClose from "@/assets/icons/language_closed.svg";
 
 import LanguageKorean from "@/assets/icons/korean.svg";
 import LanguageEnglish from "@/assets/icons/english.svg";
+import LanguageChinese from "@/assets/icons/chinese.svg";
 
 import FootPrint from "@/assets/icons/foot_print.svg";
 import BookMark from "@/assets/icons/book_mark.svg";
@@ -93,6 +94,7 @@ export const IMAGE_CONSTANTS = {
   LanguageClose,
   LanguageKorean,
   LanguageEnglish,
+  LanguageChinese,
 
   FootPrint,
   BookMark,
