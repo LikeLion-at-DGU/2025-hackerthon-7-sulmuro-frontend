@@ -136,6 +136,7 @@ const GoogleMapView = ({
               res
             ) {
               const selectedPlace: Place = {
+                id: 0,
                 name: res.name ?? "",
                 address: res.formatted_address ?? "",
                 lat: res.geometry?.location?.lat() ?? 0,
