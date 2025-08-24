@@ -62,12 +62,14 @@ import ClothesPinUnSelect from "@/assets/icons/cloth_pin_unselect.svg";
 import GoodsPinUnSelect from "@/assets/icons/shop_pin_unselect.svg";
 import CafePinUnSelect from "@/assets/icons/cafe_pin_unselect.svg";
 import ATMPinUnSelect from "@/assets/icons/atm_pin_unselect.svg";
+import BarPinUnSelect from "@/assets/icons/bar_pin_unselect.svg";
 
 import FoodPinSelect from "@/assets/icons/food_pin_select.svg";
 import ClothesPinSelect from "@/assets/icons/cloth_pin_select.svg";
 import GoodsPinSelect from "@/assets/icons/shop_pin_select.svg";
 import CafePinSelect from "@/assets/icons/cafe_pin_select.svg";
 import ATMPinSelect from "@/assets/icons/atm_pin_select.svg";
+import BarPinSelect from "@/assets/icons/bar_pin_select.svg";
 
 // saved page
 import RightBtn from "@/assets/icons/right_btn.svg";
@@ -149,11 +151,13 @@ export const IMAGE_CONSTANTS = {
   GoodsPinUnSelect,
   CafePinUnSelect,
   ATMPinUnSelect,
+  BarPinUnSelect,
   FoodPinSelect,
   ClothesPinSelect,
   GoodsPinSelect,
   CafePinSelect,
   ATMPinSelect,
+  BarPinSelect,
 
   RightBtn,
   Bookmark,
