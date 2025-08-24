@@ -5,29 +5,33 @@ const GlobalStyle = createGlobalStyle`
 /* SUIT 폰트 설정 */
 @font-face {
   font-family: 'Pretendard-ExtraBold';
-  src: url('/public/fonts/Pretendard-ExtraBold.otf') format('opentype');
+  src: url('/fonts/Pretendard-ExtraBold.otf') format('opentype'),
+      url('/fonts/Pretendard-ExtraBold.woff2') format('woff2');
   font-weight: 800;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Pretendard-Bold';
-  src: url('/public/fonts/Pretendard-Bold.otf') format('opentype');
+  src: url('/fonts/Pretendard-Bold.otf') format('opentype'),
+        url('/fonts/Pretendard-Bold.woff2') format('woff2');
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Pretendard-Regular';
-  src: url('/public/fonts/Pretendard-Regular.otf') format('opentype');
-  font-weight: 600;
+  src: url('/fonts/Pretendard-Regular.otf') format('opentype'),
+      url('/fonts/Pretendard-Regular.woff2') format('woff2');
+  font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Pretendard-SemiBold';
-  src: url('/public/fonts/Pretendard-SemiBold.otf') format('opentype');
-  font-weight: 500;
+  src: url('/fonts/Pretendard-SemiBold.otf') format('opentype'),
+  url('/fonts/Pretendard-SemiBold.woff2') format('woff2');
+  font-weight: 600;
   font-style: normal;
 }
 
@@ -53,7 +57,7 @@ body {
 
 	background-color: ${({ theme }) => theme.colors.WHITE};
 	color: ${({ theme }) => theme.colors.N70};
-  font-family: 'SUIT-Regular', sans-serif;
+  font-family: 'Pretendard-Regular', sans-serif;
   line-height: 1.5;
 }
 

@@ -72,6 +72,7 @@ import ATMPinSelect from "@/assets/icons/atm_pin_select.svg";
 import RightBtn from "@/assets/icons/right_btn.svg";
 import Bookmark from "@/assets/icons/bookmark.svg";
 import BookMarkSelect from "@/assets/icons/bookmark_selected.svg";
+import BookMarkUnselect from "@/assets/icons/bookmark_unselected.svg";
 import PlaceIcon from "@/assets/icons/place_icon.svg";
 import LeftBtn from "@/assets/icons/left_btn.svg";
 
@@ -126,12 +127,14 @@ export const IMAGE_CONSTANTS = {
   SwitchIcon,
   SoundIcon,
   FalseBookmark,
+  BookMarkUnselect,
   TrueBookmarkPlain,
   FalseBookmarkPlain,
   MicIcon,
   RecordingButtonRed,
   RecordingButtonBlack,
   VoiceButtonBlack,
+
   DropDown,
   
   SwapIcon,

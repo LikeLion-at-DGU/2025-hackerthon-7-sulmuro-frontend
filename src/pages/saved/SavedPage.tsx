@@ -9,7 +9,11 @@ import SavedArticleCard from "./_components/SavedArticleCard";
 
 //더미데이터 연결
 import { savedPlaces, savedArticles } from "./dummy/dummyData";
+import { useState } from "react";
+import { Article } from "../article/_apis/getArticle";
 const SavePage = () => {
+  const [_markedPlaces, _setMarkedPlaces] = useState<Article[]>();
+  // const sfetchData = () => {};
   return (
     <S.Wrapper>
       <S.Header>Saved</S.Header>
@@ -19,8 +23,9 @@ const SavePage = () => {
           {savedPlaces.slice(0, 2).map((place) => (
             <SavePlaceCard
               key={place.id}
+              id={place.id}
               name={place.name}
-              path={ROUTE_PATHS.SAVED_PLACE} //추후 지도경로로 변경핑핑
+              path={`${ROUTE_PATHS.MAP}?place=${place.id}`}
               thumbnailUrl={place.thumbnailUrl}
               address={place.address}
             />
@@ -31,6 +36,7 @@ const SavePage = () => {
           {savedArticles.slice(0, 1).map((article) => (
             <SavedArticleCard
               key={article.id}
+              id={article.id}
               title={article.title}
               images={article.images}
               location={article.location}
