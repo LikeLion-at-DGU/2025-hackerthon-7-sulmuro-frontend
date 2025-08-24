@@ -1,9 +1,10 @@
+// src/pages/talk/_components/TextTranslation.tsx
 import * as S from "./TextTranslation.styled";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useTranslate } from "../_hooks/UseTranslation";
-import LanguageSheet from "./LanguageSheet"; // ⛳ 타입을 내부에서 정의
+import LanguageSheet from "./LanguageSheet"; 
 import { speak } from "../_apis/GetSpeachText";
 import { useLanguage } from "@/components/contexts/LanguageContext";
 
@@ -20,26 +21,23 @@ const pickDefaultSource = (ctx: LangCode): LangCode => (ctx === "ko" ? "en" : ct
 
 const TextTranslation = () => {
   const navigate = useNavigate();
-  const { language } = useLanguage(); // 'ko' | 'en' | 'zh'
+  const { language } = useLanguage(); 
 
-  // 🔧 초기값: source = 컨텍스트 언어(단, ko면 en), target = ko
   const [sourceLanguageCode, setSourceLanguageCode] =
     useState<LangCode>(pickDefaultSource(language));
   const [targetLanguageCode, setTargetLanguageCode] =
     useState<LangCode>(DEFAULT_TARGET);
 
-  // 컨텍스트 language 변경 시 기본 규칙 재적용
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [activeSoundIndex, setActiveSoundIndex] = useState<number | null>(null); // ✅ 추천 문장용 상태 추가
+
   useEffect(() => {
-    setTargetLanguageCode(DEFAULT_TARGET); // 항상 ko
-    setSourceLanguageCode(pickDefaultSource(language)); // ko면 en, 아니면 그대로
-    // 필요 시 번역 결과 초기화가 필요하면 주석 해제
-    // reset();
+    setTargetLanguageCode(DEFAULT_TARGET);
+    setSourceLanguageCode(pickDefaultSource(language));
   }, [language]);
 
-  // 입력 텍스트
   const [inputText, setInputText] = useState("");
 
-  // 바텀시트 상태 & 제외 목록
   const [isSourceOpen, setIsSourceOpen] = useState(false);
   const [isTargetOpen, setIsTargetOpen] = useState(false);
   const [sourceExclude, setSourceExclude] = useState<LangCode[]>([]);
@@ -49,7 +47,6 @@ const TextTranslation = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => setInputText(e.target.value);
 
-  // 언어 스왑(그냥 서로 바꿈)
   const handleSwap = () => {
     setSourceLanguageCode(targetLanguageCode);
     setTargetLanguageCode(sourceLanguageCode);
@@ -75,20 +72,33 @@ const TextTranslation = () => {
     return () => clearTimeout(id);
   }, [inputText, sourceLanguageCode, targetLanguageCode, runTranslate]);
 
-  /** ✅ 번역 결과를 목표 언어 음성으로 재생 */
-  const handleSpeak = () => {
+  const handleSpeak = useCallback(() => {
     const translated = data?.translatedText?.trim();
     if (!translated) return;
+    
+    setIsSpeaking(true);
     speak(translated, { lang: toLocale(targetLanguageCode) });
-  };
 
-  // 간단한 라벨(필요하면 다국어화 가능)
+    setTimeout(() => {
+      setIsSpeaking(false);
+    }, 1000); 
+  }, [data, targetLanguageCode]);
+
+  // ✅ 추천 문장용 음성 재생 핸들러
+  const handleRecommendationSpeak = useCallback((text: string, index: number) => {
+    setActiveSoundIndex(index);
+    speak(text, { lang: "ko-KR" });
+
+    setTimeout(() => {
+      setActiveSoundIndex(null);
+    }, 1000);
+  }, []);
+
   const headerTitle = useMemo(
     () => (language === "ko" ? "텍스트 번역" : language === "zh" ? "文本翻译" : "Text Translation"),
     [language]
   );
 
-  // 🔧 placeholder 텍스트를 입력 언어(sourceLanguageCode)에 맞게 동적으로 변경
   const placeholder = useMemo(() => {
     switch (sourceLanguageCode) {
       case "ko":
@@ -102,7 +112,6 @@ const TextTranslation = () => {
     }
   }, [sourceLanguageCode]);
 
-  // 🔧 결과 텍스트(로딩, 에러, 기본 문구)를 목표 언어(targetLanguageCode)에 맞게 동적으로 변경
   const resultText = useMemo(() => {
     if (loading) {
       switch (targetLanguageCode) {
@@ -152,7 +161,6 @@ const TextTranslation = () => {
         </S.Header>
 
         <S.LanguageSwitch>
-          {/* 입력 언어 선택 */}
           <S.LanguageSelect>
             <S.LanguageTrigger
               type="button"
@@ -175,7 +183,6 @@ const TextTranslation = () => {
             style={{ cursor: "pointer" }}
           />
 
-          {/* 번역(목표) 언어 선택 */}
           <S.LanguageSelect>
             <S.LanguageTrigger
               type="button"
@@ -201,9 +208,8 @@ const TextTranslation = () => {
         />
 
         <S.TranslateResult>
-          {/* ✅ 클릭 시 목표 언어로 TTS */}
           <img
-            src={IMAGE_CONSTANTS.SoundIcon}
+            src={isSpeaking ? IMAGE_CONSTANTS.SoundIconActive : IMAGE_CONSTANTS.SoundIcon}
             alt="음성 출력"
             onClick={handleSpeak}
             style={{
@@ -215,7 +221,6 @@ const TextTranslation = () => {
         </S.TranslateResult>
       </S.TopContainer>
 
-      {/* 바텀시트들 */}
       {isSourceOpen && (
         <LanguageSheet
           setIsOpen={setIsSourceOpen}
@@ -236,9 +241,56 @@ const TextTranslation = () => {
         />
       )}
       <S.BottomContainer>
+        <S.RecommendedLines>
+          <p>Try this</p>
+
+          {data?.recommendations?.length ? (
+            data.recommendations.map((rec, idx) => {
+              const koText =
+                sourceLanguageCode === "ko"
+                  ? rec.source
+                  : targetLanguageCode === "ko"
+                  ? rec.target
+                  : rec.source;
+
+              const otherText = koText === rec.source ? rec.target : rec.source;
+
+              return (
+                <S.Line
+                  key={idx}
+                  onClick={() => setInputText(otherText)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <S.TextContainer>
+                    <S.KoreanLine>{koText}</S.KoreanLine>
+                    <S.EnglishLine>{otherText}</S.EnglishLine>
+                  </S.TextContainer>
+                  <S.IconContainer
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleRecommendationSpeak(koText, idx); // ✅ 핸들러 호출 및 인덱스 전달
+                    }}
+                    role="button"
+                    aria-label="추천문장 한국어 음성 출력"
+                    title="한국어로 듣기"
+                  >
+                    <img
+                      src={activeSoundIndex === idx ? IMAGE_CONSTANTS.SoundIconActive : IMAGE_CONSTANTS.SoundIcon} // ✅ 상태에 따른 이미지 변경
+                      alt="음성 출력"
+                    />
+                  </S.IconContainer>
+                  
+                </S.Line>
+              );
+            })
+          ) : (
+            null // 추천 문장이 없을 때는 아무것도 렌더링하지 않음
+          )}
+        </S.RecommendedLines>
+
         <S.VoiceTranslate onClick={() => navigate("/talk/voice")}>
-          <img src={IMAGE_CONSTANTS.ChatIcon} alt="CHAT" />
-          <p>Text Translation</p>
+          <img src={IMAGE_CONSTANTS.MicIcon} alt="MIC" />
+          <p>Voice Translation</p>
         </S.VoiceTranslate>
       </S.BottomContainer>
       {isTargetOpen && (
@@ -264,4 +316,4 @@ const TextTranslation = () => {
   );
 };
 
-export default TextTranslation;
+export default TextTranslation;``

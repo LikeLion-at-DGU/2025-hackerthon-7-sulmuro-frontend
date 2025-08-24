@@ -4,16 +4,14 @@ import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import QuickTalk from "./_components/QuickTalk";
 import { useNavigate } from "react-router-dom";
 import { useState, useCallback } from "react";
-import MarketSheet from "./_components/MarketSheet"; // ✅ 추가
-// (선택) 타입을 쓰고 싶다면: import type { Place } from "@/pages/article/_apis/getArticle";
+import MarketSheet from "./_components/MarketSheet"; 
 
-const MARKET_OPTIONS = ["서울광장시장", "전체"] as const; // ✅ 라벨 통일
+const MARKET_OPTIONS = ["서울광장시장"] as const;
 
 const TalkPage = () => {
   const navigate = useNavigate();
 
-  // ✅ 선택 상태 & 시트 오픈 상태
-  const [market, setMarket] = useState<(typeof MARKET_OPTIONS)[number]>("전체");
+  const [market, setMarket] = useState<(typeof MARKET_OPTIONS)[number]>("서울광장시장");
   const [isMarketOpen, setIsMarketOpen] = useState(false);
 
   const openMarketSheet = useCallback(() => setIsMarketOpen(true), []);
@@ -24,7 +22,6 @@ const TalkPage = () => {
       <S.Header>
         Quick Phrases
 
-        {/* ▼ 기존 <select> 제거 → 트리거 버튼 */}
         <S.MarketTrigger
           type="button"
           onClick={openMarketSheet}
@@ -37,7 +34,6 @@ const TalkPage = () => {
       </S.Header>
 
       <S.TopComponentWrapper>
-        {/* 필요하면 QuickTalk에 market 넘겨서 필터링에 활용 */}
         <QuickTalk /* market={market} */ />
       </S.TopComponentWrapper>
 
@@ -54,7 +50,6 @@ const TalkPage = () => {
         </S.VoiceTranslate>
       </S.BottomComponentWrapper>
 
-      {/* ✅ 바텀시트 연결 */}
       {isMarketOpen && (
         <MarketSheet
           setIsOpen={setIsMarketOpen}
@@ -63,7 +58,7 @@ const TalkPage = () => {
             setMarket(p);
             closeMarketSheet();
           }}
-          options={MARKET_OPTIONS} // “전체 / 서울 광장시장”
+          options={MARKET_OPTIONS}
         />
       )}
     </S.Wrapper>

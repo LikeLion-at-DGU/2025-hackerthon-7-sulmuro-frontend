@@ -105,11 +105,11 @@ const ArticleDetailPage = () => {
           <article>
             <S.TextWrapper>
               {/* ✅ position=0 IMAGE → 썸네일 */}
-              {article.heroImage && (
+              {/* {article.heroImage && (
                 <S.Thumbnail>
                   <img src={article.heroImage} alt={t.heroAlt} />
                 </S.Thumbnail>
-              )}
+              )} */}
               <S.ContentWrapper>
                 <S.Name title={article.title}>{article.title}</S.Name>
                 <S.SubTitle title={article.subtitle}>{article.subtitle}</S.SubTitle>

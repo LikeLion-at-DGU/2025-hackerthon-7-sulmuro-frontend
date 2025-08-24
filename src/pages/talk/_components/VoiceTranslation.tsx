@@ -180,7 +180,7 @@ const VoiceTranslation = () => {
     debounce(async () => {
       try {
         const resp = await translateBasic({ sourceLanguageCode: source, targetLanguageCode: target, text: txt });
-        setToSecondInterim(resp.translatedText || "");
+        setToSecondInterim(resp?.translatedText ?? "");
       } catch {}
     }, 500, firstDebounceRef);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -199,7 +199,8 @@ const VoiceTranslation = () => {
     (async () => {
       try {
         const resp = await translateBasic({ sourceLanguageCode: source, targetLanguageCode: target, text: txt });
-        setToSecondFinal(resp.translatedText || "");
+        if (!resp) return; // 요청이 취소된 경우
+        setToSecondFinal(resp.translatedText ?? "");
         setToSecondInterim("");
       } catch {}
     })();
@@ -219,7 +220,7 @@ const VoiceTranslation = () => {
     debounce(async () => {
       try {
         const resp = await translateBasic({ sourceLanguageCode: source, targetLanguageCode: target, text: txt });
-        setToFirstInterim(resp.translatedText || "");
+        setToFirstInterim(resp?.translatedText ?? "");
       } catch {}
     }, 500, secondDebounceRef);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -238,7 +239,8 @@ const VoiceTranslation = () => {
     (async () => {
       try {
         const resp = await translateBasic({ sourceLanguageCode: source, targetLanguageCode: target, text: txt });
-        setToFirstFinal(resp.translatedText || "");
+        if (!resp) return; // 요청이 취소된 경우
+        setToFirstFinal(resp.translatedText ?? "");
         setToFirstInterim("");
       } catch {}
     })();
@@ -314,79 +316,78 @@ const VoiceTranslation = () => {
 
   return (
     <S.Wrapper>
-      <S.Header>
-        <img onClick={() => navigate("/talk")} src={IMAGE_CONSTANTS.BackIcon2} alt={t.back} />
-        {t.header}
-      </S.Header>
+        <S.Header>
+            <img onClick={() => navigate("/talk")} src={IMAGE_CONSTANTS.BackIcon2} alt={t.back} />
+            {t.header}
+        </S.Header>
 
-      <S.TranslationWrapper>
-        {/* ===== 첫 번째 언어 박스 ===== */}
-        <S.FirstLanguageBox>
-          <S.FirstLanguageSelect>
-            {/* ▼ select -> trigger 버튼으로 교체 */}
-            <S.LanguageTrigger
-              type="button"
-              boxType="first"
-              onClick={() => {
-                setFirstExclude([]); // 직접 열 때 제한 없음
-                setIsFirstOpen(true);
-              }}
-              aria-haspopup="dialog"
-              aria-expanded={isFirstOpen}
-            >
-              {firstLang.toUpperCase()}
-              <img src={IMAGE_CONSTANTS.DropDownRed} alt="▽" />
-            </S.LanguageTrigger>
-          </S.FirstLanguageSelect>
+        <S.TranslationWrapper>
+          <S.FirstLanguageBox>
+            <S.FirstLanguageSelect>
+              <S.LanguageTrigger
+                type="button"
+                boxType="first"
+                onClick={() => {
+                  setFirstExclude([]); // 직접 열 때 제한 없음
+                  setIsFirstOpen(true);
+                }}
+                aria-haspopup="dialog"
+                aria-expanded={isFirstOpen}
+              >
+                {firstLang.toUpperCase()}
+                <img src={IMAGE_CONSTANTS.DropDownRed} alt="▽" />
+              </S.LanguageTrigger>
+            </S.FirstLanguageSelect>
 
-          <S.FristLanguageResult>{renderFirstBoxText()}</S.FristLanguageResult>
+            <S.FristLanguageResult>{renderFirstBoxText()}</S.FristLanguageResult>
 
-          <S.VoiceIcon as="button" type="button" onClick={handleFirstMicClick} aria-label={t.chooseInput}>
-            {firstListening ? (
-              <img src={IMAGE_CONSTANTS.RecordingButtonRed} alt={t.listening} style={{ opacity: firstSupported ? 1 : 0.4 }} />
-            ) : (
-              <img src={IMAGE_CONSTANTS.VoiceButton} alt={t.chooseInput} style={{ opacity: firstSupported ? 1 : 0.4 }} />
-            )}
-          </S.VoiceIcon>
-        </S.FirstLanguageBox>
+            <S.VoiceIcon as="button" type="button" onClick={handleFirstMicClick} aria-label={t.chooseInput}>
+              {firstListening ? (
+                <img src={IMAGE_CONSTANTS.RecordingButtonRed} alt={t.listening} style={{ opacity: firstSupported ? 1 : 0.4 }} />
+              ) : (
+                <img src={IMAGE_CONSTANTS.VoiceButton} alt={t.chooseInput} style={{ opacity: firstSupported ? 1 : 0.4 }} />
+              )}
+            </S.VoiceIcon>
+          </S.FirstLanguageBox>
 
-        {/* ===== 두 번째 언어 박스 ===== */}
-        <S.SecondLanguageBox>
-          <S.SecondLanguageSelect>
-            <S.LanguageTrigger
-              type="button"
-              boxType="second"
-              onClick={() => {
-                setSecondExclude([]);
-                setIsSecondOpen(true);
-              }}
-              aria-haspopup="dialog"
-              aria-expanded={isSecondOpen}
-            >
-              {secondLang.toUpperCase()}
-              <img src={IMAGE_CONSTANTS.DropDown} alt="▽" />
-            </S.LanguageTrigger>
-          </S.SecondLanguageSelect>
+          {/* ===== 두 번째 언어 박스 ===== */}
+          <S.SecondLanguageBox>
+            <S.SecondLanguageSelect>
+              <S.LanguageTrigger
+                type="button"
+                boxType="second"
+                onClick={() => {
+                  setSecondExclude([]);
+                  setIsSecondOpen(true);
+                }}
+                aria-haspopup="dialog"
+                aria-expanded={isSecondOpen}
+              >
+                {secondLang.toUpperCase()}
+                <img src={IMAGE_CONSTANTS.DropDown} alt="▽" />
+              </S.LanguageTrigger>
+            </S.SecondLanguageSelect>
 
-          <S.SecondLanguageResult>{renderSecondBoxText()}</S.SecondLanguageResult>
+            <S.SecondLanguageResult>{renderSecondBoxText()}</S.SecondLanguageResult>
 
-          <S.VoiceIcon as="button" type="button" onClick={handleSecondMicClick} aria-label={t.chooseOutput}>
-            {secondListening ? (
-              <img
-                src={IMAGE_CONSTANTS.RecordingButtonBlack}
-                alt={t.listening}
-                style={{ opacity: secondSupported ? 1 : 0.4 }}
-              />
-            ) : (
-              <img
-                src={IMAGE_CONSTANTS.VoiceButtonBlack}
-                alt={t.chooseOutput}
-                style={{ opacity: secondSupported ? 1 : 0.4 }}
-              />
-            )}
-          </S.VoiceIcon>
-        </S.SecondLanguageBox>
-      </S.TranslationWrapper>
+            <S.VoiceIcon as="button" type="button" onClick={handleSecondMicClick} aria-label={t.chooseOutput}>
+              {secondListening ? (
+                <img
+                  src={IMAGE_CONSTANTS.RecordingButtonBlack}
+                  alt={t.listening}
+                  style={{ opacity: secondSupported ? 1 : 0.4 }}
+                />
+              ) : (
+                <img
+                  src={IMAGE_CONSTANTS.VoiceButtonBlack}
+                  alt={t.chooseOutput}
+                  style={{ opacity: secondSupported ? 1 : 0.4 }}
+                />
+              )}
+            </S.VoiceIcon>
+          </S.SecondLanguageBox>
+        </S.TranslationWrapper>
+      
 
       <S.BottomContainer>
         <S.TextTranslate onClick={() => navigate("/talk/text")}>

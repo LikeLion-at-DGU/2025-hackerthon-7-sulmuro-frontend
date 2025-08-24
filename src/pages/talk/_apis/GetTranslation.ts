@@ -46,7 +46,24 @@ async function postJSON<T>(
   body: unknown,
   opts?: { signal?: AbortSignal; timeoutMs?: number }
 ): Promise<T> {
+  // ✅ 내부 컨트롤러를 단일 소스로 사용
   const controller = new AbortController();
+
+  // ✅ 외부 signal과 연동: 외부가 abort되면 내부도 abort
+  if (opts?.signal) {
+    if (opts.signal.aborted) {
+      controller.abort();
+    } else {
+      const onAbort = () => controller.abort();
+      opts.signal.addEventListener("abort", onAbort, { once: true });
+      // fetch 이후 자동 해제를 위해 아래 finally에서 removeEventListener 처리할 수도 있으나
+      // once:true 로 리스너가 1회성이라 메모리 릭 위험 낮음
+    }
+  }
+
+  const signal = controller.signal;
+
+  // ✅ timeout은 내부 controller에만 건다
   const timeout =
     typeof opts?.timeoutMs === "number" && opts.timeoutMs > 0
       ? opts.timeoutMs
@@ -56,8 +73,8 @@ async function postJSON<T>(
   try {
     const res = await fetch(url, {
       method: "POST",
-      headers: { "Content-Type": "application/json" }, // 명세상 헤더 없음이지만 JSON 전송 위해 명시
-      signal: opts?.signal ?? controller.signal,
+      headers: { "Content-Type": "application/json" },
+      signal,
       body: JSON.stringify(body),
     });
 
@@ -75,8 +92,9 @@ async function postJSON<T>(
 
     return payload as T;
   } catch (err: any) {
+    // ✅ 취소(AbortError)는 그대로 던져서 상위에서 '정상 취소'로 처리
     if (err?.name === "AbortError") {
-      throw new TranslateError("Request aborted (timeout or manual cancel)");
+      throw err;
     }
     if (err instanceof TranslateError) throw err;
     throw new TranslateError(err?.message ?? "Unknown translate error");

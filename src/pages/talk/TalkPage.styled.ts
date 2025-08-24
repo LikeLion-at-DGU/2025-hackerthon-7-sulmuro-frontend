@@ -38,7 +38,7 @@ export const Header = styled.div`
     font-size: 1.25rem;
     color: ${({ theme }) => theme.colors.N70};
     ${({ theme }) => theme.fonts.Bold20};
-    padding: 0 1rem;
+    padding:  1rem;
     box-sizing: border-box;
     select{
         width: fit-content;
