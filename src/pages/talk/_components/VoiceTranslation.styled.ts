@@ -113,6 +113,7 @@ export const BottomContainer = styled.div`
     align-items: center;
     position: fixed;
     bottom: 4.8rem;
+        max-width: 540px;
 `;
 
 export const TextTranslate = styled.div`

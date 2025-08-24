@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
     width: 100%;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -36,6 +37,7 @@ export const LineWrapper = styled.div`
     align-items: center;
     color: ${({ theme }) => theme.colors.N70};
     ${({ theme }) => theme.fonts.SemiBold14};
+    padding: 0.25rem 0%;
 `;
 
 export const IconWrapper = styled.div`
@@ -60,6 +62,7 @@ export const ModalOverlay = styled.div`
 
 export const PopupWrapper = styled.div`
     width: 80%;
+    max-width: 320px;
     background: ${({ theme }) => theme.colors.WHITE};
     border-radius: 8px;
     display: flex;
@@ -86,14 +89,19 @@ export const Lines = styled.div`
 `;
 
 export const KoreanLine = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
     color: ${({ theme }) => theme.colors.N70};
     ${({ theme }) => theme.fonts.Bold20};
 `;
 
 export const EnglishLine = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
     color: ${({ theme }) => theme.colors.N70};
     ${({ theme }) => theme.fonts.Regular16};
-    padding-left: 10px;
     box-sizing: border-box;
 
 `;
