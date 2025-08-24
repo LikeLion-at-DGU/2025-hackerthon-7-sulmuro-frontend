@@ -58,6 +58,22 @@ export const LanguageSelect = styled.div`
     }
 `;
 
+export const LanguageTrigger = styled.button`
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: ${({ theme }) => theme.colors.N00};
+    ${({ theme }) => theme.fonts.Regular14};
+    color: ${({ theme }) => theme.colors.N70};
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    img{
+        width: 14px;
+        height: 14px;
+    }
+`;
+
 export const TranslateInput = styled.input`
     width: 100%;
     height: 74px;

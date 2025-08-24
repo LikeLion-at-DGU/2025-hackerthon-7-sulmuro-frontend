@@ -11,7 +11,7 @@ type Props = {
     onClose: () => void;
     ko: string;
     en: string;
-    zh?: string;
+    zh?: string;    
 };
 
 const normalizeBreaks = (s: string) => s.replace(/<br\s*\/?>/gi, "\n");
@@ -59,7 +59,7 @@ const QuickTalkPopup = ({ open, onClose, ko, en, zh }: Props) => {
 
             {/* 참조용 한국어 원문 + 음성 출력 안내 */}
             <div style={{ marginTop: 8, color: "#666", fontSize: 13 }}>
-                🇰🇷 음성 출력(한국어): {ko}
+                {ko}
             </div>
             </S.Lines>
 
