@@ -34,8 +34,6 @@ const SavePage = () => {
       });
       setMarkedPlaces(response.data.data);
       setMarkedArticles(response2.data.data);
-      console.log("places:", response.data.data);
-      console.log("articles:", response2.data.data);
     } catch (err) {
       console.log(err);
     }

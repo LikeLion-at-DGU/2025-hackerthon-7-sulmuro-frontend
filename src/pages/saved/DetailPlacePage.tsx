@@ -5,20 +5,40 @@ import { ROUTE_PATHS } from "@/constants/routeConstants";
 import DetailHeader from "./_components/DetailHeader";
 import SavePlaceCard from "./_components/SavedPlaceCard";
 
-//더미데이터 연결
-import { savedPlaces } from "./dummy/dummyData";
+import { useLanguage } from "@/components/contexts/LanguageContext";
+import { useEffect, useState } from "react";
+import { PlaceWithImage } from "../map/_types/Marker.type";
+import { Api } from "@/api/Api";
+import { getPlaceBookmarks } from "@/utils/SavedBookMark";
+import { DetailPlaceTitle } from "../map/languages/Translate";
 const DetailPlacePage = () => {
+  const [markedPlaces, setMarkedPlaces] = useState<PlaceWithImage[]>([]);
+  const { language } = useLanguage();
+  const fetchData = async () => {
+    try {
+      const response = await Api.post("/api/v1/places/search", {
+        ids: getPlaceBookmarks(),
+      });
+      setMarkedPlaces(response.data.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <Wrapper>
-      <DetailHeader text="장소" />
+      <DetailHeader text={DetailPlaceTitle[language]} />
       <SavedPlaceBox>
-        {savedPlaces.map((place) => (
+        {markedPlaces.map((place) => (
           <SavePlaceCard
             key={place.id}
             id={place.id}
             name={place.name}
-            path={ROUTE_PATHS.MAP} //추후 지도경로로 변경핑핑
-            thumbnailUrl={place.thumbnailUrl}
+            path={`${ROUTE_PATHS.MAP}?place=${place.id}`}
+            thumbnailUrl={place.image[0]}
             address={place.address}
           />
         ))}

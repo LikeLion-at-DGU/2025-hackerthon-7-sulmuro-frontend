@@ -1,5 +1,5 @@
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
-import React, { SetStateAction, useEffect, useRef, useState } from "react";
+import React, { SetStateAction, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Place } from "../_types/Marker.type";
 

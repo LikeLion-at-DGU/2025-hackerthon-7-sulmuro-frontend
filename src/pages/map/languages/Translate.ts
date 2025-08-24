@@ -58,3 +58,15 @@ export const SavedPageArticleEmptyCase = {
   ko: "저장된 아티클이 없습니다.",
   zh: "没有保存的文章",
 };
+
+export const DetailArticleTitle = {
+  en: "Marked Article",
+  ko: "저장한 아티클",
+  zh: "已保存的文章",
+};
+
+export const DetailPlaceTitle = {
+  en: "Marked Place",
+  ko: "저장한 장소",
+  zh: "已保存的地点",
+};
