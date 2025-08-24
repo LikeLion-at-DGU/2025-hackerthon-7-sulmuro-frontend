@@ -1,7 +1,10 @@
 import styled from "styled-components";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { addPlace, hasPlace, removePlace } from "@/utils/SavedBookMark";
 interface SavePlaceCardProps {
+  id: number;
   name: string;
   path: string;
   thumbnailUrl: string;
@@ -9,19 +12,44 @@ interface SavePlaceCardProps {
 }
 
 const SavePlaceCard = ({
+  id,
   name,
   path,
   thumbnailUrl,
   address,
 }: SavePlaceCardProps) => {
+  const [isBookMark, setIsBookMark] = useState<boolean>(false);
   const navigate = useNavigate();
   const handleNavigate = () => {
     navigate(path);
   };
+  useEffect(() => {
+    if (id != null) {
+      setIsBookMark(hasPlace(id));
+    }
+  }, []);
+  const handleBookMarkExplicit = (e: React.MouseEvent<HTMLImageElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (id == null) return;
+    setIsBookMark((prev) => {
+      if (prev) removePlace(id!);
+      else addPlace(id!);
+      return !prev;
+    });
+  };
   return (
     <Wrapper onClick={handleNavigate}>
       <Thumbnail>
-        <BookmarkIcon src={IMAGE_CONSTANTS.Bookmark} alt="북마크" />
+        <BookmarkIcon
+          src={
+            isBookMark
+              ? IMAGE_CONSTANTS.Bookmark
+              : IMAGE_CONSTANTS.BookMarkUnselect
+          }
+          alt="북마크"
+          onClick={handleBookMarkExplicit}
+        />
         <StyledImage src={thumbnailUrl} alt={`${name} 이미지`} />
       </Thumbnail>
       <Name>{name}</Name>
