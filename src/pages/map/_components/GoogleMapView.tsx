@@ -6,6 +6,7 @@ import { Category, Place } from "../_types/Marker.type";
 import { mapTypesToCategory } from "../_hooks/useMaphooks";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import { useLanguage } from "@/components/contexts/LanguageContext";
+import SelectLanguage from "./SelectLagnuage";
 
 const CATEGORY_ICONS: Partial<
   Record<Category, { selected: string; unselected: string }>
@@ -100,7 +101,13 @@ const GoogleMapView = ({
     const l2 = mapRef.current.addListener("mousedown", offFollow);
     const l3 = mapRef.current.addListener("touchstart", offFollow);
     mapListenersRef.current.push(l1, l2, l3);
-  }, [places, setIsPlaceInfo, setSelectedPlace, setIsFollowing]);
+  }, [
+    places,
+    setIsPlaceInfo,
+    setSelectedPlace,
+    setIsFollowing,
+    SelectLanguage,
+  ]);
 
   // 카테고리 변경 시  새로 마커 찍기
   useEffect(() => {
