@@ -5,6 +5,7 @@ import testmark from "@/assets/icons/test_marker.svg";
 import { Category, Place } from "../_types/Marker.type";
 import { mapTypesToCategory } from "../_hooks/useMaphooks";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
+import { useLanguage } from "@/components/contexts/LanguageContext";
 
 const CATEGORY_ICONS: Partial<
   Record<Category, { selected: string; unselected: string }>
@@ -71,7 +72,8 @@ const GoogleMapView = ({
   const myLocationMarkerRef = useRef<google.maps.Marker | null>(null);
   const [selectedMarker, setSelectedMarker] =
     useState<google.maps.Marker | null>(null);
-
+  const { language } = useLanguage();
+  const labelFontSize = language === "zh" ? "10px" : "12px";
   const filterPlacesByCategory = (category: Category) => {
     if (category === "All") {
       return places;
@@ -100,7 +102,7 @@ const GoogleMapView = ({
     mapListenersRef.current.push(l1, l2, l3);
   }, [places, setIsPlaceInfo, setSelectedPlace, setIsFollowing]);
 
-  // 카테고리 변경 시 새로 마커 찍기
+  // 카테고리 변경 시  새로 마커 찍기
   useEffect(() => {
     const map = mapRef.current;
     const service = placesServiceRef.current;
@@ -174,16 +176,16 @@ const GoogleMapView = ({
           ? {
               url: markerIcon,
               scaledSize: new window.google.maps.Size(
-                isSelected ? 42 : 28,
-                isSelected ? 42 : 28
+                isSelected ? 64 : 40,
+                isSelected ? 64 : 40
               ),
             }
           : undefined,
         label: {
-          text: place.name, // 마커 이름 설정
+          text: place.name,
           fontFamily: "pretendard",
-          fontSize: "14px", // 글자 크기
-          color: "#000", // 글자 색
+          fontSize: labelFontSize,
+          color: "#000",
           fontWeight: "600",
           className: "place-name-label",
         },

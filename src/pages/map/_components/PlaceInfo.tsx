@@ -4,6 +4,8 @@ import testimage from "@/assets/images/testImage.png";
 import * as S from "./Mapstyled";
 import { Place } from "../_types/Marker.type";
 import { Api } from "@/api/Api";
+import { useLanguage } from "@/components/contexts/LanguageContext";
+import { PlaceModalInfo, PlaceModalWithGoogle } from "../languages/Translate";
 
 const DEFAULT_HOLD = 50;
 const DEFAULT_HEIGHT = 230;
@@ -29,6 +31,7 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
   const [isCarouselDragging, setIsCarouselDragging] = useState(false);
   const dragStartX = useRef(0);
   const scrollStartLeft = useRef(0);
+  const { language } = useLanguage();
 
   const fetchData = async () => {
     try {
@@ -204,7 +207,7 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
       <p className="address">{place.address}</p>
       {!type && (
         <S.ExtendsContaiener style={{ marginTop: "8px" }}>
-          <p>현재 mark!t에서 제공하지 않는 장소에요.</p>
+          <p>{PlaceModalInfo[language]}</p>
           <div>
             <img src={IMAGE_CONSTANTS.GoogleMapicon} alt="" />
             <button
@@ -216,31 +219,33 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
                 window.open(url, "_blank");
               }}
             >
-              구글맵에서 확인하기
+              {PlaceModalWithGoogle[language]}
             </button>
           </div>
         </S.ExtendsContaiener>
       )}
       {type && (
         <S.AdditionalInfo>
-          <S.ImageCarousel
-            ref={carouselRef}
-            $dragging={isCarouselDragging}
-            onPointerDown={onCarouselPointerDown}
-            onPointerMove={onCarouselPointerMove}
-            onPointerUp={onCarouselPointerUp}
-            onPointerLeave={onCarouselPointerUp}
-          >
-            {(placeImg && placeImg.length > 0
-              ? placeImg
-              : [{ url: testimage }]
-            ).map((src, idx) => (
-              <S.ImageSlide key={idx}>
-                <img src={src.url} alt={`${place.name} 이미지 ${idx + 1}`} />
-              </S.ImageSlide>
-            ))}
-          </S.ImageCarousel>
-          <p>{placeData}</p>
+          <S.AnotherContainer>
+            <S.ImageCarousel
+              ref={carouselRef}
+              $dragging={isCarouselDragging}
+              onPointerDown={onCarouselPointerDown}
+              onPointerMove={onCarouselPointerMove}
+              onPointerUp={onCarouselPointerUp}
+              onPointerLeave={onCarouselPointerUp}
+            >
+              {(placeImg && placeImg.length > 0
+                ? placeImg
+                : [{ url: testimage }]
+              ).map((src, idx) => (
+                <S.ImageSlide key={idx}>
+                  <img src={src.url} alt={`${place.name} 이미지 ${idx + 1}`} />
+                </S.ImageSlide>
+              ))}
+            </S.ImageCarousel>
+            <p>{placeData}</p>
+          </S.AnotherContainer>
           <S.FindForMapButton onClick={findPlace}>
             <p>지도에서 찾기</p>
             <img src={IMAGE_CONSTANTS.SendArrow} alt="지도로 이동" />

@@ -1,5 +1,7 @@
 import { SetStateAction } from "react";
 import styled from "styled-components";
+import { useLanguage } from "@/components/contexts/LanguageContext";
+import { MarketName } from "../languages/Translate";
 
 interface ChooseMaketProps {
   setIsModalOpen: React.Dispatch<SetStateAction<boolean>>;
@@ -9,9 +11,10 @@ const ChooseMarket = ({ setIsModalOpen }: ChooseMaketProps) => {
   const modalOpen = () => {
     setIsModalOpen(true);
   };
+  const { language } = useLanguage();
   return (
     <ChooseMarketContainer>
-      <MarketButton onClick={modalOpen}>서울 광장 시장 ▼</MarketButton>
+      <MarketButton onClick={modalOpen}>{MarketName[language]} ▼</MarketButton>
     </ChooseMarketContainer>
   );
 };

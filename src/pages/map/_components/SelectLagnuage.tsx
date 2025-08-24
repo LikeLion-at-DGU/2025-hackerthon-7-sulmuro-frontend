@@ -33,17 +33,15 @@ const SelectLanguage = () => {
   ) as Array<"ko" | "en" | "zh">;
   return (
     <LanguageContainer>
-      {/* 현재 선택된 언어 아이콘: 펼쳐졌을 때만 강조 */}
       <LanguageButton
         onClick={toggleLanguageMenu}
         aria-expanded={isOpen}
         aria-label="언어 선택"
-        $active={isOpen} // ✅ 펼쳐졌을 때만 배경 강조
+        $active={isOpen}
       >
         <img src={ICON[language]} alt={ALT[language]} />
       </LanguageButton>
 
-      {/* 나머지 언어만 노출 */}
       <LanguageOptions $isOpen={isOpen}>
         {options.map((l) => (
           <LanguageButton key={l} onClick={() => handleLanguageChange(l)}>
