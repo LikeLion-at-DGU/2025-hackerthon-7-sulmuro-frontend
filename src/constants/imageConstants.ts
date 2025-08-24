@@ -79,6 +79,7 @@ import myLocation from "@/assets/icons/mylocation.svg";
 import myLocationSelect from "@/assets/icons/mylocation_select.svg";
 import goMarket from "@/assets/icons/goMarket.svg";
 
+import splash from "@/assets/images/splash.png";
 export const IMAGE_CONSTANTS = {
   SearchAI,
   ArticleUnselected,
@@ -151,4 +152,6 @@ export const IMAGE_CONSTANTS = {
   myLocation,
   myLocationSelect,
   goMarket,
+
+  splash,
 };
