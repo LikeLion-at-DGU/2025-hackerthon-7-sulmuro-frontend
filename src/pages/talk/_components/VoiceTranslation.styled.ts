@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
     width: 100%;
-    height: 100% - 2rem;
+    height: 100vh - 80px;
     display: flex;
     flex-direction: column; 
     position: relative;
@@ -36,7 +36,8 @@ export const TranslationWrapper = styled.div`
 
 export const FirstLanguageBox = styled.div`
     width: 100%;
-    min-height: 320px;
+    height: 40vh;
+    min-height: 220px;
     height: 1rem;
     padding: 1.2rem;
     box-sizing: border-box;
@@ -58,7 +59,7 @@ export const LanguageTrigger = styled.button<{ boxType: "first" | "second" }>`
     padding: 6px 12px;
     border-radius: 8px;
     ${({ theme }) => theme.fonts.SemiBold16};
- color: ${({ theme, boxType }) => boxType === "first" ? theme.colors.R60 : theme.colors.N70};    display: flex;
+    color: ${({ theme, boxType }) => boxType === "first" ? theme.colors.R60 : theme.colors.N70};    display: flex;
     justify-content: center;
     align-items: center;
     gap: 8px;
@@ -73,7 +74,7 @@ export const FristLanguageResult = styled.div`
     display: flex;
     justify-content: flex-start;
     color: ${({ theme }) => theme.colors.R60};
-    ${({ theme }) => theme.fonts.Semibold32};
+    ${({ theme }) => theme.fonts.SemiBold20};
 `;
 
 export const VoiceIcon = styled.div`
@@ -90,7 +91,9 @@ export const VoiceIcon = styled.div`
 
 export const SecondLanguageBox = styled.div`
     width: 100%;
-    min-height: 320px;
+    height: 40%;
+
+    min-height: 220px;
     height: 50%;
     padding: 1.2rem;
     box-sizing: border-box;
@@ -113,7 +116,7 @@ export const SecondLanguageResult = styled.div`
     display: flex;
     justify-content: flex-start;
     color: ${({ theme }) => theme.colors.N70};
-    ${({ theme }) => theme.fonts.Semibold32};
+    ${({ theme }) => theme.fonts.SemiBold20};
 `;
 
 export const BottomContainer = styled.div`
