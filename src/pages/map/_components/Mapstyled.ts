@@ -55,7 +55,7 @@ export const FindButton = styled.button`
 `;
 
 export const PlaceInfoWrapper = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== "animate", // animate는 div로 전달되지 않음
+  shouldForwardProp: (prop) => prop !== "animate",
 })<{
   $expanded?: boolean;
   animate?: boolean;
@@ -78,6 +78,7 @@ export const PlaceInfoWrapper = styled.div.withConfig({
 
   overflow-y: hidden;
   transition: ${(props) => (props.animate ? "height 0.3s ease" : "none")};
+  flex-grow: 1;
 `;
 
 export const SwipeButton = styled.div`
@@ -130,13 +131,13 @@ export const ExtendsContaiener = styled.div`
 export const AdditionalInfo = styled.div`
   position: relative;
   margin-top: 50px;
-  // height: 80%;
+  height: 70%;
   display: flex;
-  flex-grow: 1;
   flex-direction: column;
+  justify-content: space-between;
   align-items: flex-start;
 
-  gap: 20px;
+  flex-grow: 1;
   img {
     width: 100%;
     height: 100%;
@@ -146,9 +147,13 @@ export const AdditionalInfo = styled.div`
   }
 `;
 
+export const AnotherContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+`;
+
 export const FindForMapButton = styled.button`
-  position: absolute;
-  bottom: -80px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -157,6 +162,7 @@ export const FindForMapButton = styled.button`
   gap: 8px;
   padding: 8px;
   border-radius: 8px;
+  max-width: 440px;
   width: 100%;
   color: ${({ theme }) => theme.colors.R60};
   ${({ theme }) => theme.fonts.SemiBold14};

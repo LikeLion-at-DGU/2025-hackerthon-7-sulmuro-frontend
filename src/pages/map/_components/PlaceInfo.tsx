@@ -226,24 +226,26 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
       )}
       {type && (
         <S.AdditionalInfo>
-          <S.ImageCarousel
-            ref={carouselRef}
-            $dragging={isCarouselDragging}
-            onPointerDown={onCarouselPointerDown}
-            onPointerMove={onCarouselPointerMove}
-            onPointerUp={onCarouselPointerUp}
-            onPointerLeave={onCarouselPointerUp}
-          >
-            {(placeImg && placeImg.length > 0
-              ? placeImg
-              : [{ url: testimage }]
-            ).map((src, idx) => (
-              <S.ImageSlide key={idx}>
-                <img src={src.url} alt={`${place.name} 이미지 ${idx + 1}`} />
-              </S.ImageSlide>
-            ))}
-          </S.ImageCarousel>
-          <p>{placeData}</p>
+          <S.AnotherContainer>
+            <S.ImageCarousel
+              ref={carouselRef}
+              $dragging={isCarouselDragging}
+              onPointerDown={onCarouselPointerDown}
+              onPointerMove={onCarouselPointerMove}
+              onPointerUp={onCarouselPointerUp}
+              onPointerLeave={onCarouselPointerUp}
+            >
+              {(placeImg && placeImg.length > 0
+                ? placeImg
+                : [{ url: testimage }]
+              ).map((src, idx) => (
+                <S.ImageSlide key={idx}>
+                  <img src={src.url} alt={`${place.name} 이미지 ${idx + 1}`} />
+                </S.ImageSlide>
+              ))}
+            </S.ImageCarousel>
+            <p>{placeData}</p>
+          </S.AnotherContainer>
           <S.FindForMapButton onClick={findPlace}>
             <p>지도에서 찾기</p>
             <img src={IMAGE_CONSTANTS.SendArrow} alt="지도로 이동" />
