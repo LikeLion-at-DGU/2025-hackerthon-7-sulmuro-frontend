@@ -13,7 +13,7 @@ const MainHeader = ({ text, path }: MainHeaderProps) => {
   };
   return (
     <Wrapper>
-      <Text>저장한 {text}</Text>
+      <Text>{text}</Text>
       <Btn onClick={handleNavigate}>
         <img src={IMAGE_CONSTANTS.RightBtn} alt="오른쪽 화실표" />
       </Btn>

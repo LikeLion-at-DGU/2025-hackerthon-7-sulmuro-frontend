@@ -1,7 +1,20 @@
 import styled from "styled-components";
 import Loading from "./Loading";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { ROUTE_PATHS } from "@/constants/routeConstants";
+
 const SplashPage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      navigate(ROUTE_PATHS.MAP, { replace: true });
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [navigate]);
   return (
     <Wrapper>
       <SplashImg src={IMAGE_CONSTANTS.splash} />
@@ -19,7 +32,7 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   background-color: ${({ theme }) => theme.colors.WHITE};
-  z-index: 200;
+  z-index: 50;
   gap: 80px;
 `;
 const SplashImg = styled.img`

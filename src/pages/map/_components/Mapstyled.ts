@@ -60,6 +60,8 @@ export const PlaceInfoWrapper = styled.div.withConfig({
   $expanded?: boolean;
   animate?: boolean;
 }>`
+  touch-action: pan-x;
+
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -90,7 +92,6 @@ export const SwipeButton = styled.div`
 `;
 
 export const InfoContainer = styled.div`
-  margin-top: 30px;
   margin-bottom: 10px;
   display: flex;
   flex-direction: row;
@@ -109,6 +110,7 @@ export const ExtendsContaiener = styled.div`
   display: flex;
   flex-direction: column;
   gap: 8px;
+  overflow-y: auto;
   p {
     ${({ theme }) => theme.fonts.SemiBold14};
   }

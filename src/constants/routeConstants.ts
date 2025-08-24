@@ -1,5 +1,6 @@
 export const ROUTE_PATHS = {
-  MAP: "/",
+  SPLASH: "/",
+  MAP: "/map",
   ARTICLE: "/article",
   AI: "/ai",
   TALK: "/talk",
