@@ -4,7 +4,15 @@ export const Wrapper = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    position: relative;
+    justify-content: space-between;
+    height: 100dvh;
+`;
+
+export const TopContainer = styled.div`
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
 `;
 
 export const Header = styled.div`
@@ -86,10 +94,10 @@ export const BottomContainer = styled.div`
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    box-sizing: border-box;
     align-items: center;
-    position: fixed;
-    bottom: 5rem;
+    box-sizing: border-box;
+    margin-bottom: 5rem;
+
 `;
 
 export const RecommendedLines = styled.div`
@@ -111,6 +119,7 @@ export const Line = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-sizing: border-box;
 
 `;
 
@@ -118,16 +127,22 @@ export const TextContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+        box-sizing: border-box;
+
 `;
 
 export const KoreanLine = styled.div`
     color: ${({ theme }) => theme.colors.N70};
     ${({ theme }) => theme.fonts.SemiBold14};
+        box-sizing: border-box;
+
 `;
 
 export const EnglishLine = styled.div`
     color: ${({ theme }) => theme.colors.N30};
     ${({ theme }) => theme.fonts.SemiBold14};
+        box-sizing: border-box;
+
 `;
 
 export const IconContainer = styled.div`
@@ -135,6 +150,8 @@ export const IconContainer = styled.div`
         height: 20px;
         width: 20px;
     }
+        box-sizing: border-box;
+
 `;
 
 export const VoiceTranslate = styled.div`

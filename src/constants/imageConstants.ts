@@ -29,6 +29,9 @@ import MicIcon from "@/assets/icons/micIcon.svg";
 import SwapIcon from "@/assets/icons/swapIcon.svg";
 import VoiceButton from "@/assets/icons/voiceButton.svg";
 import ChatIcon from "@/assets/icons/chatIcon.svg";
+import RecordingButtonRed from "@/assets/icons/recordingButton.svg";
+import RecordingButtonBlack from "@/assets/icons/recordingButton_black.svg";
+import VoiceButtonBlack from "@/assets/icons/VoiceButton_Black.svg";
 
 // language icon
 import LanguageOpen from "@/assets/icons/language_open.svg";
@@ -125,7 +128,10 @@ export const IMAGE_CONSTANTS = {
   TrueBookmarkPlain,
   FalseBookmarkPlain,
   MicIcon,
-
+  RecordingButtonRed,
+  RecordingButtonBlack,
+  VoiceButtonBlack,
+  
   SwapIcon,
   VoiceButton,
   ChatIcon,

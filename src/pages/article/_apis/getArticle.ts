@@ -9,7 +9,7 @@ interface ApiArticle {
   id: number;
   title: string;
   subTitle: string;
-  theme: "FOOD" | "SHOPPING" | "HISTORY" | string;
+  theme: "FOOD" | "SHOP" | "HISTORY" | string;
   createdAt: string;
   location: "GWANGJANG_MARKET" | "YANGJAE_MARKET" | string;
   imageUrls?: string[];
@@ -64,7 +64,7 @@ const mapLocationToPlace = (loc: ApiArticle["location"]): Article["place"] => {
 const mapThemeToCategory = (t: ApiArticle["theme"]): Article["category"] => {
   switch (t) {
     case "FOOD":    return "음식";
-    case "SHOPPING":return "쇼핑";
+    case "SHOP":return "쇼핑";
     case "HISTORY": return "역사";
     default:        return "기타";
   }
