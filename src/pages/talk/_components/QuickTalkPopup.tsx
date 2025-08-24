@@ -55,16 +55,14 @@ const QuickTalkPopup = ({ open, onClose, ko, en, zh }: Props) => {
         <S.PopupWrapper onClick={stop} role="dialog" aria-modal="true" aria-label="Quick phrase">
             <S.Lines>
             {/* 화면에는 설정 언어로 표시 */}
-            <div style={{ whiteSpace: "pre-line", fontSize: 16 }}>{displayText}</div>
-
+            <S.KoreanLine>{ko}</S.KoreanLine>
+            <S.EnglishLine>{displayText}</S.EnglishLine>
             {/* 참조용 한국어 원문 + 음성 출력 안내 */}
-            <div style={{ marginTop: 8, color: "#666", fontSize: 13 }}>
-                {ko}
-            </div>
+            
             </S.Lines>
 
             <S.Sound as="button" type="button" onClick={handleSpeak} aria-label="한국어로 듣기">
-            <img src={IMAGE_CONSTANTS.SoundIcon} alt="음성" />
+                <img src={IMAGE_CONSTANTS.SoundIcon} alt="음성" />
             </S.Sound>
         </S.PopupWrapper>
         </S.ModalOverlay>,
