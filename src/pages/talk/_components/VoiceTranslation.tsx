@@ -4,7 +4,7 @@ import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import { useNavigate } from "react-router-dom";
 import { useState, useMemo, useEffect, useRef } from "react";
 import { useSpeachText } from "../_hooks/UseSpeachText";
-import { useTranslate } from "../_hooks/UseTranslation"; // ✅ 기본 번역 훅 (mode: 'basic')
+import { useTranslate } from "../_hooks/UseTranslation"; 
 
 type KORENG = "kor" | "eng";
 const toApiLang = (v: KORENG): "ko" | "en" => (v === "kor" ? "ko" : "en");
@@ -12,9 +12,6 @@ const toApiLang = (v: KORENG): "ko" | "en" => (v === "kor" ? "ko" : "en");
 const VoiceTranslation = () => {
     const navigate = useNavigate();
 
-    /** ==============================
-     *  첫 번째 언어 박스 (입력 기본: 한국어)
-     =============================== */
     const [firstLang, setFirstLang] = useState<"kor" | "eng">("kor");
     const firstLocale = useMemo(() => (firstLang === "kor" ? "ko-KR" : "en-US"), [firstLang]);
 
@@ -23,7 +20,7 @@ const VoiceTranslation = () => {
         supported: firstSupported,
         finalText: firstFinalText,
         interimText: firstInterimText,
-        error: firstError,
+        // error: firstError,
         start: firstStart,
         stop: firstStop,
         reset: firstReset,
@@ -46,7 +43,7 @@ const VoiceTranslation = () => {
         supported: secondSupported,
         finalText: secondFinalText,
         interimText: secondInterimText,
-        error: secondError,
+        // error: secondError,
         start: secondStart,
         stop: secondStop,
         reset: secondReset,
@@ -65,8 +62,8 @@ const VoiceTranslation = () => {
      =============================== */
     const {
         translate: translateBasic,
-        loading: translating,
-        error: translateError,
+        // loading: translating,
+        // error: translateError,
         reset: resetTranslate,
     } = useTranslate({ mode: "basic" });
 
