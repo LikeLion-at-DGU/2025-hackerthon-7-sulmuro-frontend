@@ -1,7 +1,9 @@
-// src/pages/article/_components/PlaceSheet.tsx
+// src/pages/talk/_components/MarketSheet.tsx
+
 import styled from "styled-components";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
-import { Place } from "@/pages/article/_apis/getArticle";
+// ✅ 변경: Place 타입을 별도의 타입 파일에서 가져옵니다.
+import { Place, PLACE_OPTIONS } from "@/pages/talk/_apis/_types";
 
 type Props = {
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -10,9 +12,8 @@ type Props = {
     options?: readonly Place[];
 };
 
-const DEFAULT_PLACES: readonly Place[] = ["전체", "서울광장시장"] as const;
-
-const MarketSheet = ({ setIsOpen, current, onSelect, options = DEFAULT_PLACES }: Props) => {
+// ✅ DEFAULT_PLACES를 참조하지 않고, PLACE_OPTIONS를 직접 사용합니다.
+const MarketSheet = ({ setIsOpen, current, onSelect, options = PLACE_OPTIONS }: Props) => {
     const close = () => setIsOpen(false);
     const handlePick = (p: Place) => {
         onSelect(p);
@@ -29,14 +30,8 @@ const MarketSheet = ({ setIsOpen, current, onSelect, options = DEFAULT_PLACES }:
                         <img src={IMAGE_CONSTANTS.CLoseIcon} alt="" />
                     </button>
                 </ModalHeader>
-
                 <ModalBody>
-                    {/* 조건부 렌더링: 서울광장시장일 때만 Title을 보여줍니다. */}
-                    {current === "서울광장시장" && (
-                        <Title>서울의 대표 전통시장</Title>
-                    )}
-
-                    {/* 여러 옵션 버튼 */}
+                    <Title>서울의 대표 전통시장</Title>
                     <ButtonList>
                         {options.map((p) => (
                             <button
@@ -49,7 +44,6 @@ const MarketSheet = ({ setIsOpen, current, onSelect, options = DEFAULT_PLACES }:
                             </button>
                         ))}
                     </ButtonList>
-
                     <span>더 많은 시장들이 업데이트될 예정이에요.</span>
                 </ModalBody>
             </PlaceModalContainer>
@@ -59,19 +53,17 @@ const MarketSheet = ({ setIsOpen, current, onSelect, options = DEFAULT_PLACES }:
 
 export default MarketSheet;
 
-// ... (나머지 styled-components 코드는 그대로 유지)
 const ModalOverlay = styled.div`
-    position: fixed; // 추가: 전체 화면 고정
-    top: 0; // 추가
-    left: 0; // 추가
-    width: 100%; // 추가
-    height: 100%; // 추가
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.45);
-    z-index: 20; // 추가: 모달 컨테이너보다 낮은 z-index
+    z-index: 20;
 `;
 
 
-/* ======= styled: MarketModal과 동일한 형태 유지 ======= */
 const PlaceModalContainer = styled.div`
     position: fixed;
     bottom: 0;
@@ -134,7 +126,7 @@ const Title = styled.p`
 
 const ButtonList = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 옵션이 적을 때도 균형 있게 */
+    grid-template-columns: 1fr; /* 옵션이 하나일 때는 1fr로 변경 */
     gap: 8px;
     width: 100%;
 

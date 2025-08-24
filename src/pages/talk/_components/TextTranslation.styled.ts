@@ -162,12 +162,17 @@ export const EnglishLine = styled.div`
 `;
 
 export const IconContainer = styled.div`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: fit-content;
     img{
         height: 20px;
         width: 20px;
     }
-        box-sizing: border-box;
-
+    box-sizing: border-box;
+    
 `;
 
 export const VoiceTranslate = styled.div`

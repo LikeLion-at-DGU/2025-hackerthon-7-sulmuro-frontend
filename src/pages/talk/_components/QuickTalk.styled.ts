@@ -107,8 +107,11 @@ export const EnglishLine = styled.div`
 `;
 
 export const Sound = styled.div`
+display: flex;
+align-items: flex-start;
+
     img{
         width: 24px;
-        height: 24px;
+        height: 25px;
     }
 `;
