@@ -58,7 +58,7 @@ const MapPage = () => {
     };
     fetchData();
     console.log(places);
-  }, []);
+  }, [language]);
   return (
     <>
       <div style={{ position: "relative" }}>
