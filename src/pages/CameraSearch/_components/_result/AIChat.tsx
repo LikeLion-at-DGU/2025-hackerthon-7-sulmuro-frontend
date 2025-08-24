@@ -3,6 +3,7 @@ import * as S from "./AIChat.styled";
 import { IMAGE_CONSTANTS } from "../../../../constants/imageConstants";
 import Chatting from "../_AIChat/Chatting";
 import type { RecommendedStore } from "../../_apis/GetImageAPI"; // 타입 재사용
+import { useNavigate } from "react-router-dom";
 
 type Props = {
     captured?: string;
@@ -26,14 +27,15 @@ const AIChat = ({
         averagePrice,
     }: Props) => {
 
-    const handleReload = () => {
-        window.location.reload(); // 페이지 새로고침
-    };
+    // const handleReload = () => {
+    //     window.location.reload(); // 페이지 새로고침
+    // };
+    const navigate = useNavigate();
 
     return (
         <S.Wrapper>
             <S.ChatHeader>
-                <img onClick={handleReload} src={IMAGE_CONSTANTS.BackIcon2} alt="BACK" />
+                <img onClick={() => navigate("/")} src={IMAGE_CONSTANTS.BackIcon2} alt="BACK" />
             </S.ChatHeader>
             {captured && (
                 <S.Result>
@@ -44,7 +46,7 @@ const AIChat = ({
                         <S.CapturedResult>
                             <img src={IMAGE_CONSTANTS.ResultIcon} alt="🔎" />
                             <div className="label">
-                            {title ? `분석 결과 : ${title}` : "분석 결과"}
+                            {title}
                             </div>
                         </S.CapturedResult>
 
@@ -52,27 +54,31 @@ const AIChat = ({
                             <S.CapturedDescription>
                             <div className="hint">
                                 {description}
-                                {typeof averagePrice === "string" && averagePrice.trim() !== "" && (
+                                {typeof averagePrice === "string" && averagePrice.trim() !== "NULL" && (
                                     <>
-                                    <br />
-                                    <strong>평균 가격</strong>
-                                    <div>
-                                        {averagePrice}
-                                    </div>
+                                        <S.AveragePrice>
+                                            <p className="Tag">평균 가격</p>
+                                            <div className="Price">{averagePrice}</div>
+                                        </S.AveragePrice>
                                     </>
                                 )}
                                 {recommendedStores.length > 0 && (
                                 <>
                                     <br />
-                                    <strong>추천 가게</strong>
-                                    <ul style={{ marginTop: 6 }}>
-                                    {recommendedStores.map((s, idx) => (
-                                        <li key={idx}>
-                                        {s.name}
-                                        {s.notes ? ` — ${s.notes}` : ""}
-                                        </li>
-                                    ))}
-                                    </ul>
+                                    <S.RecommendStrores>
+                                        <p className="Tag">추천 가게</p>
+                                        <div className="Price">
+                                            <S.RecommendedStoreList>
+                                                {recommendedStores.map((s, idx) => (
+                                                    <S.RecommendedStoreItem key={idx}>
+                                                        {s.name}
+                                                        {s.notes ? ` — ${s.notes}` : ""}
+                                                    </S.RecommendedStoreItem>
+                                                ))}
+                                            </S.RecommendedStoreList>
+                                        </div>
+                                    </S.RecommendStrores>
+                                    
                                 </>
                                 )}
                             </div>

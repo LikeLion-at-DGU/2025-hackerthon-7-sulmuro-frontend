@@ -18,6 +18,7 @@ export const BackIcon = styled.img`
     opacity: 0.9;
     z-index:3;
 `;
+
 export const Video = styled.video`
     position: absolute;
     inset: 0;
@@ -56,9 +57,12 @@ export const Crosshair = styled.div`
     }
     z-index:1;
 `;
+
 export const Hint = styled.div`
     position: absolute;
-    top: 72%;
+    top: calc(50% + min(50vh, 318px) / 2 + 2rem); // Frame 하단 + 2rem
+    left: 50%;
+    transform: translateX(-50%);
     width: 100%;
     display: flex;
     justify-content: center;
@@ -66,8 +70,10 @@ export const Hint = styled.div`
     opacity: 0.9;
     font-size: 16px;
     font-weight: 600;
-    z-index:2;
+    z-index: 2;
+    white-space: nowrap; // 텍스트가 줄바꿈되지 않도록 설정
 `;
+
 export const BottomBar = styled.div`
     position: absolute;
     left: 0;

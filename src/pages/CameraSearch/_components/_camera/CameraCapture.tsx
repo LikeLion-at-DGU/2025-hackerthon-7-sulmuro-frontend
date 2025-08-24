@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as S from "./CameraCapture.styled";
 import { IMAGE_CONSTANTS } from "../../../../constants/imageConstants";
+import { useNavigate } from "react-router-dom";
 
 type Props = {
   onCaptured: (dataUrl: string | null, file?: File) => void;
@@ -13,6 +14,7 @@ const CameraCapture = ({ onCaptured }: Props) => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const frameRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const navigate = useNavigate();
 
   const [_status, setStatus] = useState<CameraStatus>("init");
   const [_errorMsg, setErrorMsg] = useState<string>("");
@@ -168,12 +170,13 @@ const CameraCapture = ({ onCaptured }: Props) => {
 
   return (
     <S.Wrap>
-      <S.BackIcon src={IMAGE_CONSTANTS.BackIcon} alt="<"></S.BackIcon>
+      <S.BackIcon onClick={() => navigate("/")} src={IMAGE_CONSTANTS.BackIcon} alt="<"></S.BackIcon>
+      
       <S.Video ref={videoRef} playsInline muted onClick={handleTapToPlay} />
       <S.Frame ref={frameRef}>
-        <S.Crosshair>
-          <img src={IMAGE_CONSTANTS.Cross} alt="+" />
-        </S.Crosshair>
+          <S.Crosshair>
+            <img src={IMAGE_CONSTANTS.Cross} alt="+" />
+          </S.Crosshair>
       </S.Frame>
       <S.Hint>Take a picture of the items of market</S.Hint>
 
