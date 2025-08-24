@@ -130,8 +130,9 @@ export const ExtendsContaiener = styled.div`
 export const AdditionalInfo = styled.div`
   position: relative;
   margin-top: 50px;
-  height: 80%;
+  // height: 80%;
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   align-items: flex-start;
 
@@ -147,7 +148,7 @@ export const AdditionalInfo = styled.div`
 
 export const FindForMapButton = styled.button`
   position: absolute;
-  bottom: 50px;
+  bottom: -80px;
   display: flex;
   flex-direction: row;
   justify-content: center;
