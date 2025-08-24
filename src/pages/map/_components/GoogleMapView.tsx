@@ -229,6 +229,20 @@ const GoogleMapView = ({
     }
   }, [isfollowing]);
 
+  myLocationMarkerRef.current = new google.maps.Marker({
+    map: mapRef.current,
+    title: "내 위치",
+    zIndex: 9999,
+    icon: {
+      path: google.maps.SymbolPath.CIRCLE,
+      scale: 8,
+      fillColor: "rgba(173, 0, 2, 1)",
+      fillOpacity: 1,
+      strokeColor: "#FFFFFF",
+      strokeWeight: 2,
+    },
+  });
+
   useEffect(() => {
     if (!mapRef.current || !mapFocusPlace) return;
 
