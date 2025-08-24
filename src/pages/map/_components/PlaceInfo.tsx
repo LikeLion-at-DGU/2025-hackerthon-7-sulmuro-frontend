@@ -75,7 +75,6 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
 
     const deltaY = initialY.current - currentY;
 
-    // 위로 드래그
     if (deltaY > 0) {
       if (deltaY <= DEFAULT_HOLD) {
         setHeight(DEFAULT_HEIGHT + deltaY);
@@ -83,9 +82,7 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
         setAnimate(true);
         setHeight(window.innerHeight);
       }
-    }
-    // 아래로 드래그
-    else {
+    } else {
       const downDelta = -deltaY;
       if (downDelta <= DEFAULT_HOLD) {
         setHeight(DEFAULT_HEIGHT - downDelta + (height - DEFAULT_HEIGHT));
@@ -151,7 +148,6 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
     dragStartX.current = e.clientX;
     scrollStartLeft.current = carouselRef.current.scrollLeft;
 
-    // 부모로 버블링 막기 (부모의 세로 드래그 방지)
     e.stopPropagation();
     (e.nativeEvent as PointerEvent).stopPropagation?.();
     e.preventDefault();
