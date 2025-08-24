@@ -13,6 +13,7 @@ import TalkPage from "@/pages/talk/TalkPage";
 import TextTranslation from "@/pages/talk/_components/TextTranslation";
 import VoiceTranslation from "@/pages/talk/_components/VoiceTranslation";
 import NotFound from "@/pages/notFound/NotFound";
+import SplashPage from "@/pages/splash/SplashPage";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -28,6 +29,7 @@ const router = createBrowserRouter([
       { path: `${ROUTE_PATHS.ARTICLE}/:id`, element: <ArticleDetailPage /> },
       { path: ROUTE_PATHS.TextTranslation, element: <TextTranslation /> },
       { path: ROUTE_PATHS.VoiceTranslation, element: <VoiceTranslation /> },
+      { path: ROUTE_PATHS.SPLASH, element: <SplashPage /> },
     ],
   },
 
