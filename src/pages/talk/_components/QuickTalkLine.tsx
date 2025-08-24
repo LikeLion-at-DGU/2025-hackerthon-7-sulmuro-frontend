@@ -33,31 +33,31 @@ const QuickTalkLine = ({ ko, en, zh, onOpenPopup }: Props) => {
   }, [onOpenPopup, ko, en, zh]);
 
   return (
-    <S.LineWrapper>
-      <span style={{ whiteSpace: "pre-line" }}>{displayText}</span>
-      <S.IconWrapper>
-        <img
-          src={IMAGE_CONSTANTS.SwitchIcon}
-          alt="자세히 보기"
-          role="button"
-          tabIndex={0}
-          onClick={handleOpenPopup}
-          onKeyDown={(e) => e.key === "Enter" && handleOpenPopup()}
-          title="자세히 보기 (팝업 열기)"
-        />
-        <img
-          src={IMAGE_CONSTANTS.SoundIcon}
-          alt="음성으로 듣기 (한국어)"
-          role="button"
-          tabIndex={0}
-          onClick={handleSpeak}
-          onKeyDown={(e) => e.key === "Enter" && handleSpeak()}
-          title="음성으로 듣기 (한국어)"
-          style={{ marginLeft: 8 }}
-        />
-      </S.IconWrapper>
-    </S.LineWrapper>
-  );
+        <S.LineWrapper>
+        <span style={{ whiteSpace: "pre-line" }}>{displayText}</span>
+        <S.IconWrapper>
+            <img
+            src={IMAGE_CONSTANTS.SwitchIcon}
+            alt="자세히 보기"
+            role="button"
+            tabIndex={0}
+            onClick={handleOpenPopup}
+            onKeyDown={(e) => e.key === "Enter" && handleOpenPopup()}
+            title="자세히 보기 (팝업 열기)"
+            />
+            <img
+            src={IMAGE_CONSTANTS.SoundIcon}
+            alt="음성으로 듣기 (한국어)"
+            role="button"
+            tabIndex={0}
+            onClick={handleSpeak}
+            onKeyDown={(e) => e.key === "Enter" && handleSpeak()}
+            title="음성으로 듣기 (한국어)"
+            style={{ marginLeft: 8 }}
+            />
+        </S.IconWrapper>
+        </S.LineWrapper>
+    );
 };
 
 export default QuickTalkLine;
