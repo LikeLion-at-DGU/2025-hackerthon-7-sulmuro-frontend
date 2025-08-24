@@ -10,6 +10,9 @@ import { usePointhooks } from "./_hooks/usePointhooks";
 import ChooseMarket from "./_components/ChooseMarket";
 import MarketModal from "./_components/MarketModal";
 import MapControll from "./_components/MapControll";
+import { useLanguage } from "@/components/contexts/LanguageContext";
+import { useResetGoogleMaps } from "./_hooks/useResetGoogleMap";
+
 const MapPage = () => {
   const [isPlaceInfo, setIsPlaceInfo] = useState<boolean>(false);
   const [selectPlace, setSelectPlace] = useState<Place | null>(null);
@@ -19,6 +22,19 @@ const MapPage = () => {
   const [mapFocusPlace, setMapFocusPlace] = useState<Place | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isFollowing, setIsFollowing] = useState(false);
+
+  const { language } = useLanguage();
+
+  const LANG = {
+    ko: { language: "ko", region: "KR" },
+    en: { language: "en", region: "US" },
+    zh: { language: "zh-CN", region: "CN" },
+  } as const;
+
+  const { language: gLang, region: gRegion } = LANG[language];
+  const scriptId = `gmaps-script-${gLang}-${gRegion}`;
+  const wrapperKey = `gmaps-wrapper-${gLang}-${gRegion}`;
+  const gmReady = useResetGoogleMaps(scriptId);
 
   const render = (status: Status) => {
     switch (status) {
@@ -47,8 +63,12 @@ const MapPage = () => {
     <>
       <div style={{ position: "relative" }}>
         <Wrapper
+          id={scriptId}
+          key={wrapperKey}
           apiKey={import.meta.env.VITE_GOOGLEMAP_API_KEY}
           libraries={["places"]}
+          language={gLang}
+          region={gRegion}
           render={render}
         >
           <ChooseMarket setIsModalOpen={setIsModalOpen} />
@@ -64,7 +84,7 @@ const MapPage = () => {
             setIsPlaceInfo={setIsPlaceInfo}
             mapFocusPlace={mapFocusPlace}
             setMapFocusPlace={setMapFocusPlace}
-            isfollowing={isFollowing}
+            isFollowing={isFollowing}
             setIsFollowing={setIsFollowing}
           />
           <SelectLanguage />

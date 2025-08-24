@@ -37,7 +37,7 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [place]);
   useEffect(() => {
     console.log("imgs updated:", placeImg);
   }, [placeImg]);
