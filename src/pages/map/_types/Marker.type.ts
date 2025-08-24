@@ -14,4 +14,7 @@ export interface Place {
   lat: number; // 위도
   lng: number; // 경도
   category: Category; // 카테고리
+  accuracy?: number;
+  zoom?: number;
+  follow?: boolean;
 }

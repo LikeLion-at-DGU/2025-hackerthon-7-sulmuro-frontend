@@ -1,5 +1,5 @@
 import * as S from "./Mapstyled";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import testmark from "@/assets/icons/test_marker.svg";
 
 import { Category, Place } from "../_types/Marker.type";
@@ -45,6 +45,8 @@ interface GoogleMapViewProps {
   setIsPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
   setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
   setMapFocusPlace: React.Dispatch<React.SetStateAction<Place | null>>;
+  isfollowing: boolean;
+  setIsFollowing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const GoogleMapView = ({
@@ -55,6 +57,8 @@ const GoogleMapView = ({
   setIsRegister,
   mapFocusPlace,
   setMapFocusPlace,
+  setIsFollowing,
+  isfollowing,
 }: GoogleMapViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -64,6 +68,7 @@ const GoogleMapView = ({
     null
   );
   const markersRef = useRef<google.maps.Marker[]>([]);
+  const myLocationMarkerRef = useRef<google.maps.Marker | null>(null);
   const [selectedMarker, setSelectedMarker] =
     useState<google.maps.Marker | null>(null);
 
@@ -86,7 +91,14 @@ const GoogleMapView = ({
     placesServiceRef.current = new window.google.maps.places.PlacesService(
       mapRef.current
     );
-  }, [places, setIsPlaceInfo, setSelectedPlace]);
+    const offFollow = () => setIsFollowing(false);
+
+    // 드래그/마우스다운/터치 시작 시 따라가기 종료
+    const l1 = mapRef.current.addListener("dragstart", offFollow);
+    const l2 = mapRef.current.addListener("mousedown", offFollow);
+    const l3 = mapRef.current.addListener("touchstart", offFollow);
+    mapListenersRef.current.push(l1, l2, l3);
+  }, [places, setIsPlaceInfo, setSelectedPlace, setIsFollowing]);
 
   // 카테고리 변경 시 새로 마커 찍기
   useEffect(() => {
@@ -211,6 +223,13 @@ const GoogleMapView = ({
     });
   }, [places, selectedCategory, selectedMarker, setIsRegister]);
   useEffect(() => {
+    if (!isfollowing && myLocationMarkerRef.current) {
+      myLocationMarkerRef.current.setMap(null); // 지도에서 제거
+      myLocationMarkerRef.current = null;
+    }
+  }, [isfollowing]);
+
+  useEffect(() => {
     if (!mapRef.current || !mapFocusPlace) return;
 
     const moveMap = () => {
@@ -219,7 +238,38 @@ const GoogleMapView = ({
         mapFocusPlace.lng
       );
       mapRef.current!.panTo(position);
-      mapRef.current!.setZoom(20);
+      const customZoom = (mapFocusPlace as any).zoom as number | undefined;
+      const acc = (mapFocusPlace as any).accuracy as number | undefined;
+      const accBasedZoom =
+        acc != null
+          ? acc > 150
+            ? 16
+            : acc > 80
+            ? 17
+            : acc > 30
+            ? 18
+            : 19
+          : undefined;
+
+      mapRef.current!.setZoom(customZoom ?? accBasedZoom ?? 20);
+      if (mapFocusPlace.name === "내 위치") {
+        if (!myLocationMarkerRef.current) {
+          myLocationMarkerRef.current = new window.google.maps.Marker({
+            map: mapRef.current,
+            title: "내 위치",
+            zIndex: 9999,
+            icon: {
+              path: window.google.maps.SymbolPath.CIRCLE,
+              scale: 8, // 점 크기
+              fillColor: "#4285F4",
+              fillOpacity: 1,
+              strokeColor: "white",
+              strokeWeight: 2,
+            },
+          });
+        }
+        myLocationMarkerRef.current.setPosition(position);
+      }
     };
 
     // map이 아직 준비 안 된 경우 setTimeout으로 조금 기다림
@@ -231,6 +281,7 @@ const GoogleMapView = ({
     }
     setMapFocusPlace(null);
   }, [mapFocusPlace]);
+
   return <S.MapContainer ref={containerRef} />;
 };
 
