@@ -58,7 +58,7 @@ const theme = {
     Semibold32: fontGenerator(
       "Pretendard-SemiBold",
       "32px",
-      "800",
+      "600",
       "auto",
       "normal"
     ),
@@ -67,7 +67,7 @@ const theme = {
     ExtraBold24: fontGenerator(
       "Pretendard-ExtraBold",
       "24px",
-      " 800",
+      "800",
       "auto",
       "130%"
     ),
@@ -93,7 +93,7 @@ const theme = {
       "normal"
     ),
     Regular16: fontGenerator(
-      "PretenPretendard-Regulardard",
+      "Pretendard-Regular",
       "16px",
       "400",
       "auto",

@@ -23,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
   font-family: 'Pretendard-Regular';
   src: url('/fonts/Pretendard-Regular.otf') format('opentype'),
       url('/fonts/Pretendard-Regular.woff2') format('woff2');
-  font-weight: 600;
+  font-weight: 400;
   font-style: normal;
 }
 
@@ -31,7 +31,7 @@ const GlobalStyle = createGlobalStyle`
   font-family: 'Pretendard-SemiBold';
   src: url('/fonts/Pretendard-SemiBold.otf') format('opentype'),
   url('/fonts/Pretendard-SemiBold.woff2') format('woff2');
-  font-weight: 500;
+  font-weight: 600;
   font-style: normal;
 }
 
