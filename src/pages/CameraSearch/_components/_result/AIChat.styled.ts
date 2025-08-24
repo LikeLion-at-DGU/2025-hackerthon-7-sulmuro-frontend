@@ -92,6 +92,59 @@ export const CapturedDescription = styled.div`
     }
 `;
 
+export const AveragePrice = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+    color: ${({theme}) => theme.colors.N40};
+    ${({ theme }) => theme.fonts.SemiBold14};
+    .Tag{
+        color: ${({theme}) => theme.colors.R50};
+        ${({ theme }) => theme.fonts.SemiBold14};
+    }
+
+    .Price{
+        color: ${({theme}) => theme.colors.N70};
+        ${({ theme }) => theme.fonts.Regular12};
+    }
+`;
+
+export const RecommendStrores = styled.div`
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    height: fit-content;
+    color: ${({theme}) => theme.colors.N70};
+    ${({ theme }) => theme.fonts.SemiBold14};
+    .Tag{
+        color: ${({theme}) => theme.colors.R50};
+        ${({ theme }) => theme.fonts.SemiBold14};
+    }
+
+    .Price{
+        /* color: ${({theme}) => theme.colors.N70}; */
+        color: black;
+        ${({ theme }) => theme.fonts.Regular12};
+    }
+`;
+
+export const RecommendedStoreList = styled.ul`
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none; /* 불릿 제거 */
+    padding: 0;
+    gap: 6px; /* 항목 간의 간격 */
+`;
+export const RecommendedStoreItem = styled.li`
+
+`;
+
 export const ToAIChat = styled.div`
     width: 100%;
     padding: 32px 0 0 0;
