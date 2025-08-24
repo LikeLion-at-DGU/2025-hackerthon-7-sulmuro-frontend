@@ -28,23 +28,25 @@ const SelectLanguage = () => {
     zh: "中文",
   } as const;
 
-  const options: Array<"ko" | "en" | "zh"> = ["ko", "en", "zh"].filter(
-    (l) => l !== language
-  ) as Array<"ko" | "en" | "zh">;
+  const options: Array<"ko" | "en" | "zh"> = ["ko", "en", "zh"];
   return (
     <LanguageContainer>
       <LanguageButton
         onClick={toggleLanguageMenu}
         aria-expanded={isOpen}
         aria-label="언어 선택"
-        $active={isOpen}
       >
-        <img src={ICON[language]} alt={ALT[language]} />
+        {/* 여기에 기본 이미지를 넣으세요 */}
+        <img src={IMAGE_CONSTANTS.LanguageClose} alt="언어 선택" />
       </LanguageButton>
 
       <LanguageOptions $isOpen={isOpen}>
         {options.map((l) => (
-          <LanguageButton key={l} onClick={() => handleLanguageChange(l)}>
+          <LanguageButton
+            key={l}
+            onClick={() => handleLanguageChange(l)}
+            $active={l === language}
+          >
             <img src={ICON[l]} alt={ALT[l]} />
           </LanguageButton>
         ))}

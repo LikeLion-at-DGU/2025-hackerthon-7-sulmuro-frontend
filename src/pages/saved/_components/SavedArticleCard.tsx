@@ -1,21 +1,37 @@
 import styled from "styled-components";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
+import { addArticle, hasArticle, removeArticle } from "@/utils/SavedBookMark";
 interface SavePlaceCardProps {
+  id: number;
   title: string;
-
   images: string[];
   location: string;
 }
 
 const SavedArticleCard = ({
+  id,
   title,
-
   images,
   location,
 }: SavePlaceCardProps) => {
+  const [isBookMark, setIsBookMark] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
-
+  const handleArticleExplicit = (e: React.MouseEvent<HTMLImageElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (id == null) return;
+    setIsBookMark((prev) => {
+      if (prev) removeArticle(id!);
+      else addArticle(id!);
+      return !prev;
+    });
+  };
+  useEffect(() => {
+    if (id != null) {
+      setIsBookMark(hasArticle(id));
+    }
+  }, []);
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -36,7 +52,15 @@ const SavedArticleCard = ({
   return (
     <Wrapper>
       <ImageScrollContainer ref={containerRef}>
-        <BookmarkIcon src={IMAGE_CONSTANTS.Bookmark} alt="북마크" />
+        <BookmarkIcon
+          src={
+            isBookMark
+              ? IMAGE_CONSTANTS.Bookmark
+              : IMAGE_CONSTANTS.BookMarkUnselect
+          }
+          alt="북마크"
+          onClick={handleArticleExplicit}
+        />
         {images.map((imageUrl, index) => (
           <ArticleImage
             key={index}

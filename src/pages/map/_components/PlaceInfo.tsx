@@ -6,6 +6,7 @@ import { Place } from "../_types/Marker.type";
 import { Api } from "@/api/Api";
 import { useLanguage } from "@/components/contexts/LanguageContext";
 import { PlaceModalInfo, PlaceModalWithGoogle } from "../languages/Translate";
+import { addPlace, hasPlace, removePlace } from "@/utils/SavedBookMark";
 
 const DEFAULT_HOLD = 50;
 const DEFAULT_HEIGHT = 230;
@@ -45,6 +46,9 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
   };
   useEffect(() => {
     fetchData();
+    if (place?.id != null) {
+      setIsBookMark(hasPlace(place.id));
+    }
   }, [place]);
   useEffect(() => {
     console.log("imgs updated:", placeImg);
@@ -113,8 +117,13 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
     setAnimate(true);
     setHeight(230);
   };
-  const handleBookMark = () => {
-    setIsBookMark((prev) => !prev);
+  const handleBookMarkExplicit = () => {
+    if (place?.id == null) return;
+    setIsBookMark((prev) => {
+      if (prev) removePlace(place.id!);
+      else addPlace(place.id!);
+      return !prev;
+    });
   };
 
   useEffect(() => {
@@ -201,7 +210,7 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
               : IMAGE_CONSTANTS.BookMark
           }
           alt="저장하기"
-          onClick={handleBookMark}
+          onClick={handleBookMarkExplicit}
         />
       </S.InfoContainer>
       <p className="address">{place.address}</p>

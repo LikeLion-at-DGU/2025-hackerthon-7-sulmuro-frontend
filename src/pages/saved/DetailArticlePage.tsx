@@ -16,6 +16,7 @@ const DetailArticlePage = () => {
         {savedArticles.map((article) => (
           <SavedArticleCard
             key={article.id}
+            id={article.id}
             title={article.title}
             images={article.images}
             location={article.location}
