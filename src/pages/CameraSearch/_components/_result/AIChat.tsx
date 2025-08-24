@@ -3,7 +3,7 @@ import * as S from "./AIChat.styled";
 import { IMAGE_CONSTANTS } from "../../../../constants/imageConstants";
 import Chatting from "../_AIChat/Chatting";
 import type { RecommendedStore } from "../../_apis/GetImageAPI";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useMemo } from "react";
 import { useLanguage } from "@/components/contexts/LanguageContext";
 
@@ -28,7 +28,7 @@ const AIChat = ({
     introMessage,
     averagePrice,
     }: Props) => {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const { language } = useLanguage(); // 'ko' | 'en' | 'zh'
 
     // ✅ 라벨 현지화
