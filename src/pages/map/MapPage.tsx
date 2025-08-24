@@ -31,10 +31,10 @@ const MapPage = () => {
     zh: { language: "zh-CN", region: "CN" },
   } as const;
 
-  const { language: gLang, region: gRegion } = LANG[language];
-  const scriptId = `gmaps-script-${gLang}-${gRegion}`;
-  const wrapperKey = `gmaps-wrapper-${gLang}-${gRegion}`;
-  const gmReady = useResetGoogleMaps(scriptId);
+  // const { language: gLang, region: gRegion } = LANG[language];
+  // const scriptId = `gmaps-script-${gLang}-${gRegion}`;
+  // const wrapperKey = `gmaps-wrapper-${gLang}-${gRegion}`;
+  // const gmReady = useResetGoogleMaps(scriptId);
 
   const render = (status: Status) => {
     switch (status) {
@@ -63,12 +63,8 @@ const MapPage = () => {
     <>
       <div style={{ position: "relative" }}>
         <Wrapper
-          id={scriptId}
-          key={wrapperKey}
           apiKey={import.meta.env.VITE_GOOGLEMAP_API_KEY}
           libraries={["places"]}
-          language={gLang}
-          region={gRegion}
           render={render}
         >
           <ChooseMarket setIsModalOpen={setIsModalOpen} />

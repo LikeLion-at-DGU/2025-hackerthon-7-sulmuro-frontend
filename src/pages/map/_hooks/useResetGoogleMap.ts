@@ -18,10 +18,54 @@ export const useResetGoogleMaps = (scriptId: string) => {
       document
         .querySelectorAll('script[src*="maps.googleapis.com/maps/api/js"]')
         .forEach((s) => s.remove());
-      // 4) 전역 객체 초기화
+
+      // 4) Google Maps 관련 모든 스크립트 태그 제거
+      document
+        .querySelectorAll('script[src*="maps.googleapis.com"]')
+        .forEach((s) => s.remove());
+
+      // 5) 전역 객체 초기화
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       delete window.google;
+
+      // 6) Google Maps 로더 캐시 정리
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      if (window.__googleMapsApi) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        delete window.__googleMapsApi;
+      }
+
+      // 7) Google Maps React Wrapper 내부 캐시 정리
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      if (window.__googleMapsReactWrapperCache) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        delete window.__googleMapsReactWrapperCache;
+      }
+
+      // 8) 모든 Google Maps 관련 전역 변수 정리
+      Object.keys(window).forEach((key) => {
+        if (
+          key.includes("google") ||
+          key.includes("maps") ||
+          key.includes("__google")
+        ) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          delete window[key];
+        }
+      });
+
+      // 9) 추가 대기 시간으로 완전한 정리 보장
+      setTimeout(() => {
+        prevIdRef.current = scriptId;
+        setReady(true);
+      }, 300);
+      return;
     }
 
     prevIdRef.current = scriptId;
