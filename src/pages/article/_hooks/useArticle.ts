@@ -7,14 +7,18 @@ import {
   type Place,
   type Category,
 } from "../_apis/getArticle";
+import { useLanguage } from "@/components/contexts/LanguageContext";
 
 type Lang = "ko" | "en" | "zh";
+
 interface UseArticleOptions {
+  /** 전달 시 컨텍스트 언어보다 우선합니다(선택). */
   language?: Lang;
 }
 
 export const useArticle = (opts: UseArticleOptions = {}) => {
-  const { language = "ko" } = opts;
+  const { language: ctxLang } = useLanguage();           // 'ko' | 'en' | 'zh'
+  const lang: Lang = opts.language ?? ctxLang;
 
   const [place, setPlace] = useState<Place>("전체");
   const [category, setCategory] = useState<Category>("음식");
@@ -28,19 +32,21 @@ export const useArticle = (opts: UseArticleOptions = {}) => {
     setLoading(true);
     setErrorMsg(null);
     try {
-      const data = await getArticles(language);
+      const data = await getArticles(lang); // ✅ Accept-Language 적용
       setAll(data);
     } catch (e: any) {
       setErrorMsg(e?.message ?? "데이터를 불러오는 중 오류가 발생했습니다.");
     } finally {
       setLoading(false);
     }
-  }, [language]);
+  }, [lang]);
 
+  // 언어가 바뀌면 재요청
   useEffect(() => {
     fetchArticles();
   }, [fetchArticles]);
 
+  // 필터링
   useEffect(() => {
     setArticles(
       all.filter((a) => {
@@ -51,12 +57,12 @@ export const useArticle = (opts: UseArticleOptions = {}) => {
     );
   }, [all, place, category]);
 
-  /** 상세를 블록 포함으로 불러오는 헬퍼 (상세 페이지에서 사용 가능) */
+  /** 상세(블록 포함) 로드 */
   const loadDetail = useCallback(
     async (id: number): Promise<Article> => {
-      return await getArticleDetail(id, language);
+      return await getArticleDetail(id, lang); // ✅ Accept-Language 적용
     },
-    [language]
+    [lang]
   );
 
   return {
@@ -68,6 +74,6 @@ export const useArticle = (opts: UseArticleOptions = {}) => {
     loading,
     errorMsg,
     refetch: fetchArticles,
-    loadDetail, // 필요 시 사용
+    loadDetail,
   };
 };
