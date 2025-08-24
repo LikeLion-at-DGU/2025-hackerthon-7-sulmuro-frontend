@@ -1,8 +1,8 @@
+// talk/_hooks/UseSpeachText.ts
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   createSpeechRecognizer,
-  speak,         // ✅ 항상 한국어로만 말하도록 강제됨
-  cancelSpeak,
+  speak,
   listVoices,
   STTOptions,
 } from "../_apis/GetSpeachText";
@@ -17,8 +17,8 @@ export type UseSpeechTextReturn = {
   stop: () => void;
   abort: () => void;
   reset: () => void;
-  speak: (text: string, opts?: Parameters<typeof speak>[1]) => void; // 한국어 고정
   cancelSpeak: () => void;
+  speak: (text: string, opts?: Parameters<typeof speak>[1]) => void;
   voices: SpeechSynthesisVoice[];
 };
 
@@ -34,6 +34,15 @@ export const useSpeachText = (
 
   const recRef = useRef<ReturnType<typeof createSpeechRecognizer> | null>(null);
 
+  const cancelSpeak = useCallback(() => {
+    if ("speechSynthesis" in window) {
+      try {
+        window.speechSynthesis.cancel();
+      } catch {}
+    }
+  }, []);
+
+  // STT 초기화
   useEffect(() => {
     const controller = createSpeechRecognizer(sttOptions, {
       onStart: () => {
@@ -62,12 +71,12 @@ export const useSpeachText = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sttOptions.lang, sttOptions.continuous, sttOptions.interimResults, sttOptions.maxAlternatives]);
 
-  // 브라우저에 따라 Voice 목록은 비동기로 로드됨
+  // 보이스 목록 로딩
   useEffect(() => {
-    const loadVoices = () => setVoices(listVoices());
-    loadVoices();
+    const load = () => setVoices(listVoices());
+    load();
     if ("speechSynthesis" in window) {
-      window.speechSynthesis.onvoiceschanged = loadVoices;
+      window.speechSynthesis.onvoiceschanged = load;
     }
     return () => {
       if ("speechSynthesis" in window) {
@@ -95,7 +104,7 @@ export const useSpeachText = (
     stop,
     abort,
     reset,
-    speak,         // ✅ 외부에서 어떤 옵션을 주더라도 ko-KR로만 재생
+    speak,        // 원하는 {lang}으로 사용 가능
     cancelSpeak,
     voices,
   };

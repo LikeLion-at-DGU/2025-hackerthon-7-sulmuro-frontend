@@ -29,7 +29,7 @@ interface ApiSuccess<T> { message: string; code: number; data: T; }
 interface ApiPage<T> { content: T[]; }
 
 /** ===== UI 타입 ===== */
-export type Place = "전체" | "광장시장" | "양재시장";
+export type Place = "전체" | "서울광장시장";
 export type Category = "음식" | "쇼핑" | "역사";
 
 export type ContentBlock =
@@ -56,8 +56,7 @@ type Lang = "ko" | "en" | "zh";
 /** ===== 유틸 ===== */
 const mapLocationToPlace = (loc: ApiArticle["location"]): Article["place"] => {
   switch (loc) {
-    case "GWANGJANG_MARKET": return "광장시장";
-    case "YANGJAE_MARKET":   return "양재시장";
+    case "GWANGJANG_MARKET": return "서울광장시장";
     default:                 return "기타";
   }
 };

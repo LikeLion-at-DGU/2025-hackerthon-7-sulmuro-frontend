@@ -32,6 +32,7 @@ import ChatIcon from "@/assets/icons/chatIcon.svg";
 import RecordingButtonRed from "@/assets/icons/recordingButton.svg";
 import RecordingButtonBlack from "@/assets/icons/recordingButton_black.svg";
 import VoiceButtonBlack from "@/assets/icons/VoiceButton_Black.svg";
+import DropDown from "@/assets/icons/DownIcon.svg";
 
 // language icon
 import LanguageOpen from "@/assets/icons/language_open.svg";
@@ -131,6 +132,7 @@ export const IMAGE_CONSTANTS = {
   RecordingButtonRed,
   RecordingButtonBlack,
   VoiceButtonBlack,
+  DropDown,
   
   SwapIcon,
   VoiceButton,
