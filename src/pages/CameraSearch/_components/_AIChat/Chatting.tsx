@@ -188,7 +188,7 @@ const Chatting = ({
                     )}
                 </S.QuickQuestions>
 
-                    <S.InputRow onSubmit={onSubmit}>
+                <S.InputRow onSubmit={onSubmit}>
                     <S.AiChatField
                         placeholder={roomId ? "Type your comment here..." : "분석 준비 중입니다..."}
                         value={text}

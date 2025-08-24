@@ -34,7 +34,13 @@ declare module "styled-components" {
     };
     fonts: {
       // pretendard
+      
+      //404 Page
+      ExtraBold90: any;
 
+      //32px
+      Semibold32: any;
+      
       // Head 24px
       ExtraBold24: any;
       Bold24: any;

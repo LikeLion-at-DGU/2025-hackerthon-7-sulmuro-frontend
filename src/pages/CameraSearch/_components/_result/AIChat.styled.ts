@@ -40,6 +40,7 @@ export const Result = styled.div`
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     margin-top: 40px;
     .hint {
+        width: 100%;
         opacity: 0.7;
         font-size: 12px;
     }
@@ -87,7 +88,7 @@ export const CapturedDescription = styled.div`
     
     .hint {
         ${({theme}) => theme.fonts.Regular14}
-        width: 80%;
+        width: 100%;
     }
 `;
 

@@ -47,6 +47,10 @@ const theme = {
   colors,
 
   fonts: {
+    // 404 Page
+    ExtraBold90: fontGenerator("Pretendard", "90px", "900", "auto", "normal"),
+    Semibold32: fontGenerator("Pretendard", "32px", "800", "auto", "normal"),
+
     // Head1
     ExtraBold24: fontGenerator("Pretendard", "24px", " 800", "auto", "130%"),
     Bold24: fontGenerator("Pretendard", "24px", "700", "auto", "130%"),

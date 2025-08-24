@@ -1,10 +1,6 @@
+// router.tsx
 import { createBrowserRouter } from "react-router-dom";
-
-// components
 import DefaultLayout from "@/components/layout/DefaultLayout";
-
-// pages
-// import MainPage from "@/pages/main/MainPage";
 import CameraSearchPage from "@/pages/CameraSearch/CameraSearchPage";
 import { ROUTE_PATHS } from "@/constants/routeConstants";
 import MapPage from "@/pages/map/MapPage";
@@ -12,17 +8,18 @@ import SavePage from "@/pages/saved/SavedPage";
 import DetailPlacePage from "@/pages/saved/DetailPlacePage";
 import DetailArticlePage from "@/pages/saved/DetailArticlePage";
 import ArticlePage from "@/pages/article/ArticlePage";
-
-import ArticleDetailPage from "@/pages/article/ArticleDetailPage"; // ✅ 신규
+import ArticleDetailPage from "@/pages/article/ArticleDetailPage";
 import TalkPage from "@/pages/talk/TalkPage";
-import MainPage from "@/pages/main/MainPage";
+import TextTranslation from "@/pages/talk/_components/TextTranslation";
+import VoiceTranslation from "@/pages/talk/_components/VoiceTranslation";
+import NotFound from "@/pages/notFound/NotFound";
+
 const router = createBrowserRouter([
   {
     path: "/",
     element: <DefaultLayout />,
     children: [
       { path: ROUTE_PATHS.AI, element: <CameraSearchPage /> },
-      // { path: ROUTE_PATHS.ARTICLE, element: <MainPage /> },
       { path: ROUTE_PATHS.SAVED, element: <SavePage /> },
       { path: ROUTE_PATHS.TALK, element: <TalkPage /> },
       { path: ROUTE_PATHS.MAP, element: <MapPage /> },
@@ -30,9 +27,13 @@ const router = createBrowserRouter([
       { path: ROUTE_PATHS.SAVED_ARTICLE, element: <DetailArticlePage /> },
       { path: ROUTE_PATHS.ARTICLE, element: <ArticlePage /> },
       { path: `${ROUTE_PATHS.ARTICLE}/:id`, element: <ArticleDetailPage /> },
-      { path: "*", element: <MainPage /> }, //근우야 이거 404로 바꾸셈
+      { path: ROUTE_PATHS.TextTranslation, element: <TextTranslation /> },
+      { path: ROUTE_PATHS.VoiceTranslation, element: <VoiceTranslation /> },
     ],
   },
+
+  
+  { path: "*", element: <NotFound /> },
 ]);
 
 export default router;

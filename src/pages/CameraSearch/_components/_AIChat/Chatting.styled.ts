@@ -98,6 +98,7 @@ export const QuickQuestions = styled.div`
     display: flex;
     gap: 8px;
     width: 100%;
+    height: 38px;
     overflow-x: auto; /* ✅ 가로 스크롤 */
     padding-bottom: 4px;
     box-sizing: border-box;
@@ -111,41 +112,43 @@ export const QuickQuestions = styled.div`
 `;
 
 export const RecommendedQuestions = styled.div`
-    flex-shrink: 0; /* ✅ 줄어들지 않고 한 줄에 그대로 유지 */
+    flex-shrink: 0; 
     padding: 8px 12px;
     border-radius: 8px;
     background: ${({ theme }) => theme.colors.R10};
-    color: ${({ theme }) => theme.colors.R60};
-    ${({ theme }) => theme.fonts.SemiBold10};
+    color: ${({ theme }) => theme.colors.N70};
+    ${({ theme }) => theme.fonts.SemiBold12};
     cursor: pointer;
     user-select: none;
-
-    /* 길어도 한 줄 처리 */
     white-space: nowrap;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 export const InputRow = styled.form`
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 8px;
-    align-items: end;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 0.5rem;
 `;
 
 export const AiChatField = styled.textarea`
-    width: 100%;
-    min-height: 52px;
-    max-height: 140px;
-    padding: 10px 12px;
+    width: 80%;
+    height: 40px;
+    padding: 0 12px;
     background: ${({ theme }) => theme.colors.N00};
     border-radius: 10px;
     border: 1px solid ${({ theme }) => theme.colors.N10};
     color: ${({ theme }) => theme.colors.N70};
+    ${({ theme }) => theme.fonts.Regular14};
     resize: vertical;
-    line-height: 1.4;
-    outline: none;
-
+    line-height: 40px; /* height와 동일하게 설정 */    outline: none;
+    display: flex;
+    align-items: center;
     ::placeholder {
-        color: ${({ theme }) => theme.colors.N30};
+        color: ${({ theme }) => theme.colors.N50};
     }
 `;
 
@@ -155,7 +158,7 @@ export const SendButton = styled.button`
     padding: 0 10px;
     border-radius: 10px;
     border: none;
-    background: ${({ theme }) => theme.colors.R60};
+    background: ${({ theme }) => theme.colors.N50};
     display: inline-flex;
     align-items: center;
     justify-content: center;
