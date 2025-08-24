@@ -44,7 +44,14 @@ const AIChat = ({
     return (
         <S.Wrapper>
         <S.ChatHeader>
-            <img onClick={() => navigate("/")} src={IMAGE_CONSTANTS.BackIcon2} alt="BACK" />
+            <img
+                onClick={() => {
+                    window.location.href = "/AI"; // ✅ 전체 페이지 새로고침 후 홈으로 이동
+                }}
+                src={IMAGE_CONSTANTS.BackIcon2}
+                alt="BACK"
+                style={{ cursor: "pointer" }}
+            />        
         </S.ChatHeader>
 
         {captured && (

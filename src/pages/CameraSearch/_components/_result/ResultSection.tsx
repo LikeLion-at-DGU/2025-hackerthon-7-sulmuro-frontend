@@ -57,8 +57,15 @@ const ResultSection = ({
         language === "ko" ? "분석 실패: " : language === "zh" ? "分析失败：" : "Analyze failed: ",
       pullUpToAskAI:
         language === "ko" ? "스크롤을 올려 AI에게 질문하기" : language === "zh" ? "上滑向 AI 提问" : "Pull up to ask AI",
+
+      // ✅ 추가: 태그 라벨 현지화
+      marketPrice:
+        language === "ko" ? "시세" : language === "zh" ? "市场价" : "Market price",
+      sellingSpot:
+        language === "ko" ? "판매 장소" : language === "zh" ? "售卖点" : "Selling spot",
     };
   }, [language]);
+
 
   const onTouchStart: React.TouchEventHandler = (e) => {
     startY.current = e.touches[0].clientY;
@@ -131,7 +138,7 @@ const ResultSection = ({
                         <br />
                         <br />
                         <S.AveragePrice>
-                          <p className="Tag">Market price</p>
+                            <p className="Tag">{t.marketPrice}</p> 
                           <S.PriceWrapper>
                             <div className="Price">{answer.averagePrice}</div>
                           </S.PriceWrapper>
@@ -142,7 +149,7 @@ const ResultSection = ({
                     {Array.isArray(answer.recommendedStores) && answer.recommendedStores.length > 0 && (
                       <>
                         <S.RecommendStrores>
-                          <p className="Tag">Selling spot</p>
+                          <p className="Tag">{t.sellingSpot}</p> 
                           <div className="Price">
                             <S.RecommendedStoreList>
                               {answer.recommendedStores.map((s, idx) => (
