@@ -4,7 +4,8 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     width: 100%;
-
+    height: 90dvh;
+    overflow: scroll;
 `;
 
 export const Header = styled.div`
@@ -32,6 +33,9 @@ export const Header = styled.div`
 export const TopComponentWrapper = styled.div`
     width: 100%;
     border-bottom: 1px solid ${({theme}) => theme.colors.N30};
+    padding-bottom: 1rem;
+    box-sizing:border-box;
+    margin-bottom: 1rem;
 `;
 
 export const BottomComponentWrapper = styled.div`
@@ -40,6 +44,7 @@ export const BottomComponentWrapper = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    flex: 1; // 이 속성을 추가하여 남은 공간을 모두 차지하도록 합니다.
 `;
 
 export const TextTranslate = styled.div`
@@ -51,6 +56,7 @@ export const TextTranslate = styled.div`
     color: ${({ theme }) => theme.colors.N30};
     ${({ theme }) => theme.fonts.SemiBold16};
     box-sizing: border-box;
+    flex: 1; // 이 속성을 추가하여 남은 높이를 모두 채우도록 합니다.
 `;
 
 export const VoiceTranslate = styled.div`

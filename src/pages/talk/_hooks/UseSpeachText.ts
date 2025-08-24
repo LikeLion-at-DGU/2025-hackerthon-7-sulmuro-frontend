@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   createSpeechRecognizer,
-  speak,
+  speak,         // ✅ 항상 한국어로만 말하도록 강제됨
   cancelSpeak,
   listVoices,
   STTOptions,
@@ -17,7 +17,7 @@ export type UseSpeechTextReturn = {
   stop: () => void;
   abort: () => void;
   reset: () => void;
-  speak: (text: string, opts?: Parameters<typeof speak>[1]) => void;
+  speak: (text: string, opts?: Parameters<typeof speak>[1]) => void; // 한국어 고정
   cancelSpeak: () => void;
   voices: SpeechSynthesisVoice[];
 };
@@ -95,7 +95,7 @@ export const useSpeachText = (
     stop,
     abort,
     reset,
-    speak,
+    speak,         // ✅ 외부에서 어떤 옵션을 주더라도 ko-KR로만 재생
     cancelSpeak,
     voices,
   };

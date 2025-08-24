@@ -2,14 +2,22 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import {
     getTranslate,
+    getTranslateWithRecommend,
     TranslateRequest,
     TranslateSuccess,
     TranslateError,
 } from "../_apis/GetTranslation";
 
 type Status = "idle" | "loading" | "success" | "error";
+type Mode = "basic" | "recommend";
 
-export function useTranslate() {
+export interface UseTranslateOptions {
+  mode?: Mode; // default: 'basic'
+}
+
+export function useTranslate(options?: UseTranslateOptions) {
+    const mode: Mode = options?.mode ?? "basic";
+
     const [status, setStatus] = useState<Status>("idle");
     const [data, setData] = useState<TranslateSuccess["data"] | null>(null);
     const [message, setMessage] = useState<string | null>(null);
@@ -20,7 +28,7 @@ export function useTranslate() {
 
     const translate = useCallback(
         async (req: TranslateRequest, opts?: { timeoutMs?: number }) => {
-        // 진행 중인 요청이 있다면 취소
+        // 진행 중인 요청 취소
         if (abortRef.current) {
             abortRef.current.abort();
         }
@@ -33,28 +41,35 @@ export function useTranslate() {
         setCode(null);
 
         try {
-            const res = await getTranslate(req, {
-            signal: controller.signal,
-            timeoutMs: opts?.timeoutMs ?? 15000,
-            });
+            const res =
+            mode === "recommend"
+                ? await getTranslateWithRecommend(req, {
+                    signal: controller.signal,
+                    timeoutMs: opts?.timeoutMs ?? 15000,
+                })
+                : await getTranslate(req, {
+                    signal: controller.signal,
+                    timeoutMs: opts?.timeoutMs ?? 15000,
+                });
+
+            // 공통 데이터(번역문 + 선택적 추천) 저장
             setData(res.data);
             setMessage(res.message ?? null);
             setCode(typeof res.code === "number" ? res.code : null);
             setStatus("success");
-            return res.data; // { translatedText }
+            return res.data; // { translatedText, recommendations? }
         } catch (e) {
             const err = e as TranslateError;
             setError(err.message);
             setStatus("error");
             throw err;
         } finally {
-            // 종료 시 컨트롤러 정리
             if (abortRef.current === controller) {
             abortRef.current = null;
             }
         }
         },
-        []
+        [mode]
     );
 
     const cancel = useCallback(() => {
@@ -82,9 +97,9 @@ export function useTranslate() {
         loading,
         success,
         failure,
-        data, // { translatedText }
-        message, // "번역이 완료되었습니다."
-        code, // 200
+        data,       // { translatedText, recommendations? }
+        message,    // ex) "번역이 완료되었습니다."
+        code,       // 200
         error,
 
         // actions
