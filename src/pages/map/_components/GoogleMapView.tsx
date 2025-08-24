@@ -31,6 +31,10 @@ const CATEGORY_ICONS: Partial<
     selected: IMAGE_CONSTANTS.CafePinSelect,
     unselected: IMAGE_CONSTANTS.CafePinUnSelect,
   },
+  Bar: {
+    selected: IMAGE_CONSTANTS.BarPinSelect,
+    unselected: IMAGE_CONSTANTS.BarPinUnSelect,
+  },
 };
 
 declare global {
@@ -102,7 +106,6 @@ const GoogleMapView = ({
       setIsMarketMode(false);
     };
 
-    // 드래그/마우스다운/터치 시작 시 따라가기 종료
     const l1 = mapRef.current.addListener("dragstart", offFollowAndMarket);
     const l2 = mapRef.current.addListener("mousedown", offFollowAndMarket);
     const l3 = mapRef.current.addListener("touchstart", offFollowAndMarket);

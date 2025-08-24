@@ -64,9 +64,7 @@ const MapPage = () => {
         return <>로드 성공</>;
     }
   };
-
   useEffect(() => {
-    // places 로딩 후에만 처리
     if (!focusPlaceId || !places.length) return;
 
     const p = places.find((pl) => String(pl.id) === String(focusPlaceId));
