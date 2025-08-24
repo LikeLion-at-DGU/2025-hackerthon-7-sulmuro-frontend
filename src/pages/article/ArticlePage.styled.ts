@@ -5,8 +5,8 @@ export const Wrapper = styled.div`
   flex-direction: column;
   align-items: center;
 
-  padding: 0 16px;
-  box-sizing: border-box;
+  /* padding: 0 16px;
+  box-sizing: border-box; */
   margin-bottom: 80px; //푸터높이
 
   flex-grow: 1;
@@ -16,7 +16,7 @@ export const Header = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
-  padding: 16px 0;
+  padding: 1rem ;
   box-sizing: border-box;
   justify-content: space-between;
 
@@ -24,16 +24,6 @@ export const Header = styled.div`
   ${({ theme }) => theme.fonts.ExtraBold24};
 `;
 
-
-// export const Header = styled.header`
-//   display: flex;
-//   align-items: center;
-//   gap: 12px;
-//   justify-content: space-between;
-//   margin-bottom: 16px;
-//   font-size: 1.25rem;
-//   font-weight: 700;
-// `;
 export const PlaceDropdown = styled.div`
   select {
     padding: 8px 10px;
@@ -47,6 +37,8 @@ export const Contents = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 16px;
+  padding: 1rem 1rem 0;
+  box-sizing: border-box;
 `;
 
 export const SavedPlaceBox = styled.div`
@@ -66,26 +58,40 @@ export const ArticleBox = styled.div`
 
 export const FilterRow = styled.div`
   display: flex;
-  gap: 8px;
+  height: 2.4rem;
   width: 100%;
-  align-items: center;
-
+  align-items: flex-end;
+  border-bottom: 2px solid ${({ theme }) => theme.colors.N10};
   select {
     padding: 8px 10px;
     border-radius: 8px;
-    border: 1px solid ${({ theme }) => theme.colors.N20};
     background: #fff;
+    
   }
 `;
-
 export const CategoryButton = styled.button<{ selected?: boolean }>`
-  padding: 8px 12px;
-  border-radius: 10px;
-  border: 1px solid ${({ selected, theme }) =>
-    selected ? theme.colors.N70 : theme.colors.N20};
-  background: ${({ selected, theme }) =>
-    selected ? theme.colors.N70 : "#fff"};
+  position: relative; /* ::after 기준점 */
+  padding: 8px 4px;
+  margin-left: 1rem;
+  height: 100%;
+  ${({ theme }) => theme.fonts.Bold16};
   color: ${({ selected, theme }) =>
-    selected ? "#fff" : theme.colors.N70};
+    selected ? theme.colors.R50 : theme.colors.N70};
   cursor: pointer;
+
+  /* 기존 border-bottom은 제거 */
+  border-bottom: none;
+
+  /* 선택 시 밑줄을 부모의 1px 보더 위에 겹치도록 살짝 내려그림 */
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px; /* 부모의 1px 보더 라인과 겹치도록 1px 아래로 */
+    height: 2.5px;
+    background: ${({ selected, theme }) =>
+      selected ? theme.colors.R50 : "transparent"};
+    pointer-events: none;
+  }
 `;

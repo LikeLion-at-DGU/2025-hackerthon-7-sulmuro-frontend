@@ -31,13 +31,10 @@ const ArticlePage = () => {
           >
             <option value="전체">전체</option>
             <option value="광장시장">광장시장</option>
-            <option value="양재시장">양재시장</option>
           </select>
         </S.PlaceDropdown>
       </S.Header>
-
-      <S.Contents>
-        <S.FilterRow>
+      <S.FilterRow>
           {(["음식", "쇼핑", "역사"] as const).map((c) => (
             <S.CategoryButton
               key={c}
@@ -48,6 +45,8 @@ const ArticlePage = () => {
             </S.CategoryButton>
           ))}
         </S.FilterRow>
+      <S.Contents>
+        
 
         {loading && <div>불러오는 중...</div>}
         {!loading && errorMsg && <div>{errorMsg}</div>}
