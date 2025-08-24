@@ -7,7 +7,7 @@ function useFooterVisible() {
     !!matchPath({ path: "/ai", end: true }, pathname) ||
     !!matchPath({ path: "/saved/place", end: true }, pathname) ||
     !!matchPath({ path: "/saved/article", end: true }, pathname) ||
-    !!matchPath({ path: "/article/:id", end: true }, pathname); 
+    !!matchPath({ path: "/article/:id", end: true }, pathname);
 
   return !isHidden;
 }

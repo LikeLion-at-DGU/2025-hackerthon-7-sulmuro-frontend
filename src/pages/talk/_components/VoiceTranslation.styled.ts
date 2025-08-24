@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 export const Wrapper = styled.div`
     width: 100%;
-    height: 100%;
+    height: 100% - 2rem;
     display: flex;
-    flex-direction: column;
+    flex-direction: column; 
     position: relative;
 `;
 
@@ -20,7 +20,7 @@ export const Header = styled.div`
     color: ${({ theme }) => theme.colors.N70};
     ${({ theme }) => theme.fonts.Bold20};
 
-    img{
+    img {
         width: 24px;
         height: 24px;
     }
@@ -31,16 +31,17 @@ export const TranslationWrapper = styled.div`
     height: 80%;
     display: flex;
     flex-direction: column;
-
 `;
+
 export const FirstLanguageBox = styled.div`
     width: 100%;
     min-height: 320px;
-    height: 50%;
+    height: 1rem;
     padding: 1.2rem;
     box-sizing: border-box;
     background: ${({ theme }) => theme.colors.R10};
     position: relative;
+
 `;
 
 export const FirstLanguageSelect = styled.div`
@@ -48,9 +49,8 @@ export const FirstLanguageSelect = styled.div`
         background: ${({ theme }) => theme.colors.R10};
         color: ${({ theme }) => theme.colors.R60};
         ${({ theme }) => theme.fonts.SemiBold16};
-        border-radius: 4px; 
+        border-radius: 4px;
         border: none;
-        
     }
 `;
 
@@ -61,9 +61,9 @@ export const FristLanguageResult = styled.div`
     justify-content: flex-start;
     color: ${({ theme }) => theme.colors.R60};
     ${({ theme }) => theme.fonts.Semibold32};
-`;  
+`;
 
-export const VoiceIcon = styled.div`    
+export const VoiceIcon = styled.div`
     position: absolute;
     bottom: 1rem;
     right: 1rem;
@@ -82,7 +82,6 @@ export const SecondLanguageBox = styled.div`
     padding: 1.2rem;
     box-sizing: border-box;
     background: ${({ theme }) => theme.colors.WHITE};
-    
 `;
 
 export const SecondLanguageSelect = styled.div`
@@ -90,7 +89,7 @@ export const SecondLanguageSelect = styled.div`
         background: ${({ theme }) => theme.colors.WHITE};
         color: ${({ theme }) => theme.colors.N70};
         ${({ theme }) => theme.fonts.SemiBold16};
-        border-radius: 4px; 
+        border-radius: 4px;
         border: none;
     }
 `;
@@ -102,7 +101,7 @@ export const SecondLanguageResult = styled.div`
     justify-content: flex-start;
     color: ${({ theme }) => theme.colors.N70};
     ${({ theme }) => theme.fonts.Semibold32};
-`;  
+`;
 
 export const BottomContainer = styled.div`
     width: 100%;
@@ -113,6 +112,8 @@ export const BottomContainer = styled.div`
     align-items: center;
     position: fixed;
     bottom: 4.8rem;
+    max-width: 540px;
+    
 `;
 
 export const TextTranslate = styled.div`
@@ -129,8 +130,3 @@ export const TextTranslate = styled.div`
     ${({ theme }) => theme.fonts.SemiBold16};
     box-sizing: border-box;
 `;
-
-
-
-
-

@@ -13,6 +13,7 @@ import MapControll from "./_components/MapControll";
 import { useLanguage } from "@/components/contexts/LanguageContext";
 import { useResetGoogleMaps } from "./_hooks/useResetGoogleMap";
 
+import Loading from "@/pages/splash/SplashPage";
 const MapPage = () => {
   const [isPlaceInfo, setIsPlaceInfo] = useState<boolean>(false);
   const [selectPlace, setSelectPlace] = useState<Place | null>(null);
@@ -39,7 +40,22 @@ const MapPage = () => {
   const render = (status: Status) => {
     switch (status) {
       case Status.LOADING:
-        return <>로딩중...</>;
+        return (
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "100%",
+              maxWidth: "540px",
+              height: "100%",
+              zIndex: 20,
+            }}
+          >
+            <Loading />
+          </div>
+        );
       case Status.FAILURE:
         return <>에러 발생</>;
       case Status.SUCCESS:
