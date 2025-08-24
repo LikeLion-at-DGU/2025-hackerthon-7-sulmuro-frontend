@@ -11,7 +11,7 @@ import ChooseMarket from "./_components/ChooseMarket";
 import MarketModal from "./_components/MarketModal";
 import MapControll from "./_components/MapControll";
 import { useLanguage } from "@/components/contexts/LanguageContext";
-import { useResetGoogleMaps } from "./_hooks/useResetGoogleMap";
+// import { useResetGoogleMaps } from "./_hooks/useResetGoogleMap";
 
 const MapPage = () => {
   const [isPlaceInfo, setIsPlaceInfo] = useState<boolean>(false);
@@ -25,11 +25,11 @@ const MapPage = () => {
 
   const { language } = useLanguage();
 
-  const LANG = {
-    ko: { language: "ko", region: "KR" },
-    en: { language: "en", region: "US" },
-    zh: { language: "zh-CN", region: "CN" },
-  } as const;
+  // const LANG = {
+  //   ko: { language: "ko", region: "KR" },
+  //   en: { language: "en", region: "US" },
+  //   zh: { language: "zh-CN", region: "CN" },
+  // } as const;
 
   // const { language: gLang, region: gRegion } = LANG[language];
   // const scriptId = `gmaps-script-${gLang}-${gRegion}`;
