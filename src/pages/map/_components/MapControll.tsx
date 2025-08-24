@@ -10,6 +10,7 @@ const kwangjang: Place = {
   lat: 37.570115,
   lng: 126.999706,
   category: "All",
+  zoom: 17,
 };
 
 interface MapControllProps {
@@ -17,6 +18,29 @@ interface MapControllProps {
 }
 
 const MapControll = ({ setMapFocusPlace }: MapControllProps) => {
+  const handleLocateMe = () => {
+    if (!navigator.geolocation) {
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude, longitude, accuracy } = pos.coords;
+        setMapFocusPlace({
+          name: "내 위치",
+          address: "",
+          lat: latitude,
+          lng: longitude,
+          category: "All",
+          accuracy,
+          zoom: 20,
+        });
+      },
+      (err) => {
+        console.log(err);
+      },
+      { enableHighAccuracy: true, timeout: 10_000, maximumAge: 10_000 }
+    );
+  };
   const moveFocus = () => {
     setMapFocusPlace(kwangjang);
   };
@@ -25,7 +49,7 @@ const MapControll = ({ setMapFocusPlace }: MapControllProps) => {
       <Button onClick={moveFocus}>
         <img src={IMAGE_CONSTANTS.goMarket} alt="근처 시장으로 이동" />
       </Button>
-      <Button>
+      <Button onClick={handleLocateMe}>
         <img src={IMAGE_CONSTANTS.myLocation} alt="내 위치로 이동" />
       </Button>
     </ControllContainer>
