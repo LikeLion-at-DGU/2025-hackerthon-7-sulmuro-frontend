@@ -85,6 +85,7 @@ import myLocationSelect from "@/assets/icons/mylocation_select.svg";
 import goMarket from "@/assets/icons/goMarket.svg";
 
 import splash from "@/assets/images/splash.png";
+import splash2 from "@/assets/images/splash2.gif";
 export const IMAGE_CONSTANTS = {
   SearchAI,
   ArticleUnselected,
@@ -136,7 +137,7 @@ export const IMAGE_CONSTANTS = {
   VoiceButtonBlack,
 
   DropDown,
-  
+
   SwapIcon,
   VoiceButton,
   ChatIcon,
@@ -165,4 +166,5 @@ export const IMAGE_CONSTANTS = {
   goMarket,
 
   splash,
+  splash2,
 };
