@@ -10,8 +10,8 @@ const ChooseMarket = ({ setIsModalOpen }: ChooseMaketProps) => {
     setIsModalOpen(true);
   };
   return (
-    <ChooseMarketContainer onClick={modalOpen}>
-      서울 광장 시장 ▼
+    <ChooseMarketContainer>
+      <MarketButton onClick={modalOpen}>서울 광장 시장 ▼</MarketButton>
     </ChooseMarketContainer>
   );
 };
@@ -22,15 +22,20 @@ const ChooseMarketContainer = styled.div`
   box-sizing: border-box;
   position: absolute;
   top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80%;
+  width: 100%;
+  padding: 0 16px;
+  z-index: 5;
+`;
+
+const MarketButton = styled.button`
+  box-sizing: border-box;
+  width: 100%;
   height: 50px;
+
   border-radius: 10px;
   background-color: ${({ theme }) => theme.colors.N70};
   color: ${({ theme }) => theme.colors.WHITE};
   ${({ theme }) => theme.fonts.SemiBold14};
-  z-index: 5;
 
   display: flex;
   justify-content: center;
