@@ -45,13 +45,11 @@ export interface Article {
   createdAt: string;
   images: string[];
   content: string[];
-  /** ✅ 상세 헤더 썸네일 */
   heroImage?: string;
-  /** ✅ 본문 렌더용 블록( position ≥ 1 ) */
   blocks?: ContentBlock[];
 }
 
-type Lang = "ko" | "en" | "zh";
+export type Lang = "ko" | "en" | "zh";
 
 /** ===== 유틸 ===== */
 const mapLocationToPlace = (loc: ApiArticle["location"]): Article["place"] => {
@@ -62,10 +60,10 @@ const mapLocationToPlace = (loc: ApiArticle["location"]): Article["place"] => {
 };
 const mapThemeToCategory = (t: ApiArticle["theme"]): Article["category"] => {
   switch (t) {
-    case "FOOD":    return "음식";
-    case "SHOP":return "쇼핑";
-    case "HISTORY": return "역사";
-    default:        return "기타";
+    case "FOOD":   return "음식";
+    case "SHOP":   return "쇼핑";
+    case "HISTORY":return "역사";
+    default:       return "기타";
   }
 };
 const toAbs = (p: string) => {
@@ -83,7 +81,7 @@ const sortBlocks = (blocks: ApiBlock[]) =>
     return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
   });
 
-/** ===== 목록 조회(변경 없음) ===== */
+/** ===== 목록 조회 ===== */
 export const getArticles = async (language?: Lang): Promise<Article[]> => {
   const res = await axios.get<ApiSuccess<ApiPage<ApiArticle>>>(`${BASE_URL}/api/v1/articles`, {
     headers: { "Content-Type": "application/json", "Accept-Language": language ?? "" },
@@ -130,24 +128,17 @@ export const getArticleDetail = async (articleId: number, language?: Lang): Prom
   }
   const d = detailRes.data.data;
 
-  // 정렬 + 매핑
   const ordered = (blocksRaw as ApiBlock[]).map<ContentBlock>((b) =>
     b.type === "IMAGE"
       ? { type: "IMAGE", data: toAbs(b.data), position: b.position }
       : { type: "TEXT", data: b.data ?? "", position: b.position }
   );
 
-  // ✅ hero: position === 0 인 IMAGE 중 첫 번째
   const heroImage = ordered.find((b) => b.type === "IMAGE" && b.position === 0)?.data
     ?? (d.imageUrls?.[0] ? toAbs(d.imageUrls[0]) : undefined);
 
-  // ✅ 본문 블록: position ≥ 1 (또는 pos=0이지만 IMAGE 아닌 경우는 거의 없겠지만 배제)
   const blocks = ordered.filter((b) => b.position >= 1);
-
-  // 파생 필드(옵션): TEXT만 배열로
   const content = blocks.filter((b) => b.type === "TEXT").map((b) => b.data);
-
-  // 참고용 이미지 목록(사용 안 할 수도 있음): blocks의 IMAGE + 상세 imageUrls
   const images =
     (d.imageUrls && d.imageUrls.length > 0
       ? d.imageUrls.map(toAbs)
