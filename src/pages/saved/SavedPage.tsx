@@ -64,7 +64,7 @@ const SavePage = () => {
                   name={place.name}
                   path={`${ROUTE_PATHS.MAP}?place=${place.id}`}
                   thumbnailUrl={place.image[0]}
-                  address={place.location}
+                  address={place.address}
                 />
               ))
           )}
