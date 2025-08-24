@@ -1,11 +1,13 @@
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import * as S from "./Footer.styled";
-import { Link, useLocation } from "react-router-dom";
+import { Link, matchPath, useLocation } from "react-router-dom";
 import { ROUTE_PATHS } from "@/constants/routeConstants";
 const Footer = () => {
   const location = useLocation();
-
-  console.log(location);
+  const isSaved = !!matchPath(
+    { path: `${ROUTE_PATHS.SAVED}/*` },
+    location.pathname
+  );
 
   return (
     <S.FooterWrapper>
@@ -63,11 +65,7 @@ const Footer = () => {
         </S.ImageContainer>
         <p>ARTICLE</p>
       </S.FooterContent>
-      <S.FooterContent
-        as={Link}
-        to={ROUTE_PATHS.SAVED}
-        $isSelected={location.pathname === ROUTE_PATHS.SAVED}
-      >
+      <S.FooterContent as={Link} to={ROUTE_PATHS.SAVED} $isSelected={isSaved}>
         <S.ImageContainer>
           <img
             src={
