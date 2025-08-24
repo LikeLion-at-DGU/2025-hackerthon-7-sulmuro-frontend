@@ -13,7 +13,7 @@ import MapControll from "./_components/MapControll";
 import { useLanguage } from "@/components/contexts/LanguageContext";
 // import { useResetGoogleMaps } from "./_hooks/useResetGoogleMap";
 
-import Loading from "@/pages/splash/SplashPage";
+import Loading from "@/pages/splash/Loading";
 import { useSearchParams } from "react-router-dom";
 const MapPage = () => {
   const [isPlaceInfo, setIsPlaceInfo] = useState<boolean>(false);
@@ -45,10 +45,10 @@ const MapPage = () => {
         return (
           <div
             style={{
-              position: "fixed",
-              top: 0,
-              left: "50%",
-              transform: "translateX(-50%)",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexGrow: "1",
               width: "100%",
               maxWidth: "540px",
               height: "100%",
