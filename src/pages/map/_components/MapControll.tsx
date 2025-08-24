@@ -51,6 +51,7 @@ const MapControll = ({
       (pos) => {
         const { latitude, longitude, accuracy } = pos.coords;
         setMapFocusPlace({
+          id: 0,
           name: "내 위치",
           address: "",
           lat: latitude,
@@ -77,6 +78,7 @@ const MapControll = ({
 
         if (!prev || distM(prev, cur) > Math.max(10, (accuracy ?? 0) / 2)) {
           setMapFocusPlace({
+            id: 0,
             name: "내 위치",
             address: "",
             lat: latitude,
