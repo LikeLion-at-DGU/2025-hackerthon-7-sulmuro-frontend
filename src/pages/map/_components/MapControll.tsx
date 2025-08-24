@@ -10,7 +10,7 @@ const kwangjang: Place = {
   lat: 37.570115,
   lng: 126.999706,
   category: "All",
-  zoom: 17,
+  zoom: 19,
 };
 
 interface MapControllProps {
@@ -147,7 +147,7 @@ const ControllContainer = styled.div`
   position: absolute;
   bottom: 50px;
   right: 20px;
-  z-index: 30;
+  z-index: 13;
 `;
 
 const Button = styled.button`

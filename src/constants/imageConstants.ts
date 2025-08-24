@@ -39,6 +39,7 @@ import LanguageClose from "@/assets/icons/language_closed.svg";
 
 import LanguageKorean from "@/assets/icons/korean.svg";
 import LanguageEnglish from "@/assets/icons/english.svg";
+import LanguageChinese from "@/assets/icons/chinese.svg";
 
 import FootPrint from "@/assets/icons/foot_print.svg";
 import BookMark from "@/assets/icons/book_mark.svg";
@@ -81,6 +82,7 @@ import myLocation from "@/assets/icons/mylocation.svg";
 import myLocationSelect from "@/assets/icons/mylocation_select.svg";
 import goMarket from "@/assets/icons/goMarket.svg";
 
+import splash from "@/assets/images/splash.png";
 export const IMAGE_CONSTANTS = {
   SearchAI,
   ArticleUnselected,
@@ -96,6 +98,7 @@ export const IMAGE_CONSTANTS = {
   LanguageClose,
   LanguageKorean,
   LanguageEnglish,
+  LanguageChinese,
 
   FootPrint,
   BookMark,
@@ -155,4 +158,6 @@ export const IMAGE_CONSTANTS = {
   myLocation,
   myLocationSelect,
   goMarket,
+
+  splash,
 };

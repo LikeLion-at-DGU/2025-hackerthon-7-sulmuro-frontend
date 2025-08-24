@@ -10,6 +10,10 @@ import { usePointhooks } from "./_hooks/usePointhooks";
 import ChooseMarket from "./_components/ChooseMarket";
 import MarketModal from "./_components/MarketModal";
 import MapControll from "./_components/MapControll";
+import { useLanguage } from "@/components/contexts/LanguageContext";
+import { useResetGoogleMaps } from "./_hooks/useResetGoogleMap";
+
+import Loading from "@/pages/splash/SplashPage";
 const MapPage = () => {
   const [isPlaceInfo, setIsPlaceInfo] = useState<boolean>(false);
   const [selectPlace, setSelectPlace] = useState<Place | null>(null);
@@ -20,10 +24,38 @@ const MapPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isFollowing, setIsFollowing] = useState(false);
 
+  const { language } = useLanguage();
+
+  const LANG = {
+    ko: { language: "ko", region: "KR" },
+    en: { language: "en", region: "US" },
+    zh: { language: "zh-CN", region: "CN" },
+  } as const;
+
+  // const { language: gLang, region: gRegion } = LANG[language];
+  // const scriptId = `gmaps-script-${gLang}-${gRegion}`;
+  // const wrapperKey = `gmaps-wrapper-${gLang}-${gRegion}`;
+  // const gmReady = useResetGoogleMaps(scriptId);
+
   const render = (status: Status) => {
     switch (status) {
       case Status.LOADING:
-        return <>로딩중...</>;
+        return (
+          <div
+            style={{
+              position: "fixed",
+              top: 0,
+              left: "50%",
+              transform: "translateX(-50%)",
+              width: "100%",
+              maxWidth: "540px",
+              height: "100%",
+              zIndex: 20,
+            }}
+          >
+            <Loading />
+          </div>
+        );
       case Status.FAILURE:
         return <>에러 발생</>;
       case Status.SUCCESS:
@@ -64,7 +96,7 @@ const MapPage = () => {
             setIsPlaceInfo={setIsPlaceInfo}
             mapFocusPlace={mapFocusPlace}
             setMapFocusPlace={setMapFocusPlace}
-            isfollowing={isFollowing}
+            isFollowing={isFollowing}
             setIsFollowing={setIsFollowing}
           />
           <SelectLanguage />

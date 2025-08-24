@@ -19,6 +19,9 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
   const [dragging, setDragging] = useState(false);
   const [animate, setAnimate] = useState(false);
   const [isBookMark, setIsBookMark] = useState(false);
+  const [placeData, setPlaceData] = useState<string>(
+    "현재 장소에 대한 정보가 없습니다."
+  );
   const [placeImg, setPlaceImg] = useState<Array<{ url: string }> | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const initialY = useRef(0);
@@ -30,6 +33,8 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
   const fetchData = async () => {
     try {
       const response = await Api.get(`/api/v1/places/${place.id}/images`);
+      const response2 = await Api.get(`api/v1/places/${place.id}`);
+      setPlaceData(response2.data.data.content);
       setPlaceImg(response.data.data.content);
     } catch (err) {
       console.log(err);
@@ -37,7 +42,7 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [place]);
   useEffect(() => {
     console.log("imgs updated:", placeImg);
   }, [placeImg]);
@@ -235,12 +240,7 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
               </S.ImageSlide>
             ))}
           </S.ImageCarousel>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cum
-            similique quasi quam aperiam. Eum non quia magni. Debitis, eius iure
-            perferendis libero distinctio animi earum aut. Eum cupiditate
-            perferendis ipsa.변경벼녀겨여여
-          </p>
+          <p>{placeData}</p>
           <S.FindForMapButton onClick={findPlace}>
             <p>지도에서 찾기</p>
             <img src={IMAGE_CONSTANTS.SendArrow} alt="지도로 이동" />
