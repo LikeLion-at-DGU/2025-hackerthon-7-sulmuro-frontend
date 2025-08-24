@@ -171,11 +171,12 @@ const CameraCapture = ({ onCaptured }: Props) => {
   return (
     <S.Wrap>
       <S.BackIcon onClick={() => navigate("/")} src={IMAGE_CONSTANTS.BackIcon} alt="<"></S.BackIcon>
+      
       <S.Video ref={videoRef} playsInline muted onClick={handleTapToPlay} />
       <S.Frame ref={frameRef}>
-        <S.Crosshair>
-          <img src={IMAGE_CONSTANTS.Cross} alt="+" />
-        </S.Crosshair>
+          <S.Crosshair>
+            <img src={IMAGE_CONSTANTS.Cross} alt="+" />
+          </S.Crosshair>
       </S.Frame>
       <S.Hint>Take a picture of the items of market</S.Hint>
 

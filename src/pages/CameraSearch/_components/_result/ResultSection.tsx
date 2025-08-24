@@ -111,15 +111,15 @@ const ResultSection = ({
                     <S.CapturedDescription>
                       <div className="hint">
                           {answer.description}
-                          {typeof answer.averagePrice === "string" && answer.averagePrice.trim() !== "" && (
+                          {typeof answer.averagePrice === "string" && answer.averagePrice.trim() !== "NULL" && (
                             <>
-                            <br/>
-                            <br/>
+                              <br/>
+                              <br/>
 
-                              <S.AveragePrice>
-                                <p className="Tag">평균 가격</p>
-                                <div className="Price">{answer.averagePrice}</div>
-                              </S.AveragePrice>
+                                <S.AveragePrice>
+                                  <p className="Tag">Market price</p>
+                                  <div className="Price">{answer.averagePrice}</div>
+                                </S.AveragePrice>
                             </>
                           )}
                           <br />
@@ -127,7 +127,7 @@ const ResultSection = ({
                           answer.recommendedStores.length > 0 && (
                               <>
                                 <S.RecommendStrores>
-                                    <p className="Tag">추천 가게</p>
+                                    <p className="Tag">Selling spot</p>
                                     <div className="Price">
                                         <S.RecommendedStoreList>
                                             {answer.recommendedStores.map((s, idx) => (
@@ -139,7 +139,6 @@ const ResultSection = ({
                                         </S.RecommendedStoreList>
                                     </div>
                                 </S.RecommendStrores>
-                              
                               </>
                           )}
                       </div>

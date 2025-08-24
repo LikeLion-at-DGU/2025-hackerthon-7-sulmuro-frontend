@@ -165,14 +165,15 @@ export const RecommendedStoreList = styled.ul`
     flex-wrap: wrap;
     list-style: none; /* 불릿 제거 */
     padding: 0;
-    gap: 6px; /* 항목 간의 간격 */
+    gap: 1rem; /* 항목 간의 간격 */
 `;
 export const RecommendedStoreItem = styled.li`
 
 `;
 export const ToAIChat = styled.div`
     width: 100%;
-    padding: 32px 0 0 0;
+    padding: 32px 0 12px 0;
+    margin-top: 0.8rem;
     .scrollToAI{
         width: 100%;
         display: flex;

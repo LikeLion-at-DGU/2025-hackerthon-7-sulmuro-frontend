@@ -46,7 +46,7 @@ const AIChat = ({
                         <S.CapturedResult>
                             <img src={IMAGE_CONSTANTS.ResultIcon} alt="🔎" />
                             <div className="label">
-                            {title ? `분석 결과 : ${title}` : "분석 결과"}
+                            {title}
                             </div>
                         </S.CapturedResult>
 
@@ -54,7 +54,7 @@ const AIChat = ({
                             <S.CapturedDescription>
                             <div className="hint">
                                 {description}
-                                {typeof averagePrice === "string" && averagePrice.trim() !== "" && (
+                                {typeof averagePrice === "string" && averagePrice.trim() !== "NULL" && (
                                     <>
                                         <S.AveragePrice>
                                             <p className="Tag">평균 가격</p>
