@@ -23,6 +23,18 @@ export const Header = styled.div`
     }
 `;
 
+export const Thumbnail = styled.div`
+    width: 100%;
+    margin-bottom: 12px;
+
+    & > img {
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        object-fit: cover;
+        display: block;
+    }
+`;
 
 export const Contents = styled.div`
     display: flex;

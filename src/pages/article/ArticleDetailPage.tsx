@@ -78,19 +78,26 @@ const ArticleDetailPage = () => {
       </S.Header>
 
       <S.Contents>
-        {loading && <div>불러오는 중...</div>}
-        {!loading && errorMsg && <div>{errorMsg}</div>}
         {!loading && !errorMsg && article && (
           <article>
             <S.TextWrapper>
-                <S.Name title={article.title}>{article.title}</S.Name>
-                <S.SubTitle title={article.subtitle}>{article.subtitle}</S.SubTitle>
-                <S.LocationWrapper>
-                  <img src={IMAGE_CONSTANTS.PlaceIcon} alt="위치" />
-                  <S.Address title={article.place}>{article.place}</S.Address>
-                </S.LocationWrapper>
+              {/* ✅ position=0 IMAGE → 썸네일 */}
+              {article.heroImage && (
+                <S.Thumbnail>
+                  <img src={article.heroImage} alt="thumbnail" />
+                </S.Thumbnail>
+              )}
+
+              <S.Name title={article.title}>{article.title}</S.Name>
+              <S.SubTitle title={article.subtitle}>{article.subtitle}</S.SubTitle>
+              <S.LocationWrapper>
+                <img src={IMAGE_CONSTANTS.PlaceIcon} alt="위치" />
+                <S.Address title={article.place}>{article.place}</S.Address>
+              </S.LocationWrapper>
             </S.TextWrapper>
-            <ArticleContent images={article.images} content={article.content} />
+
+            {/* ✅ 본문: position ≥ 1 블록들 */}
+            <ArticleContent blocks={article.blocks} />
           </article>
         )}
 
