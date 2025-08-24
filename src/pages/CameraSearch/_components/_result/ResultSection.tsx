@@ -113,27 +113,33 @@ const ResultSection = ({
                           {answer.description}
                           {typeof answer.averagePrice === "string" && answer.averagePrice.trim() !== "" && (
                             <>
-                              <br />
-                              <strong>평균 가격</strong>
-                              <div>
-                                {answer.averagePrice}
-                              </div>
+                            <br/>
+                            <br/>
+
+                              <S.AveragePrice>
+                                <p className="Tag">평균 가격</p>
+                                <div className="Price">{answer.averagePrice}</div>
+                              </S.AveragePrice>
                             </>
                           )}
                           <br />
                           {Array.isArray(answer.recommendedStores) &&
                           answer.recommendedStores.length > 0 && (
                               <>
-                              <br />
-                              <strong>추천 가게</strong>
-                              <ul style={{ marginTop: 6 }}>
-                                  {answer.recommendedStores.map((s, idx) => (
-                                  <li key={idx}>
-                                      {s.name}
-                                      {s.notes ? ` — ${s.notes}` : ""}
-                                  </li>
-                                  ))}
-                              </ul>
+                                <S.RecommendStrores>
+                                    <p className="Tag">추천 가게</p>
+                                    <div className="Price">
+                                        <S.RecommendedStoreList>
+                                            {answer.recommendedStores.map((s, idx) => (
+                                                <S.RecommendedStoreItem key={idx}>
+                                                    {s.name}
+                                                    {s.notes ? ` — ${s.notes}` : ""}
+                                                </S.RecommendedStoreItem>
+                                            ))}
+                                        </S.RecommendedStoreList>
+                                    </div>
+                                </S.RecommendStrores>
+                              
                               </>
                           )}
                       </div>

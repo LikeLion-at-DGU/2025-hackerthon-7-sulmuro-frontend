@@ -59,7 +59,6 @@ export const Result = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
     padding: 20px 10px 14px 10px;
     box-sizing: border-box;
     align-items: center;
@@ -80,6 +79,7 @@ export const CapturedImg = styled.img`
     border-radius: 12px;
     background: #222;
     flex: 0 0 auto;
+    margin: 0.8rem 0;
 `;
 
 export const CapturedResult = styled.div`
@@ -90,6 +90,7 @@ export const CapturedResult = styled.div`
     align-items: center;
     box-sizing: border-box;
     gap: 8px;
+    padding: 0.5rem 0;
     img{
         width: 24px;
         height: 24px;
@@ -107,13 +108,68 @@ export const CapturedDescription = styled.div`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
+    margin-top: 0.4rem;
+    gap: 0;
     .hint {
-        font-weight: regular;
-        font-size: 14px;
-        width: 80%;
+        width: 100%;
+        color: ${({ theme }) => theme.colors.N70};
+        ${({ theme }) => theme.fonts.Regular14};
+        line-height: 1.5; /* Add this line */
+    }
+
+`;
+
+export const AveragePrice = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    color: ${({theme}) => theme.colors.N40};
+    ${({ theme }) => theme.fonts.SemiBold14};
+    .Tag{
+        color: ${({theme}) => theme.colors.R50};
+        ${({ theme }) => theme.fonts.SemiBold14};
+    }
+
+    .Price{
+        color: ${({theme}) => theme.colors.N70};
+        ${({ theme }) => theme.fonts.Regular12};
     }
 `;
 
+export const RecommendStrores = styled.div`
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    height: fit-content;
+    color: ${({theme}) => theme.colors.N70};
+    ${({ theme }) => theme.fonts.SemiBold14};
+    .Tag{
+        color: ${({theme}) => theme.colors.R50};
+        ${({ theme }) => theme.fonts.SemiBold14};
+    }
+
+    .Price{
+        /* color: ${({theme}) => theme.colors.N70}; */
+        color: black;
+        ${({ theme }) => theme.fonts.Regular12};
+    }
+`;
+
+export const RecommendedStoreList = styled.ul`
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none; /* 불릿 제거 */
+    padding: 0;
+    gap: 6px; /* 항목 간의 간격 */
+`;
+export const RecommendedStoreItem = styled.li`
+
+`;
 export const ToAIChat = styled.div`
     width: 100%;
     padding: 32px 0 0 0;
@@ -122,8 +178,8 @@ export const ToAIChat = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
-        color: ${({theme}) => theme.colors.N40};
-        ${({ theme }) => theme.fonts.SemiBold14}
+        color: ${({theme}) => theme.colors.N70};
+        ${({ theme }) => theme.fonts.Regular12}
     }
 `; 
 
