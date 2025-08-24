@@ -12,8 +12,8 @@ import { savedPlaces, savedArticles } from "./dummy/dummyData";
 import { useState } from "react";
 import { Article } from "../article/_apis/getArticle";
 const SavePage = () => {
-  const [markedPlaces, setMarkedPlaces] = useState<Article[]>();
-  const fetchData = () => {};
+  const [_markedPlaces, _setMarkedPlaces] = useState<Article[]>();
+  // const sfetchData = () => {};
   return (
     <S.Wrapper>
       <S.Header>Saved</S.Header>
