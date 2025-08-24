@@ -5,6 +5,9 @@ import { Place } from "./_apis/getArticle";
 import ArticleCard from "./_components/ArticleCard";
 import { useNavigate } from "react-router-dom";
 import { buildRoute } from "@/constants/routeConstants";
+import { useState, useCallback } from "react";
+import PlaceSheet from "./_components/PlaceSheet";
+import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 
 const ArticlePage = () => {
   const {
@@ -17,37 +20,44 @@ const ArticlePage = () => {
     selectCategory,
   } = useArticle();
 
+  const [isPlaceSheetOpen, setPlaceSheetOpen] = useState(false);
+  const openPlaceSheet = useCallback(() => setPlaceSheetOpen(true), []);
+  const closePlaceSheet = useCallback(() => setPlaceSheetOpen(false), []);
+
   const navigate = useNavigate();
 
   return (
     <S.Wrapper>
       <S.Header>
         <div>Article</div>
+
+        {/* ▼ 기존 <select> 제거 → 버튼 + 바텀시트 */}
         <S.PlaceDropdown>
-          {/* 큰 필터: 전체 / 광장시장 / 양재시장 */}
-          <select
-            value={place}
-            onChange={(e) => selectPlace(e.target.value as Place)}
+          <S.PlaceTrigger
+            type="button"
+            onClick={openPlaceSheet}
+            aria-haspopup="dialog"
+            aria-expanded={isPlaceSheetOpen}
           >
-            <option value="전체">전체</option>
-            <option value="광장시장">광장시장</option>
-          </select>
+            {place} 
+            <img src={IMAGE_CONSTANTS.DropDown} alt = "▽" />
+          </S.PlaceTrigger>
         </S.PlaceDropdown>
       </S.Header>
-      <S.FilterRow>
-          {(["음식", "쇼핑", "역사"] as const).map((c) => (
-            <S.CategoryButton
-              key={c}
-              selected={category === c}
-              onClick={() => selectCategory(c)}
-            >
-              {c}
-            </S.CategoryButton>
-          ))}
-        </S.FilterRow>
-      <S.Contents>
-        
 
+      <S.FilterRow>
+        {(["음식", "쇼핑", "역사"] as const).map((c) => (
+          <S.CategoryButton
+            key={c}
+            selected={category === c}
+            onClick={() => selectCategory(c)}
+          >
+            {c}
+          </S.CategoryButton>
+        ))}
+      </S.FilterRow>
+
+      <S.Contents>
         {loading && <div>불러오는 중...</div>}
         {!loading && errorMsg && <div>{errorMsg}</div>}
         {!loading && !errorMsg && (
@@ -62,6 +72,18 @@ const ArticlePage = () => {
           </S.ArticleBox>
         )}
       </S.Contents>
+
+      {isPlaceSheetOpen && (
+        <PlaceSheet
+          setIsOpen={setPlaceSheetOpen}      // ✅ 일관된 setter
+          current={place}
+          onSelect={(p: Place) => {
+            selectPlace(p);
+            closePlaceSheet();
+          }}
+          // options={["전체","광장시장"] as const} // 필요시 커스터마이즈
+        />
+      )}
     </S.Wrapper>
   );
 };
