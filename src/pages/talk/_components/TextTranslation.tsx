@@ -2,9 +2,11 @@
 import * as S from "./TextTranslation.styled";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+// import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
+
 import { useTranslate } from "../_hooks/UseTranslation";
-import { speak } from "../_apis/GetSpeachText";
+// import { speak } from "../_apis/GetSpeachText";
 
 const TextTranslation = () => {
     const navigate = useNavigate();
@@ -48,7 +50,7 @@ const TextTranslation = () => {
     }, [inputText, sourceLanguageCode, targetLanguageCode]);
 
     // (선택) 추천문장 TTS 언어코드
-    const targetLocale = useMemo(() => (targetLanguageCode === "ko" ? "ko-KR" : "en-US"), [targetLanguageCode]);
+    // const targetLocale = useMemo(() => (targetLanguageCode === "ko" ? "ko-KR" : "en-US"), [targetLanguageCode]);
 
     return (
         <S.Wrapper>

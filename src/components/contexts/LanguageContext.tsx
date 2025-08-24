@@ -19,11 +19,10 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
 );
 
 export const useLanguage = (): LanguageContextType => {
-  const context = useContext(LanguageContext);
-  if (!context) {
+  const ctx = useContext(LanguageContext);
+  if (!ctx)
     throw new Error("useLanguage must be used within a LanguageProvider");
-  }
-  return context;
+  return ctx;
 };
 
 interface LanguageProviderProps {
@@ -32,11 +31,31 @@ interface LanguageProviderProps {
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({
   children,
 }: any) => {
-  const [language, setLanguage] = useState<Language>("en");
+  const [language, setLanguage] = useState<Language>(() => {
+    try {
+      const saved = localStorage.getItem("lang");
+      const initial: Language =
+        saved === "ko" || saved === "en" || saved === "zh" ? saved : "en";
+
+      // 바로 헤더/문서 lang 반영 (첫 렌더 전에)
+      setApiLanguage(initial);
+      document.documentElement.lang = initial === "zh" ? "zh-CN" : initial;
+      if (!saved) localStorage.setItem("lang", initial);
+
+      return initial;
+    } catch {
+      setApiLanguage("en");
+      document.documentElement.lang = "en";
+      return "en";
+    }
+  });
 
   useEffect(() => {
+    try {
+      localStorage.setItem("lang", language);
+    } catch {}
     setApiLanguage(language);
-    localStorage.setItem("lang", language);
+    document.documentElement.lang = language === "zh" ? "zh-CN" : language;
   }, [language]);
   return (
     <LanguageContext.Provider value={{ language, setLanguage }}>

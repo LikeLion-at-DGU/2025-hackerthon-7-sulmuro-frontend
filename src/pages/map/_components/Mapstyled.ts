@@ -55,7 +55,7 @@ export const FindButton = styled.button`
 `;
 
 export const PlaceInfoWrapper = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== "animate", // animate는 div로 전달되지 않음
+  shouldForwardProp: (prop) => prop !== "animate",
 })<{
   $expanded?: boolean;
   animate?: boolean;
@@ -78,6 +78,7 @@ export const PlaceInfoWrapper = styled.div.withConfig({
 
   overflow-y: hidden;
   transition: ${(props) => (props.animate ? "height 0.3s ease" : "none")};
+  flex-grow: 1;
 `;
 
 export const SwipeButton = styled.div`
@@ -128,13 +129,15 @@ export const ExtendsContaiener = styled.div`
 `;
 
 export const AdditionalInfo = styled.div`
+  position: relative;
   margin-top: 50px;
+  height: 70%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: flex-start;
 
-  gap: 20px;
+  flex-grow: 1;
   img {
     width: 100%;
     height: 100%;
@@ -142,6 +145,12 @@ export const AdditionalInfo = styled.div`
   p {
     ${({ theme }) => theme.fonts.Regular14}
   }
+`;
+
+export const AnotherContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
 `;
 
 export const FindForMapButton = styled.button`
@@ -153,6 +162,7 @@ export const FindForMapButton = styled.button`
   gap: 8px;
   padding: 8px;
   border-radius: 8px;
+  max-width: 440px;
   width: 100%;
   color: ${({ theme }) => theme.colors.R60};
   ${({ theme }) => theme.fonts.SemiBold14};
@@ -169,30 +179,28 @@ export const ImageCarousel = styled.div<{ $dragging?: boolean }>`
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
-  -ms-overflow-style: none; /* IE/Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none;
-  } /* Chrome/Safari */
+  }
   padding: 0 16px;
 
-  /* 손가락/마우스 드래그 UX */
   cursor: ${({ $dragging }) => ($dragging ? "grabbing" : "grab")};
   user-select: none;
-  touch-action: pan-x; /* 가로 제스처는 여기서, 세로는 부모에게 */
+  touch-action: pan-x;
 `;
 
-// 개별 슬라이드(이미지 박스)
 export const ImageSlide = styled.div`
-  flex: 0 0 85%; /* 한 화면에 1장(85%) 정도 보이게 */
+  flex: 0 0 100%;
+  flex-shrink: 0
   scroll-snap-align: start;
   border-radius: 12px;
-  overflow: hidden;
+  overflow-x: hidden;
   background: #00000010;
 
   img {
     width: 100%;
-    height: 180px;
     object-fit: cover;
     display: block;
   }
