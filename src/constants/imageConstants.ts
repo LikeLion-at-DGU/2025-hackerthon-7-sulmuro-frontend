@@ -75,6 +75,7 @@ import SendArrow from "@/assets/icons/send_arrow.svg";
 
 import CLoseIcon from "@/assets/icons/close_icon.svg";
 import myLocation from "@/assets/icons/mylocation.svg";
+import myLocationSelect from "@/assets/icons/mylocation_select.svg";
 import goMarket from "@/assets/icons/goMarket.svg";
 
 export const IMAGE_CONSTANTS = {
@@ -146,5 +147,6 @@ export const IMAGE_CONSTANTS = {
   SendArrow,
   CLoseIcon,
   myLocation,
+  myLocationSelect,
   goMarket,
 };

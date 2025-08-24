@@ -1,5 +1,5 @@
 import * as S from "./Mapstyled";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import testmark from "@/assets/icons/test_marker.svg";
 
 import { Category, Place } from "../_types/Marker.type";
@@ -45,6 +45,8 @@ interface GoogleMapViewProps {
   setIsPlaceInfo: React.Dispatch<React.SetStateAction<boolean>>;
   setIsRegister: React.Dispatch<React.SetStateAction<boolean>>;
   setMapFocusPlace: React.Dispatch<React.SetStateAction<Place | null>>;
+  isfollowing: boolean;
+  setIsFollowing: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const GoogleMapView = ({
@@ -55,6 +57,8 @@ const GoogleMapView = ({
   setIsRegister,
   mapFocusPlace,
   setMapFocusPlace,
+  setIsFollowing,
+  isfollowing,
 }: GoogleMapViewProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map | null>(null);
@@ -87,7 +91,14 @@ const GoogleMapView = ({
     placesServiceRef.current = new window.google.maps.places.PlacesService(
       mapRef.current
     );
-  }, [places, setIsPlaceInfo, setSelectedPlace]);
+    const offFollow = () => setIsFollowing(false);
+
+    // 드래그/마우스다운/터치 시작 시 따라가기 종료
+    const l1 = mapRef.current.addListener("dragstart", offFollow);
+    const l2 = mapRef.current.addListener("mousedown", offFollow);
+    const l3 = mapRef.current.addListener("touchstart", offFollow);
+    mapListenersRef.current.push(l1, l2, l3);
+  }, [places, setIsPlaceInfo, setSelectedPlace, setIsFollowing]);
 
   // 카테고리 변경 시 새로 마커 찍기
   useEffect(() => {
@@ -212,6 +223,13 @@ const GoogleMapView = ({
     });
   }, [places, selectedCategory, selectedMarker, setIsRegister]);
   useEffect(() => {
+    if (!isfollowing && myLocationMarkerRef.current) {
+      myLocationMarkerRef.current.setMap(null); // 지도에서 제거
+      myLocationMarkerRef.current = null;
+    }
+  }, [isfollowing]);
+
+  useEffect(() => {
     if (!mapRef.current || !mapFocusPlace) return;
 
     const moveMap = () => {
@@ -263,6 +281,7 @@ const GoogleMapView = ({
     }
     setMapFocusPlace(null);
   }, [mapFocusPlace]);
+
   return <S.MapContainer ref={containerRef} />;
 };
 

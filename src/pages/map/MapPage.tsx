@@ -18,6 +18,7 @@ const MapPage = () => {
   const [places, setPlaces] = useState<Place[]>([]);
   const [mapFocusPlace, setMapFocusPlace] = useState<Place | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isFollowing, setIsFollowing] = useState(false);
 
   const render = (status: Status) => {
     switch (status) {
@@ -63,9 +64,15 @@ const MapPage = () => {
             setIsPlaceInfo={setIsPlaceInfo}
             mapFocusPlace={mapFocusPlace}
             setMapFocusPlace={setMapFocusPlace}
+            isfollowing={isFollowing}
+            setIsFollowing={setIsFollowing}
           />
           <SelectLanguage />
-          <MapControll setMapFocusPlace={setMapFocusPlace} />
+          <MapControll
+            setMapFocusPlace={setMapFocusPlace}
+            isFollowing={isFollowing}
+            setIsFollowing={setIsFollowing}
+          />
           {isModalOpen && (
             <MarketModal
               setIsModalOpen={setIsModalOpen}
