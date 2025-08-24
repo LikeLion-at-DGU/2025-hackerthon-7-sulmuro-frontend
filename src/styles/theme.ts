@@ -1,5 +1,5 @@
 const fontGenerator = (
-  fontFamily = "Pretendard",
+  fontFamily = "Pretendard-Custom",
   fontSize = "1rem",
   fontWeight = "normal",
   lineHeight = "normal",
@@ -48,34 +48,106 @@ const theme = {
 
   fonts: {
     // 404 Page
-    ExtraBold90: fontGenerator("Pretendard", "90px", "800", "auto", "normal"),
-    Semibold32: fontGenerator("Pretendard", "32px", "600", "auto", "normal"),
+    ExtraBold90: fontGenerator(
+      "Pretendard-Custom",
+      "90px",
+      "800",
+      "auto",
+      "normal"
+    ),
+    Semibold32: fontGenerator(
+      "Pretendard-Custom",
+      "32px",
+      "600",
+      "auto",
+      "normal"
+    ),
 
     // Head1
-    ExtraBold24: fontGenerator("Pretendard", "24px", "800", "auto", "130%"),
-    Bold24: fontGenerator("Pretendard", "24px", "700", "auto", "130%"),
+    ExtraBold24: fontGenerator(
+      "Pretendard-Custom",
+      "24px",
+      "800",
+      "auto",
+      "130%"
+    ),
+    Bold24: fontGenerator("Pretendard-Custom", "24px", "700", "auto", "130%"),
 
     // Head2
-    Bold20: fontGenerator("Pretendard", "20px", "700", "auto", "130%"),
-    SemiBold20: fontGenerator("Pretendard", "20px", "600", "auto", "130%"),
+    Bold20: fontGenerator("Pretendard-Custom", "20px", "700", "auto", "130%"),
+    SemiBold20: fontGenerator(
+      "Pretendard-Custom",
+      "20px",
+      "600",
+      "auto",
+      "130%"
+    ),
 
     // Body1
-    Bold16: fontGenerator("Pretendard", "16px", "700", "auto", "normal"),
-    SemiBold16: fontGenerator("Pretendard", "16px", "600", "auto", "normal"),
-    Regular16: fontGenerator("Pretendard", "16px", "400", "auto", "normal"),
+    Bold16: fontGenerator("Pretendard-Custom", "16px", "700", "auto", "normal"),
+    SemiBold16: fontGenerator(
+      "Pretendard-Custom",
+      "16px",
+      "600",
+      "auto",
+      "normal"
+    ),
+    Regular16: fontGenerator(
+      "Pretendard-Custom",
+      "16px",
+      "400",
+      "auto",
+      "normal"
+    ),
 
     // Body2
-    SemiBold14: fontGenerator("Pretendard", "14px", "600", "auto", "normal"),
-    Regular14: fontGenerator("Pretendard", "14px", "400", "auto", "normal"),
+    SemiBold14: fontGenerator(
+      "Pretendard-Custom",
+      "14px",
+      "600",
+      "auto",
+      "normal"
+    ),
+    Regular14: fontGenerator(
+      "Pretendard-Custom",
+      "14px",
+      "400",
+      "auto",
+      "normal"
+    ),
 
     // small1
-    SemiBold12: fontGenerator("Pretendard", "12px", "600", "auto", "normal"),
-    Regular12: fontGenerator("Pretendard", "12px", "400", "auto", "normal"),
+    SemiBold12: fontGenerator(
+      "Pretendard-Custom",
+      "12px",
+      "600",
+      "auto",
+      "normal"
+    ),
+    Regular12: fontGenerator(
+      "Pretendard-Custom",
+      "12px",
+      "400",
+      "auto",
+      "normal"
+    ),
 
     // small2
     // Body2
-    SemiBold10: fontGenerator("Pretendard", "10px", "600", "auto", "normal"),
-    Regular10: fontGenerator("Pretendard", "10px", "400", "auto", "normal"),
+    SemiBold10: fontGenerator(
+      "Pretendard-Custom",
+      "10px",
+      "600",
+      "auto",
+      "normal"
+    ),
+    Regular10: fontGenerator(
+      "Pretendard-Custom",
+      "10px",
+      "400",
+      "auto",
+      "normal"
+    ),
   },
 };
 
