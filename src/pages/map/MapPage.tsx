@@ -11,7 +11,6 @@ import ChooseMarket from "./_components/ChooseMarket";
 import MarketModal from "./_components/MarketModal";
 import MapControll from "./_components/MapControll";
 import { useLanguage } from "@/components/contexts/LanguageContext";
-// import { useResetGoogleMaps } from "./_hooks/useResetGoogleMap";
 
 import Loading from "@/components/loading/Loading";
 import { useSearchParams } from "react-router-dom";
@@ -29,17 +28,6 @@ const MapPage = () => {
   const [searchParams] = useSearchParams();
   const focusPlaceId = searchParams.get("place");
   const { language } = useLanguage();
-
-  // const LANG = {
-  //   ko: { language: "ko", region: "KR" },
-  //   en: { language: "en", region: "US" },
-  //   zh: { language: "zh-CN", region: "CN" },
-  // } as const;
-
-  // const { language: gLang, region: gRegion } = LANG[language];
-  // const scriptId = `gmaps-script-${gLang}-${gRegion}`;
-  // const wrapperKey = `gmaps-wrapper-${gLang}-${gRegion}`;
-  // const gmReady = useResetGoogleMaps(scriptId);
 
   const render = (status: Status) => {
     switch (status) {
@@ -104,7 +92,7 @@ const MapPage = () => {
         <Wrapper
           apiKey={import.meta.env.VITE_GOOGLEMAP_API_KEY}
           libraries={["places"]}
-          language={language}
+          language="en"
           render={render}
         >
           <ChooseMarket setIsModalOpen={setIsModalOpen} />

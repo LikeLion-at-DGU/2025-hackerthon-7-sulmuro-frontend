@@ -63,8 +63,8 @@ export const ArticleImage = styled.img`
 export const BookmarkIcon = styled.img`
     position: absolute;
     width: 28px;
-    top: 84px;
-    left: 10px;
+    top: 90px;
+    left: 8px;
     z-index: 1;
 `;
 

@@ -88,7 +88,7 @@ export const CategoryButton = styled.button<{ selected?: boolean }>`
     
     // 선택 여부에 따라 폰트 스타일과 색상 변경
     color: ${({ selected, theme }) => (selected ? theme.colors.R50 : theme.colors.N30)};
-    ${({ selected, theme }) => (selected ? theme.fonts.Bold16 : theme.fonts.SemiBold20)};
+    ${({ selected, theme }) => (selected ? theme.fonts.Bold16 : theme.fonts.SemiBold16)};
 
     cursor: pointer;
     border-bottom: none;
