@@ -117,6 +117,7 @@ const GoogleMapView = ({
     setIsFollowing,
     SelectLanguage,
     setIsMarketMode,
+    language,
   ]);
 
   // 카테고리 변경 시  새로 마커 찍기
