@@ -88,7 +88,6 @@ const GoogleMapView = ({
     }
     return places.filter((place) => place.category === category);
   };
-
   // 초기 마커 찍는 부분
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -117,7 +116,6 @@ const GoogleMapView = ({
     setIsFollowing,
     SelectLanguage,
     setIsMarketMode,
-    language,
   ]);
 
   // 카테고리 변경 시  새로 마커 찍기
