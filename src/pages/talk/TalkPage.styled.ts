@@ -6,7 +6,6 @@ export const Wrapper = styled.div`
     width: 100%;
     height: 90dvh;
     overflow: scroll;
-    scrollbar-width: none;
 
     &::-webkit-scrollbar {
         display: none;
@@ -59,16 +58,20 @@ export const Header = styled.div`
 export const TopComponentWrapper = styled.div`
     width: 100%;
     border-bottom: 1px solid ${({theme}) => theme.colors.N30};
-    padding-bottom: 1rem;
+    padding : 1rem 0;
     box-sizing:border-box;
     margin-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 `;
 
 export const BottomComponentWrapper = styled.div`
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex: 1; // 이 속성을 추가하여 남은 공간을 모두 차지하도록 합니다.
 `;
