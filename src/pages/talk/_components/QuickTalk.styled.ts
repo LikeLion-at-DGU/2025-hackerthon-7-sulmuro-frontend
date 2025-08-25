@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 //QuickTalk 컴포넌트
 
@@ -10,6 +10,14 @@ export const Wrapper = styled.div`
     padding: 1rem;
     box-sizing: border-box;
     overflow: scroll;
+
+    // Firefox
+    scrollbar-width: none;
+
+    // Webkit (Chrome, Safari, etc.)
+    &::-webkit-scrollbar {
+        display: none;
+    }
 `;
 
 export const LineContainer = styled.div`
@@ -96,7 +104,7 @@ export const KoreanLine = styled.div`
     ${({ theme }) => theme.fonts.Bold20};
 `;
 
-export const EnglishLine = styled.div`
+export const EnglishLine = styled.div<{ $isZh?: boolean }>`
     width: 100%;
     display: flex;
     justify-content: flex-start;
@@ -104,6 +112,11 @@ export const EnglishLine = styled.div`
     ${({ theme }) => theme.fonts.Regular16};
     box-sizing: border-box;
 
+    ${({ $isZh }) =>
+        $isZh &&
+        css`
+        font-weight: 600;
+    `}
 `;
 
 export const Sound = styled.div`

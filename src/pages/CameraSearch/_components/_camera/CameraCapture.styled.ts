@@ -78,15 +78,16 @@ export const BottomBar = styled.div`
     position: absolute;
     left: 0;
     right: 0;
-    width: 90%;
+    width: 100%;
     bottom: env(safe-area-inset-bottom, 0);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 12px;
-    padding: 24px 16px 28px;
+    padding: 24px 24px 28px;
     pointer-events: none;
     z-index:2;
+    box-sizing: border-box;
 `;
 
 
@@ -136,60 +137,4 @@ export const UploadLabel = styled.label`
     }
 `;
 
-/* ====== ⬇️ 추가: 에러/로딩 오버레이 UI ====== */
-export const Overlay = styled.div`
-position: absolute;
-inset: 0;
-background: rgba(0,0,0,0.6);
-color: #fff;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-gap: 12px;
-padding: 20px;
-text-align: center;
-`;
 
-export const Spinner = styled.div`
-width: 28px;
-height: 28px;
-border-radius: 50%;
-border: 3px solid rgba(255,255,255,0.3);
-border-top-color: #fff;
-animation: spin 1s linear infinite;
-@keyframes spin { to { transform: rotate(360deg); } }
-`;
-
-export const OverlayTitle = styled.div`
-font-size: 18px;
-font-weight: 800;
-`;
-
-export const OverlayDesc = styled.div`
-font-size: 13px;
-opacity: 0.9;
-max-width: 560px;
-`;
-
-export const OverlayActions = styled.div`
-display: flex;
-gap: 10px;
-margin-top: 6px;
-`;
-
-export const PrimaryButton = styled.button`
-padding: 10px 14px;
-border-radius: 12px;
-background: #ff7570;
-color: #fff;
-font-weight: 700;
-cursor: pointer;
-border: none;
-`;
-
-export const OverlayHint = styled.div`
-margin-top: 6px;
-font-size: 12px;
-opacity: 0.8;
-`;

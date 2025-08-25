@@ -62,7 +62,7 @@ const QuickTalkPopup = ({ open, onClose, ko, en, zh }: Props) => {
             <S.PopupWrapper onClick={stop} role="dialog" aria-modal="true" aria-label="Quick phrase">
                 <S.Lines>
                     <S.KoreanLine>{ko}</S.KoreanLine>
-                    <S.EnglishLine>{displayText}</S.EnglishLine>
+                    <S.EnglishLine $isZh={language === "zh"}>{displayText}</S.EnglishLine>
                 </S.Lines>
                 <S.Sound as="button" type="button" onClick={handleSpeak} aria-label="한국어로 듣기">
                     <img
