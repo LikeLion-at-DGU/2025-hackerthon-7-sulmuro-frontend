@@ -5,7 +5,9 @@ export const Wrapper = styled.div`
     flex-direction: column;
     width: 100%;
     height: 90dvh;
+    
     overflow: scroll;
+    scrollbar-width: none;
 
     &::-webkit-scrollbar {
         display: none;
@@ -29,8 +31,8 @@ export const MarketTrigger = styled.button`
     gap: 10px;
     border-radius: 8px;
     background: ${({ theme }) => theme.colors.WHITE};
-    ${({ theme }) => theme.fonts.Regular12};
-    color: ${({ theme }) => theme.colors.N50};
+    ${({ theme }) => theme.fonts.SemiBold14};
+    color: ${({ theme }) => theme.colors.N70};
     cursor: pointer;
 `;
 export const Header = styled.div`
