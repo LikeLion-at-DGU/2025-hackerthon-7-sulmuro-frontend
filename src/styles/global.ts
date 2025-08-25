@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
 
 // 초기 html 설정
 html {
-	background-color: ${({ theme }) => theme.colors.Bg};
+	background-color: ${({ theme }) => theme.colors.N10};
 	display: flex;
 	justify-content: center;
 	align-items: center;

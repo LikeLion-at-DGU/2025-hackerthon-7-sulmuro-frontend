@@ -20,6 +20,8 @@ import { ArticleType } from "./_types/ArticleType";
 import { PlaceWithImage } from "../map/_types/Marker.type";
 import { Api } from "@/api/Api";
 import { getArticleBookmarks, getPlaceBookmarks } from "@/utils/SavedBookMark";
+
+import { Link } from "react-router-dom";
 const SavePage = () => {
   const [markedPlaces, setMarkedPlaces] = useState<PlaceWithImage[]>([]);
   const [markedArticles, setMarkedArticles] = useState<ArticleType[]>([]);
@@ -77,9 +79,11 @@ const SavePage = () => {
           {markedArticles.length === 0 ? (
             <S.EmptyBox>{SavedPageArticleEmptyCase[language]}</S.EmptyBox>
           ) : (
-            markedArticles
-              .slice(0, 1)
-              .map((article) => (
+            markedArticles.slice(0, 1).map((article) => (
+              <Link
+                to={`${ROUTE_PATHS.ARTICLE}/${article.id}`}
+                key={article.id}
+              >
                 <SavedArticleCard
                   key={article.id}
                   id={article.id}
@@ -87,7 +91,8 @@ const SavePage = () => {
                   images={article.imageUrls}
                   location={article.location}
                 />
-              ))
+              </Link>
+            ))
           )}
         </S.SavedArticleBox>
       </S.Contents>
