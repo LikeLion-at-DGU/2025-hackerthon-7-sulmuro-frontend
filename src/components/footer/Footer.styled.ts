@@ -42,8 +42,8 @@ export const FooterContent = styled.li<FooterContentProps>`
 `;
 
 export const ImageContainer = styled.div`
-  width: 28px;
-  height: 28px;
+  width: 24px;
+  height: 24px;
 `;
 
 export const FooterContentSearch = styled.li`

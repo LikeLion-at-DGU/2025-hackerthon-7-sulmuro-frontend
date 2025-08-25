@@ -11,6 +11,9 @@ import { useLanguage } from "@/components/contexts/LanguageContext";
 import { useEffect, useState } from "react";
 import { ArticleType } from "./_types/ArticleType";
 import { DetailArticleTitle } from "../map/languages/Translate";
+import { Link } from "react-router-dom";
+import { ROUTE_PATHS } from "@/constants/routeConstants";
+import Loading from "@/components/loading/Loading";
 
 const DetailArticlePage = () => {
   const [markedArticles, setMarkedArticles] = useState<ArticleType[]>([]);
@@ -30,20 +33,30 @@ const DetailArticlePage = () => {
     fetchData();
   }, []);
   return (
-    <Wrapper>
-      <DetailHeader text={DetailArticleTitle[language]} />
-      <SavedArticleBox>
-        {markedArticles.map((article) => (
-          <SavedArticleCard
-            key={article.id}
-            id={article.id}
-            title={article.title}
-            images={article.imageUrls}
-            location={article.location}
-          />
-        ))}
-      </SavedArticleBox>
-    </Wrapper>
+    <>
+      {markedArticles.length === 0 ? (
+        <Wrapper>
+          <DetailHeader text={DetailArticleTitle[language]} />
+          <SavedArticleBox>
+            {markedArticles.map((article) => (
+              <Link to={`${ROUTE_PATHS.ARTICLE}/${article.id}`}>
+                <SavedArticleCard
+                  key={article.id}
+                  id={article.id}
+                  title={article.title}
+                  images={article.imageUrls}
+                  location={article.location}
+                />
+              </Link>
+            ))}
+          </SavedArticleBox>
+        </Wrapper>
+      ) : (
+        <Wrapper2>
+          <Loading />
+        </Wrapper2>
+      )}
+    </>
   );
 };
 
@@ -66,4 +79,11 @@ export const SavedArticleBox = styled.div`
   padding: 8px 0;
   box-sizing: border-box;
   gap: 32px;
+`;
+
+export const Wrapper2 = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
 `;
