@@ -3,8 +3,7 @@ import styled from 'styled-components';
 export const Wrapper = styled.div`
     width: 100%;
     background: ${({theme}) => theme.colors.WHITE};
-    height: 100vh;
-    overflow-y: auto;  
+    min-height: calc(var(--vh, 1vh) * 100);    overflow-y: auto;  
     flex-grow: 1;
     display: flex;
     flex-direction: column;
