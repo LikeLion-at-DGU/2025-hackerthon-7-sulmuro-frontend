@@ -6,6 +6,11 @@ export const Wrapper = styled.div`
     width: 100%;
     height: 90dvh;
     overflow: scroll;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 `;
 export const SelectButton = styled.button`
     width: fit-content;
