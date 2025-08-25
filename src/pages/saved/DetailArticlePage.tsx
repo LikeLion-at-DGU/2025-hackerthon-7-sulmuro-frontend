@@ -10,7 +10,10 @@ import { Api } from "@/api/Api";
 import { useLanguage } from "@/components/contexts/LanguageContext";
 import { useEffect, useState } from "react";
 import { ArticleType } from "./_types/ArticleType";
-import { DetailArticleTitle } from "../map/languages/Translate";
+import {
+  DetailArticleTitle,
+  SavedPageArticleEmptyCase,
+} from "../map/languages/Translate";
 import { Link } from "react-router-dom";
 import { ROUTE_PATHS } from "@/constants/routeConstants";
 import Loading from "@/components/loading/Loading";
@@ -18,6 +21,7 @@ import Loading from "@/components/loading/Loading";
 const DetailArticlePage = () => {
   const [markedArticles, setMarkedArticles] = useState<ArticleType[]>([]);
   const { language } = useLanguage();
+  const [isLoading, setIsLoading] = useState(true);
   const fetchData = async () => {
     try {
       const response2 = await Api.post("/api/v1/articles/search", {
@@ -26,6 +30,8 @@ const DetailArticlePage = () => {
       setMarkedArticles(response2.data.data);
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoading(false); // 2. API 요청이 성공하든 실패하든 끝나면 로딩 상태를 false로 변경
     }
   };
 
@@ -33,30 +39,29 @@ const DetailArticlePage = () => {
     fetchData();
   }, []);
   return (
-    <>
-      {markedArticles.length === 0 ? (
-        <Wrapper>
-          <DetailHeader text={DetailArticleTitle[language]} />
-          <SavedArticleBox>
-            {markedArticles.map((article) => (
-              <Link to={`${ROUTE_PATHS.ARTICLE}/${article.id}`}>
-                <SavedArticleCard
-                  key={article.id}
-                  id={article.id}
-                  title={article.title}
-                  images={article.imageUrls}
-                  location={article.location}
-                />
-              </Link>
-            ))}
-          </SavedArticleBox>
-        </Wrapper>
-      ) : (
+    <Wrapper>
+      <DetailHeader text={DetailArticleTitle[language]} />
+      {isLoading ? (
         <Wrapper2>
           <Loading />
         </Wrapper2>
+      ) : markedArticles.length === 0 ? (
+        <Wrapper2>{SavedPageArticleEmptyCase[language]}</Wrapper2>
+      ) : (
+        <SavedArticleBox>
+          {markedArticles.map((article) => (
+            <Link to={`${ROUTE_PATHS.ARTICLE}/${article.id}`} key={article.id}>
+              <SavedArticleCard
+                id={article.id}
+                title={article.title}
+                images={article.imageUrls}
+                location={article.location}
+              />
+            </Link>
+          ))}
+        </SavedArticleBox>
       )}
-    </>
+    </Wrapper>
   );
 };
 
@@ -86,4 +91,6 @@ export const Wrapper2 = styled.div`
   align-items: center;
   justify-content: center;
   flex-grow: 1;
+  color: ${({ theme }) => theme.colors.N30};
+  ${({ theme }) => theme.fonts.Regular16};
 `;

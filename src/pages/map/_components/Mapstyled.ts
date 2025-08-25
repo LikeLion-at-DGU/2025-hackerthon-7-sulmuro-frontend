@@ -184,6 +184,7 @@ export const ImageCarousel = styled.div<{ $dragging?: boolean }>`
   &::-webkit-scrollbar {
     display: none;
   }
+  min-width: 200px;
   width: 100%;
 
   cursor: ${({ $dragging }) => ($dragging ? "grabbing" : "grab")};

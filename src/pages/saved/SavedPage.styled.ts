@@ -10,7 +10,12 @@ export const Wrapper = styled.div`
   margin-bottom: 80px; //푸터높이
   flex-grow: 1;
 `;
-
+export const LoadingWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+`;
 export const Header = styled.div`
   display: flex;
   width: 100%;
@@ -39,7 +44,6 @@ export const SavedPlaceBox = styled.div<{ isEmpty: boolean }>`
 `;
 
 export const SavedArticleBox = styled.div`
-  display: flex;
   width: 100%;
   box-sizing: border-box;
 `;
