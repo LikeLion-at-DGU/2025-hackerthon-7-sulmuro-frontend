@@ -3,10 +3,15 @@ import styled from "styled-components";
 export const SheetWrapper = styled.div`
     pointer-events: none;
     position: fixed;
-    inset: 0;
+    bottom: 0;    
     display: grid;
     place-items: end center;
+    left: 0;
+    display: flex;
+    justify-content: center;
     z-index: 1000;
+    max-height: 70vh;
+    width: 100%;
 `;
 export const Backfill = styled.div`
     position: fixed;
@@ -42,7 +47,8 @@ export const Sheet = styled.div`
 
     /* 안전 영역 (iOS 하단 홈바) */
     padding-bottom: env(safe-area-inset-bottom);
-
+    touch-action: none;        // 모바일 브라우저에서 스크롤 제스처와 충돌 방지
+    -webkit-user-select: none; // iOS에서 텍스트 선택 방지 보조 (드래그 중엔 JS로도 막아둠)
     @media (min-width: 768px) {
         border-radius: 40px 40px 0 0;
     }
