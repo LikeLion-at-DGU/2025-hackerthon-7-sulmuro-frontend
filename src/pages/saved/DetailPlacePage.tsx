@@ -11,6 +11,7 @@ import { PlaceWithImage } from "../map/_types/Marker.type";
 import { Api } from "@/api/Api";
 import { getPlaceBookmarks } from "@/utils/SavedBookMark";
 import { DetailPlaceTitle } from "../map/languages/Translate";
+import Loading from "@/components/loading/Loading";
 const DetailPlacePage = () => {
   const [markedPlaces, setMarkedPlaces] = useState<PlaceWithImage[]>([]);
   const { language } = useLanguage();
@@ -29,21 +30,29 @@ const DetailPlacePage = () => {
     fetchData();
   }, []);
   return (
-    <Wrapper>
-      <DetailHeader text={DetailPlaceTitle[language]} />
-      <SavedPlaceBox>
-        {markedPlaces.map((place) => (
-          <SavePlaceCard
-            key={place.id}
-            id={place.id}
-            name={place.name}
-            path={`${ROUTE_PATHS.MAP}?place=${place.id}`}
-            thumbnailUrl={place.image[0]}
-            address={place.address}
-          />
-        ))}
-      </SavedPlaceBox>
-    </Wrapper>
+    <>
+      {markedPlaces.length === 0 ? (
+        <Wrapper>
+          <DetailHeader text={DetailPlaceTitle[language]} />
+          <SavedPlaceBox>
+            {markedPlaces.map((place) => (
+              <SavePlaceCard
+                key={place.id}
+                id={place.id}
+                name={place.name}
+                path={`${ROUTE_PATHS.MAP}?place=${place.id}`}
+                thumbnailUrl={place.image[0]}
+                address={place.address}
+              />
+            ))}
+          </SavedPlaceBox>
+        </Wrapper>
+      ) : (
+        <Wrapper2>
+          <Loading />
+        </Wrapper2>
+      )}
+    </>
   );
 };
 
@@ -63,4 +72,11 @@ export const SavedPlaceBox = styled.div`
   grid-template-columns: 1fr 1fr;
   width: 100%;
   gap: 16px;
+`;
+
+export const Wrapper2 = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
 `;

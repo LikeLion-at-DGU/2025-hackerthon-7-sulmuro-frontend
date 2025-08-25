@@ -72,13 +72,10 @@ export const PlaceInfoWrapper = styled.div.withConfig({
 
   background-color: ${({ theme }) => theme.colors.WHITE};
 
-  justify-content: center;
-  align-items: center;
-
   box-sizing: border-box;
   padding: 0 32px;
 
-  overflow-y: auto;
+  overflow-y: hidden;
   transition: ${(props) => (props.animate ? "height 0.3s ease" : "none")};
   flex-grow: 1;
 `;
@@ -92,7 +89,6 @@ export const SwipeButton = styled.div`
 `;
 
 export const InfoContainer = styled.div`
-  margin-bottom: 10px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -132,14 +128,14 @@ export const ExtendsContaiener = styled.div`
 
 export const AdditionalInfo = styled.div`
   position: relative;
-  margin-top: 50px;
-  height: 70%;
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
 
   flex-grow: 1;
+
   img {
     width: 100%;
     height: 100%;
@@ -166,6 +162,8 @@ export const FindForMapButton = styled.button`
   border-radius: 8px;
   max-width: 440px;
   width: 100%;
+  margin-top: 20px;
+  margin-bottom: 30px;
   color: ${({ theme }) => theme.colors.R60};
   ${({ theme }) => theme.fonts.SemiBold14};
   background-color: ${({ theme }) => theme.colors.R10};
@@ -186,7 +184,7 @@ export const ImageCarousel = styled.div<{ $dragging?: boolean }>`
   &::-webkit-scrollbar {
     display: none;
   }
-  padding: 0 16px;
+  width: 100%;
 
   cursor: ${({ $dragging }) => ($dragging ? "grabbing" : "grab")};
   user-select: none;

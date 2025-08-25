@@ -60,7 +60,7 @@ export default SelectLanguage;
 const LanguageContainer = styled.div`
   position: absolute;
   top: 130px;
-  right: 40px;
+  right: 20px;
   display: flex;
   flex-direction: column;
   gap: 12px;
