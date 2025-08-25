@@ -1,11 +1,18 @@
 // src/pages/article/ArticleDetailPage.tsx
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as S from "./ArticleDetailPage.styled";
 import { Article, getArticleDetail } from "./_apis/getArticle";
 import ArticleContent from "./_components/ArticleContent";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import { useLanguage } from "@/components/contexts/LanguageContext";
+import Loading from "@/components/loading/Loading"; // ✅ 추가
+
+enum Status {
+  LOADING = "LOADING",
+  FAILURE = "FAILURE",
+  SUCCESS = "SUCCESS",
+}
 
 const ArticleDetailPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -23,7 +30,6 @@ const ArticleDetailPage = () => {
         return language === "ko" ? "서울광장시장" : language === "zh" ? "广藏市场" : "Gwangjang Market";
       if (p === "전체")
         return language === "ko" ? "전체" : language === "zh" ? "全部" : "All";
-      // 기타
       return language === "ko" ? "기타" : language === "zh" ? "其他" : "Others";
     };
     return {
@@ -34,6 +40,7 @@ const ArticleDetailPage = () => {
       heroAlt: language === "ko" ? "대표 이미지" : language === "zh" ? "主图" : "Hero image",
       notFound: language === "ko" ? "아티클을 찾을 수 없습니다." : language === "zh" ? "未找到文章。" : "Article not found.",
       loadFail: language === "ko" ? "아티클을 불러오지 못했어요." : language === "zh" ? "无法加载文章。" : "Failed to load the article.",
+      loading: language === "ko" ? "불러오는 중..." : language === "zh" ? "加载中..." : "Loading...",
       placeLabel,
     };
   }, [language]);
@@ -42,14 +49,13 @@ const ArticleDetailPage = () => {
   const storageKey = useMemo(() => (id ? `bookmark:article:${id}` : ""), [id]);
   const [isBookmarked, setIsBookmarked] = useState<boolean>(false);
 
-  // 로컬스토리지에서 초기값 복원
   useEffect(() => {
     if (!storageKey) return;
     const saved = localStorage.getItem(storageKey);
     setIsBookmarked(saved === "1");
   }, [storageKey]);
 
-  // ✅ 상세 조회: 언어 변경 시 재요청 (Accept-Language 반영)
+  // ✅ 상세 조회
   useEffect(() => {
     const run = async () => {
       if (!id) return;
@@ -67,8 +73,13 @@ const ArticleDetailPage = () => {
     run();
   }, [id, language, t.loadFail]);
 
-  const handleBack = () => navigate(-1);
+  const status: Status = useMemo(() => {
+    if (loading) return Status.LOADING;
+    if (errorMsg) return Status.FAILURE;
+    return Status.SUCCESS;
+  }, [loading, errorMsg]);
 
+  const handleBack = () => navigate(-1);
   const toggleBookmark = () => {
     setIsBookmarked((prev) => {
       const next = !prev;
@@ -78,6 +89,79 @@ const ArticleDetailPage = () => {
       return next;
     });
   };
+
+  // ✅ 상태별 렌더
+  const render = useCallback(
+    (s: Status) => {
+      switch (s) {
+        case Status.LOADING:
+          return (
+            <div
+              aria-busy="true"
+              aria-live="polite"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                maxWidth: "540px",
+                height: "90vh",
+                zIndex: 20,
+                margin: "0 auto",
+              }}
+            >
+              <Loading />
+              <span
+                style={{
+                  position: "absolute",
+                  width: 1,
+                  height: 1,
+                  overflow: "hidden",
+                  clip: "rect(0 0 0 0)",
+                }}
+              >
+                {t.loading}
+              </span>
+            </div>
+          );
+
+        case Status.FAILURE:
+          return (
+            <div role="alert" style={{ padding: "1rem", textAlign: "center" }}>
+              {errorMsg || t.loadFail}
+            </div>
+          );
+
+        case Status.SUCCESS:
+          if (!article) {
+            return <div style={{ padding: "1rem", textAlign: "center" }}>{t.notFound}</div>;
+          }
+          return (
+            <article>
+              <S.TextWrapper>
+                {/* 썸네일 필요 시 */}
+                {/* {article.heroImage && (
+                  <S.Thumbnail>
+                    <img src={article.heroImage} alt={t.heroAlt} />
+                  </S.Thumbnail>
+                )} */}
+                <S.ContentWrapper>
+                  <S.Name title={article.title}>{article.title}</S.Name>
+                  <S.SubTitle title={article.subtitle}>{article.subtitle}</S.SubTitle>
+                  <S.LocationWrapper>
+                    <img src={IMAGE_CONSTANTS.PlaceIcon} alt={t.locationAlt} />
+                    <S.Address title={t.placeLabel(article.place)}>{t.placeLabel(article.place)}</S.Address>
+                  </S.LocationWrapper>
+                </S.ContentWrapper>
+              </S.TextWrapper>
+
+              <ArticleContent blocks={article.blocks} />
+            </article>
+          );
+      }
+    },
+    [article, errorMsg, t.loading, t.loadFail, t.notFound, t.heroAlt, t.placeLabel]
+  );
 
   return (
     <S.Wrapper>
@@ -100,35 +184,7 @@ const ArticleDetailPage = () => {
         />
       </S.Header>
 
-      <S.Contents>
-        {!loading && !errorMsg && article && (
-          <article>
-            <S.TextWrapper>
-              {/* ✅ position=0 IMAGE → 썸네일 */}
-              {/* {article.heroImage && (
-                <S.Thumbnail>
-                  <img src={article.heroImage} alt={t.heroAlt} />
-                </S.Thumbnail>
-              )} */}
-              <S.ContentWrapper>
-                <S.Name title={article.title}>{article.title}</S.Name>
-                <S.SubTitle title={article.subtitle}>{article.subtitle}</S.SubTitle>
-                <S.LocationWrapper>
-                  <img src={IMAGE_CONSTANTS.PlaceIcon} alt={t.locationAlt} />
-                  <S.Address title={t.placeLabel(article.place)}>{t.placeLabel(article.place)}</S.Address>
-                </S.LocationWrapper>
-              </S.ContentWrapper>
-              
-            </S.TextWrapper>
-
-            {/* ✅ 본문: position ≥ 1 블록들 */}
-            <ArticleContent blocks={article.blocks} />
-          </article>
-        )}
-
-        {!loading && !errorMsg && !article && <div>{t.notFound}</div>}
-        {!loading && errorMsg && <div>{errorMsg}</div>}
-      </S.Contents>
+      <S.Contents>{render(status)}</S.Contents>
     </S.Wrapper>
   );
 };

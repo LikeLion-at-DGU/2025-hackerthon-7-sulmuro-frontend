@@ -9,8 +9,15 @@ import { useState, useCallback, useMemo } from "react";
 import PlaceSheet from "./_components/PlaceSheet";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import { useLanguage } from "@/components/contexts/LanguageContext";
+import Loading from "@/components/loading/Loading";
 
 const CATEGORY_KEYS: readonly Category[] = ["음식", "쇼핑", "역사"] as const;
+
+enum Status {
+  LOADING = "LOADING",
+  FAILURE = "FAILURE",
+  SUCCESS = "SUCCESS",
+}
 
 const ArticlePage = () => {
   const { place, category, articles, loading, errorMsg, selectPlace, selectCategory } = useArticle();
@@ -30,8 +37,8 @@ const ArticlePage = () => {
         역사: language === "ko" ? "역사" : language === "zh" ? "历史" : "History",
       } as Record<Category, string>,
       loading: language === "ko" ? "불러오는 중..." : language === "zh" ? "加载中..." : "Loading...",
-      errorPrefix: language === "ko" ? "" : language === "zh" ? "" : "",
-      placeTriggerSuffix: language === "ko" ? "" : language === "zh" ? "" : "",
+      errorFallback: language === "ko" ? "에러가 발생했습니다." : language === "zh" ? "发生错误。" : "Something went wrong.",
+      empty: language === "ko" ? "아티클이 없습니다." : language === "zh" ? "暂无文章。" : "No articles found.",
       placeLabel: (p: Place) =>
         p === "전체"
           ? language === "ko"
@@ -46,6 +53,68 @@ const ArticlePage = () => {
           : "Gwangjang Market",
     };
   }, [language]);
+
+  // ✅ 로딩/에러를 하나의 Status로 매핑
+  const status: Status = useMemo(() => {
+    if (loading) return Status.LOADING;
+    if (errorMsg) return Status.FAILURE;
+    return Status.SUCCESS;
+  }, [loading, errorMsg]);
+
+  // ✅ 상태별 렌더 함수
+  const render = useCallback(
+    (s: Status) => {
+      switch (s) {
+        case Status.LOADING:
+          return (
+            <div
+              aria-busy="true"
+              aria-live="polite"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "100%",
+                maxWidth: "540px",
+                height: "90vh",
+                zIndex: 20,
+                margin: "0 auto",
+              }}
+            >
+              <Loading />
+              {/* 스크린리더 접근성용 텍스트 */}
+              <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>
+                {t.loading}
+              </span>
+            </div>
+          );
+
+        case Status.FAILURE:
+          return (
+            <div role="alert" style={{ padding: "1rem", textAlign: "center" }}>
+              {errorMsg || t.errorFallback}
+            </div>
+          );
+
+        case Status.SUCCESS:
+          if (!articles || articles.length === 0) {
+            return <div style={{ padding: "1rem", textAlign: "center" }}>{t.empty}</div>;
+          }
+          return (
+            <S.ArticleBox>
+              {articles.map((a) => (
+                <ArticleCard
+                  key={a.id}
+                  article={a}
+                  onClick={(id) => navigate(buildRoute.articleDetail(id))}
+                />
+              ))}
+            </S.ArticleBox>
+          );
+      }
+    },
+    [articles, errorMsg, navigate, t.loading, t.errorFallback, t.empty]
+  );
 
   return (
     <S.Wrapper>
@@ -73,17 +142,7 @@ const ArticlePage = () => {
         ))}
       </S.FilterRow>
 
-      <S.Contents>
-        {loading && <div>{t.loading}</div>}
-        {!loading && errorMsg && <div>{errorMsg}</div>}
-        {!loading && !errorMsg && (
-          <S.ArticleBox>
-            {articles.map((a) => (
-              <ArticleCard key={a.id} article={a} onClick={(id) => navigate(buildRoute.articleDetail(id))} />
-            ))}
-          </S.ArticleBox>
-        )}
-      </S.Contents>
+      <S.Contents>{render(status)}</S.Contents>
 
       {isPlaceSheetOpen && (
         <PlaceSheet
