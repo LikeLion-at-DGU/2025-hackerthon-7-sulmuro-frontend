@@ -26,7 +26,7 @@ export const useLanguage = (): LanguageContextType => {
 };
 
 interface LanguageProviderProps {
-  children: ReactNode; // children을 ReactNode 타입으로 설정
+  children: ReactNode;
 }
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({
   children,
@@ -37,7 +37,6 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({
       const initial: Language =
         saved === "ko" || saved === "en" || saved === "zh" ? saved : "en";
 
-      // 바로 헤더/문서 lang 반영 (첫 렌더 전에)
       setApiLanguage(initial);
       document.documentElement.lang = initial === "zh" ? "zh-CN" : initial;
       if (!saved) localStorage.setItem("lang", initial);

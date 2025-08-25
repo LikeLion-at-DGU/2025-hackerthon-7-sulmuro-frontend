@@ -25,6 +25,7 @@ const MapPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isFollowing, setIsFollowing] = useState(false);
   const [isMarketMode, setIsMarketMode] = useState(false);
+  const [isPlacesLoading, setIsPlacesLoading] = useState(true);
   const [searchParams] = useSearchParams();
   const focusPlaceId = searchParams.get("place");
   const { language } = useLanguage();
@@ -80,16 +81,22 @@ const MapPage = () => {
   }, [focusPlaceId, places]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    let alive = true;
+    (async () => {
+      setIsPlacesLoading(true);
       try {
         const data = await usePointhooks();
-        setPlaces(data.data);
+        if (alive) setPlaces(data.data ?? []);
       } catch (error) {
         console.log("err", error);
+        if (alive) setPlaces([]);
+      } finally {
+        if (alive) setIsPlacesLoading(false);
       }
+    })();
+    return () => {
+      alive = false;
     };
-    fetchData();
-    console.log(places);
   }, [language]);
   return (
     <>
@@ -97,6 +104,7 @@ const MapPage = () => {
         <Wrapper
           apiKey={import.meta.env.VITE_GOOGLEMAP_API_KEY}
           libraries={["places"]}
+          language={language}
           render={render}
         >
           <ChooseMarket setIsModalOpen={setIsModalOpen} />
@@ -140,6 +148,18 @@ const MapPage = () => {
                 />
               )}
             </>
+          )}
+          {isPlacesLoading && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: 30,
+              }}
+            >
+              <Loading />
+            </div>
           )}
         </Wrapper>
       </div>
