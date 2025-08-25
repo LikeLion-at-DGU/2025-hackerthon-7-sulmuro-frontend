@@ -87,6 +87,7 @@ export const VoiceIcon = styled.div`
     justify-content: flex-end;
     img{
         width: 100%;
+        max-width: 100px;
         height: fit-content;
     }
 `;

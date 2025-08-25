@@ -2,6 +2,8 @@
 import styled from "styled-components";
 import { IMAGE_CONSTANTS } from "@/constants/imageConstants";
 import { Place } from "../_apis/getArticle";
+import { useLanguage } from "@/components/contexts/LanguageContext";
+import { useMemo } from "react";
 
 type Props = {
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -13,65 +15,95 @@ type Props = {
 const DEFAULT_PLACES: readonly Place[] = ["전체", "서울광장시장"] as const;
 
 const PlaceSheet = ({ setIsOpen, current, onSelect, options = DEFAULT_PLACES }: Props) => {
+    const { language } = useLanguage();
+
+    // ✅ UI 라벨 현지화 (값은 기존 Place 유지)
+    const t = useMemo(() => {
+        return {
+        title: language === "ko" ? "시장 이동" : language === "zh" ? "切换市场" : "Change market",
+        closeAlt: language === "ko" ? "닫기" : language === "zh" ? "关闭" : "Close",
+        subtitle:
+            language === "ko"
+            ? "서울의 대표 전통시장"
+            : language === "zh"
+            ? "首尔代表性的传统市场"
+            : "Seoul’s representative traditional market",
+        note:
+            language === "ko"
+            ? "더 많은 시장들이 업데이트될 예정이에요."
+            : language === "zh"
+            ? "更多市场即将上线。"
+            : "More markets will be added soon.",
+        placeLabel: (p: Place) =>
+            p === "전체"
+            ? language === "ko"
+                ? "전체"
+                : language === "zh"
+                ? "全部"
+                : "All"
+            : language === "ko"
+            ? "서울광장시장"
+            : language === "zh"
+            ? "广藏市场"
+            : "Gwangjang Market",
+        };
+    }, [language]);
+
     const close = () => setIsOpen(false);
     const handlePick = (p: Place) => {
-        onSelect(p);
+        onSelect(p); // 값은 Place(한글) 유지
         close();
     };
 
     return (
         <ModalOverlay>
-            <PlaceModalContainer>
-                <ModalHeader>
-                    <div />
-                    <p>시장 이동</p>
-                    <button onClick={close} aria-label="닫기">
-                        <img src={IMAGE_CONSTANTS.CLoseIcon} alt="" />
-                    </button>
-                </ModalHeader>
+        <PlaceModalContainer role="dialog" aria-modal="true" aria-label={t.title}>
+            <ModalHeader>
+            <div />
+            <p>{t.title}</p>
+            <button onClick={close} aria-label={t.closeAlt}>
+                <img src={IMAGE_CONSTANTS.CLoseIcon} alt="" />
+            </button>
+            </ModalHeader>
 
-                <ModalBody>
-                    {/* 조건부 렌더링: 서울광장시장일 때만 Title을 보여줍니다. */}
-                    {current === "서울광장시장" && (
-                        <Title>서울의 대표 전통시장</Title>
-                    )}
+            <ModalBody>
+            {/* 현재 선택이 서울광장시장일 때만 부제 노출 */}
+            {current === "서울광장시장" && <Title>{t.subtitle}</Title>}
 
-                    {/* 여러 옵션 버튼 */}
-                    <ButtonList>
-                        {options.map((p) => (
-                            <button
-                                key={p}
-                                data-selected={current === p}
-                                onClick={() => handlePick(p)}
-                                aria-pressed={current === p}
-                            >
-                                {p}
-                            </button>
-                        ))}
-                    </ButtonList>
+            <ButtonList>
+                {options.map((p) => (
+                <button
+                    key={p}
+                    data-selected={current === p}
+                    onClick={() => handlePick(p)}
+                    aria-pressed={current === p}
+                >
+                    {t.placeLabel(p)}
+                </button>
+                ))}
+            </ButtonList>
 
-                    <span>더 많은 시장들이 업데이트될 예정이에요.</span>
-                </ModalBody>
-            </PlaceModalContainer>
+            <span>{t.note}</span>
+            </ModalBody>
+        </PlaceModalContainer>
         </ModalOverlay>
     );
 };
 
 export default PlaceSheet;
 
-// ... (나머지 styled-components 코드는 그대로 유지)
 const ModalOverlay = styled.div`
-    position: fixed; // 추가: 전체 화면 고정
-    top: 0; // 추가
-    left: 0; // 추가
-    width: 100%; // 추가
-    height: 100%; // 추가
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
     background: rgba(0, 0, 0, 0.45);
-    z-index: 20; // 추가: 모달 컨테이너보다 낮은 z-index
+    z-index: 20;
 `;
 
-
-/* ======= styled: MarketModal과 동일한 형태 유지 ======= */
 const PlaceModalContainer = styled.div`
     position: fixed;
     bottom: 0;
@@ -84,7 +116,6 @@ const PlaceModalContainer = styled.div`
     padding: 24px 32px 12px;
 
     z-index: 9999;
-    background: rgba(0,0,0,0.45);
     background-color: ${({ theme }) => theme.colors.WHITE};
     border-radius: 50px 50px 0 0;
     color: ${({ theme }) => theme.colors.N70};
@@ -134,7 +165,7 @@ const Title = styled.p`
 
 const ButtonList = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr; /* 옵션이 적을 때도 균형 있게 */
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
     width: 100%;
 
@@ -149,9 +180,8 @@ const ButtonList = styled.div`
         cursor: pointer;
 
         &[data-selected="true"] {
-            border-color: ${({ theme }) => theme.colors.R50};
-            color: ${({ theme }) => theme.colors.R50};
-
+        border-color: ${({ theme }) => theme.colors.R50};
+        color: ${({ theme }) => theme.colors.R50};
         }
     }
 `;

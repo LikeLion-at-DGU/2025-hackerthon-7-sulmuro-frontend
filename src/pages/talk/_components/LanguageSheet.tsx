@@ -143,9 +143,9 @@ const ModalOverlay = styled.div`
 
 const SheetContainer = styled.div`
   position: fixed;
-  left: 50%;
+  left: 50%; 
   bottom: env(safe-area-inset-bottom);
-  transform: translateX(-50%);
+  transform: translateX(-50%); 
   width: 100%;
   max-width: 540px;
   box-sizing: border-box;
