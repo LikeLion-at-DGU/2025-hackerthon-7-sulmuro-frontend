@@ -23,24 +23,25 @@ enum Status {
 const ArticleDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { language } = useLanguage();
+  const { language } = useLanguage(); // "ko" | "en" | "zh"
 
   const [article, setArticle] = useState<Article | null>(null);
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   // ✅ 토큰(필요 시)
-  const token =
-    typeof window !== "undefined"
-      ? localStorage.getItem("accessToken") ?? undefined
-      : undefined;
+  const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") ?? undefined : undefined;
 
   // ✅ 추천 장소 호출
   const {
-    places: recPlaces,
-    loading: recLoading,
-    errorMsg: recError,
-  } = useRecommendPlace(id, { token, immediate: true });
+      places: recPlaces,
+      loading: recLoading,
+      errorMsg: recError,
+    } = useRecommendPlace(id, {
+      token,
+      lang: language,   // ← 여기!
+      immediate: true,
+    });
 
   // ✅ 라벨/alt 현지화
   const t = useMemo(() => {
@@ -245,7 +246,7 @@ const ArticleDetailPage = () => {
         places={recPlaces}
         loading={recLoading}
         errorMsg={recError ?? undefined}
-        buildPlacePath={(placeId) => `/map?place=${placeId}`} // ← 필요 시 수정
+        buildPlacePath={(placeId) => `/map?place=${placeId}`}
       />
     </S.Wrapper>
   );

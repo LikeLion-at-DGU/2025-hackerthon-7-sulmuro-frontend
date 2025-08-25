@@ -4,6 +4,7 @@ import {
     getRecommendPlace,
     clearRecommendPlaceCache,
     type RecommendedPlace,
+    type LangCode,
 } from "../_apis/getRecommendPlace";
 
 export type UseRecommendPlaceOptions = {
@@ -11,13 +12,20 @@ export type UseRecommendPlaceOptions = {
     skip?: boolean;
     force?: boolean;
     token?: string;
+    lang?: LangCode; // ✅ Accept-Language
 };
 
 export function useRecommendPlace(
     articleId: number | string | undefined,
     options: UseRecommendPlaceOptions = {}
     ) {
-    const { immediate = true, skip = false, force = false, token } = options;
+    const {
+        immediate = true,
+        skip = false,
+        force = false,
+        token,
+        lang, // ✅ 추가
+    } = options;
 
     const [places, setPlaces] = useState<RecommendedPlace[]>([]);
     const [loading, setLoading] = useState(false);
@@ -42,6 +50,7 @@ export function useRecommendPlace(
             const data = await getRecommendPlace(idNum as number, token, {
             signal,
             force: forceFetch ?? force,
+            lang, // ✅ 언어 전달
             });
 
             if (seq === fetchSeq.current) {
@@ -59,7 +68,7 @@ export function useRecommendPlace(
             if (seq === fetchSeq.current) setLoading(false);
         }
         },
-        [articleId, skip, force, token]
+        [articleId, skip, force, token, lang] // ✅ lang 변경 시 재호출
     );
 
     useEffect(() => {
