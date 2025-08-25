@@ -59,7 +59,7 @@ export const Header = styled.div`
 
 export const TopComponentWrapper = styled.div`
     width: 100%;
-    border-bottom: 1px solid ${({theme}) => theme.colors.N30};
+    border-bottom: 1px solid ${({theme}) => theme.colors.N10};
     padding : 1rem 0;
     box-sizing:border-box;
     margin-bottom: 1rem;
