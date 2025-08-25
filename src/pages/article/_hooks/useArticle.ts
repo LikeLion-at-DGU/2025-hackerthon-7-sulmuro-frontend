@@ -17,7 +17,7 @@ interface UseArticleOptions {
 }
 
 export const useArticle = (opts: UseArticleOptions = {}) => {
-  const { language: ctxLang } = useLanguage();           // 'ko' | 'en' | 'zh'
+  const { language: ctxLang } = useLanguage(); // 'ko' | 'en' | 'zh'
   const lang: Lang = opts.language ?? ctxLang;
 
   const [place, setPlace] = useState<Place>("전체");
@@ -32,8 +32,9 @@ export const useArticle = (opts: UseArticleOptions = {}) => {
     setLoading(true);
     setErrorMsg(null);
     try {
-      const data = await getArticles(lang); // ✅ Accept-Language 적용
-      setAll(data);
+      const data = await getArticles(lang);
+      const reversedData = data.reverse();
+      setAll(reversedData);
     } catch (e: any) {
       setErrorMsg(e?.message ?? "데이터를 불러오는 중 오류가 발생했습니다.");
     } finally {
