@@ -35,7 +35,7 @@ export const Result = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 20px 10px 14px 10px;
+    padding: 10px 10px 14px 10px;
     box-sizing: border-box;
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -47,7 +47,7 @@ export const Result = styled.div`
 `;
 
 export const CapturedImg = styled.img`
-    max-width: 440px;
+    max-width: 100%;
     max-height: 440px;
     width: 100%;
     height: 90dvw;
