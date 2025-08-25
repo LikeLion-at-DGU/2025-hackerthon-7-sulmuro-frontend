@@ -61,15 +61,9 @@ const TalkPage = () => {
           <img src={IMAGE_CONSTANTS.DropDown} alt={t.selectAlt} />
         </S.MarketTrigger>
       </S.Header>
-
+      
       <S.TopComponentWrapper>
-        {/* QuickTalk 내부도 LanguageContext로 라벨/표시가 이미 현지화됨 */}
-        <QuickTalk /* market={market} */ />
-      </S.TopComponentWrapper>
-
-      <S.Header>{t.freeTalk}</S.Header>
-
-      <S.BottomComponentWrapper>
+        
         <S.TextTranslate onClick={() => navigate("/talk/text")}>
           {t.textCta}
         </S.TextTranslate>
@@ -78,6 +72,13 @@ const TalkPage = () => {
           <img src={IMAGE_CONSTANTS.MicIcon} alt="MIC" />
           <p>{t.voiceCta}</p>
         </S.VoiceTranslate>
+      </S.TopComponentWrapper>
+
+      <S.Header>{t.freeTalk}</S.Header>
+
+      <S.BottomComponentWrapper>
+        {/* QuickTalk 내부도 LanguageContext로 라벨/표시가 이미 현지화됨 */}
+        <QuickTalk /* market={market} */ />
       </S.BottomComponentWrapper>
 
       {isMarketOpen && (

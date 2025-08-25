@@ -7,26 +7,23 @@ export const Wrapper = styled.div`
     box-sizing: border-box;
     margin-bottom: 80px;
     flex-grow: 1;
-    padding-top: 60px;
 `;
 
 export const Header = styled.div`
     width: 100%;
-    position: fixed;
+    height: 56px;
+    position: sticky; /* position: fixed 대신 sticky를 사용 */
     top: 0;
-    left: 0;
-    z-index: 100;
-    background-color: white;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    height: 60px;
+    background: ${({ theme }) => theme.colors.WHITE};
     box-sizing: border-box;
+    z-index: 10; /* 다른 콘텐츠와 겹치지 않도록 z-index 추가 */
     img {
-        width: 26px;
-        height: 26px;
+        width: 24px;
+        height: 24px;
     }
 `;
 
@@ -47,7 +44,6 @@ export const Contents = styled.div`
     flex-direction: column;
     width: 100%;
     gap: 16px;
-    padding: 0 16px; /* 🟢 수정: Contents에 패딩을 추가하여 썸네일과 분리 */
     
 `;
 

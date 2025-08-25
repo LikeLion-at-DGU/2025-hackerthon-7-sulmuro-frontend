@@ -2,13 +2,14 @@ import styled, { css } from "styled-components";
 
 export const ChattingWrapper = styled.div`
     width: 100%;
-    padding: 24px 16px 12px;
+    /* min-height: calc(var(--vh, 1vh) * 100); */
+    padding: 24px 16px 6px;
     gap: 2rem;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     border-top: 1px solid ${({ theme }) => theme.colors.N10};
-    height: fit-content; // ✅ 내용에 맞게 높이 자동 조절
+    height: fit-content; 
     min-height: 0;
 `;
 
@@ -19,8 +20,6 @@ export const ASK = styled.div`
 
 /* ====== 대화 로그 ====== */
 export const ChatLog = styled.div`
-    flex: 1;              // ✅ ChatLog가 ChattingWrapper의 남은 공간을 모두 채우도록 함
-    /* overflow-y: auto;     // ✅ ChatLog 내부에 스크롤이 발생하도록 함 */
     display: flex;
     flex-direction: column;
     gap: 8px;
