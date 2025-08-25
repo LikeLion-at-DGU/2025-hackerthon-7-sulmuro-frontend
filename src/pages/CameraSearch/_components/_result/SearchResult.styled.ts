@@ -26,7 +26,8 @@ export const Sheet = styled.div`
     /* 시트가 꽉 찼을 때 내부 스크롤이 생기도록 */
     max-height: calc(100dvh - 12px);
     overflow-y: auto;
-
+    touch-action: none;        // 모바일 브라우저에서 스크롤 제스처와 충돌 방지
+    /* -webkit-user-select: none; // iOS에서 텍스트 선택 방지 보조 (드래그 중엔 JS로도 막아둠) */
     color: Black;
     border-radius: 40px 40px 0 0;
     background-color: ${({ theme }) => theme.colors.WHITE};
