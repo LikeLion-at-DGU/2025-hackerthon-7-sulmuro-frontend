@@ -99,7 +99,7 @@ export const TranslateResult = styled.div`
     gap: 1rem;
     justify-content: flex-start;
     align-items: flex-start;
-    color: ${({ theme }) => theme.colors.N30};
+    color: ${({ theme }) => theme.colors.N70};
     ${({ theme }) => theme.fonts.SemiBold20};
     box-sizing: border-box;
 

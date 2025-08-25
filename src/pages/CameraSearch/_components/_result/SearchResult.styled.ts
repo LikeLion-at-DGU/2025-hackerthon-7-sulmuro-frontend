@@ -78,7 +78,7 @@ export const Result = styled.div`
 `;
 
 export const CapturedImg = styled.img`
-    max-width: 440px;
+    
     max-height: 440px;
     width: 100%;
     height: 90dvw;
