@@ -177,15 +177,24 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
       style={{
         height: `${height}px`,
         borderRadius: height >= window.innerHeight ? "0" : "50px 50px 0 0",
+        overflowY: height >= window.innerHeight ? "auto" : "hidden",
       }}
       $expanded={!type}
       animate={animate}
     >
-      <S.SwipeButton
+      <div
         style={{
-          display: height == window.innerHeight ? "none" : "flex",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
-      />
+      >
+        <S.SwipeButton
+          style={{
+            display: height == window.innerHeight ? "none" : "flex",
+          }}
+        />
+      </div>
       <S.Header
         style={{
           display: "flex",
@@ -202,6 +211,7 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
       <S.InfoContainer
         onMouseDown={(e) => onMouseDown(e.nativeEvent)}
         onTouchStart={(e) => onTouchStart(e.nativeEvent)}
+        style={{ margin: height >= window.innerHeight ? "10px 0" : "0" }}
       >
         <p className="title">{place.name}</p>
         <img

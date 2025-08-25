@@ -41,7 +41,6 @@ export const SavedPlaceBox = styled.div<{ isEmpty: boolean }>`
 export const SavedArticleBox = styled.div`
   display: flex;
   width: 100%;
-  padding: 8px 0;
   box-sizing: border-box;
 `;
 
