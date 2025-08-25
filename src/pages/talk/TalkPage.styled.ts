@@ -40,10 +40,8 @@ export const Header = styled.div`
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 4rem;
-    font-size: 1.25rem;
     color: ${({ theme }) => theme.colors.N70};
-    ${({ theme }) => theme.fonts.Bold20};
+    ${({ theme }) => theme.fonts.ExtraBold24};
     padding:  1rem;
     box-sizing: border-box;
     select{
@@ -59,7 +57,7 @@ export const Header = styled.div`
 
 export const TopComponentWrapper = styled.div`
     width: 100%;
-    border-bottom: 1px solid ${({theme}) => theme.colors.N30};
+    border-bottom: 1px solid ${({theme}) => theme.colors.N10};
     padding : 1rem 0;
     box-sizing:border-box;
     margin-bottom: 1rem;

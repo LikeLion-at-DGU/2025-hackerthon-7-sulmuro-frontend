@@ -109,7 +109,9 @@ export const CaptureButton = styled.button`
     outline: none;
     width: 58px;
     height: 58px;
-    
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: #fff;
     font-size: 28px;
     font-weight: 700;
