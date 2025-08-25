@@ -81,28 +81,26 @@ export const FilterRow = styled.div`
   }
 `;
 export const CategoryButton = styled.button<{ selected?: boolean }>`
-  position: relative; /* ::after 기준점 */
-  padding: 8px 4px;
-  margin-left: 1rem;
-  height: 100%;
-  ${({ theme }) => theme.fonts.Bold16};
-  color: ${({ selected, theme }) =>
-    selected ? theme.colors.R50 : theme.colors.N70};
-  cursor: pointer;
+    position: relative;
+    padding: 8px 4px;
+    margin-left: 1rem;
+    height: 100%;
+    
+    // 선택 여부에 따라 폰트 스타일과 색상 변경
+    color: ${({ selected, theme }) => (selected ? theme.colors.R50 : theme.colors.N30)};
+    ${({ selected, theme }) => (selected ? theme.fonts.Bold16 : theme.fonts.SemiBold20)};
 
-  /* 기존 border-bottom은 제거 */
-  border-bottom: none;
+    cursor: pointer;
+    border-bottom: none;
 
-  /* 선택 시 밑줄을 부모의 1px 보더 위에 겹치도록 살짝 내려그림 */
-  &::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -2px; /* 부모의 1px 보더 라인과 겹치도록 1px 아래로 */
-    height: 2.5px;
-    background: ${({ selected, theme }) =>
-      selected ? theme.colors.R50 : "transparent"};
-    pointer-events: none;
-  }
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -2px;
+        height: 2.5px;
+        background: ${({ selected, theme }) => (selected ? theme.colors.R50 : "transparent")};
+        pointer-events: none;
+    }
 `;

@@ -181,7 +181,7 @@ const CameraCapture = ({ onCaptured }: Props) => {
 
   return (
     <S.Wrap>
-      <S.BackIcon onClick={() => navigate("/MAP")} src={IMAGE_CONSTANTS.BackIcon} alt="<"></S.BackIcon>
+      <S.BackIcon onClick={() => navigate("/map")} src={IMAGE_CONSTANTS.BackIcon} alt="<"></S.BackIcon>
       
       <S.Video ref={videoRef} playsInline muted onClick={handleTapToPlay} />
       <S.Frame ref={frameRef}>

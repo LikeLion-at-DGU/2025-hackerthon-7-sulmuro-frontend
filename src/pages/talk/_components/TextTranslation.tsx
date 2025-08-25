@@ -98,7 +98,19 @@ const TextTranslation = () => {
     () => (language === "ko" ? "텍스트 번역" : language === "zh" ? "文本翻译" : "Text Translation"),
     [language]
   );
-
+  const recommendations = useMemo(
+    () =>
+      Array.isArray(data?.recommendations)
+        ? data!.recommendations.filter(
+            (r: any) => r && typeof r.source === "string" && typeof r.target === "string"
+          )
+        : [],
+    [data]
+  );
+  const tryThisLabel = useMemo(
+    () => (language === "ko" ? "이 문장은 어때요?" : language === "zh" ? "试试这些" : "Try this"),
+    [language]
+  );
   const placeholder = useMemo(() => {
     switch (sourceLanguageCode) {
       case "ko":
@@ -241,11 +253,12 @@ const TextTranslation = () => {
         />
       )}
       <S.BottomContainer>
-        <S.RecommendedLines>
-          <p>Try this</p>
+        {/* ✅ 추천 데이터가 있을 때만 섹션을 노출 */}
+        {recommendations.length > 0 && (
+          <S.RecommendedLines>
+            <p>{tryThisLabel}</p>
 
-          {data?.recommendations?.length ? (
-            data.recommendations.map((rec, idx) => {
+            {recommendations.map((rec, idx) => {
               const koText =
                 sourceLanguageCode === "ko"
                   ? rec.source
@@ -268,25 +281,26 @@ const TextTranslation = () => {
                   <S.IconContainer
                     onClick={(e) => {
                       e.stopPropagation();
-                      handleRecommendationSpeak(koText, idx); // ✅ 핸들러 호출 및 인덱스 전달
+                      handleRecommendationSpeak(koText, idx);
                     }}
                     role="button"
                     aria-label="추천문장 한국어 음성 출력"
                     title="한국어로 듣기"
                   >
                     <img
-                      src={activeSoundIndex === idx ? IMAGE_CONSTANTS.SoundIconActive : IMAGE_CONSTANTS.SoundIcon} // ✅ 상태에 따른 이미지 변경
+                      src={
+                        activeSoundIndex === idx
+                          ? IMAGE_CONSTANTS.SoundIconActive
+                          : IMAGE_CONSTANTS.SoundIcon
+                      }
                       alt="음성 출력"
                     />
                   </S.IconContainer>
-                  
                 </S.Line>
               );
-            })
-          ) : (
-            null // 추천 문장이 없을 때는 아무것도 렌더링하지 않음
-          )}
-        </S.RecommendedLines>
+            })}
+          </S.RecommendedLines>
+        )}
 
         <S.VoiceTranslate onClick={() => navigate("/talk/voice")}>
           <img src={IMAGE_CONSTANTS.MicIcon} alt="MIC" />

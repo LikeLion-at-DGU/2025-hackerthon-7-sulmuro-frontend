@@ -104,6 +104,7 @@ const MapPage = () => {
         <Wrapper
           apiKey={import.meta.env.VITE_GOOGLEMAP_API_KEY}
           libraries={["places"]}
+          language={language}
           render={render}
         >
           <ChooseMarket setIsModalOpen={setIsModalOpen} />
