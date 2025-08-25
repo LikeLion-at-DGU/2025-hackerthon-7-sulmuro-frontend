@@ -35,7 +35,7 @@ export const Result = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 10px 10px 14px 10px;
+    padding: 20px 10px 14px 10px;
     box-sizing: border-box;
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
