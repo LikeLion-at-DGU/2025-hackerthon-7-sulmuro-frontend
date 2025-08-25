@@ -7,6 +7,7 @@ import { Api } from "@/api/Api";
 import { useLanguage } from "@/components/contexts/LanguageContext";
 import { PlaceModalInfo, PlaceModalWithGoogle } from "../languages/Translate";
 import { addPlace, hasPlace, removePlace } from "@/utils/SavedBookMark";
+import Loading from "@/components/loading/Loading";
 
 const DEFAULT_HOLD = 50;
 const DEFAULT_HEIGHT = 230;
@@ -30,18 +31,27 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
   const initialY = useRef(0);
   const carouselRef = useRef<HTMLDivElement>(null);
   const [isCarouselDragging, setIsCarouselDragging] = useState(false);
+  const [isImagesLoading, setIsImagesLoading] = useState(true);
   const dragStartX = useRef(0);
   const scrollStartLeft = useRef(0);
   const { language } = useLanguage();
 
   const fetchData = async () => {
+    setIsImagesLoading(true);
     try {
-      const response = await Api.get(`/api/v1/places/${place.id}/images`);
-      const response2 = await Api.get(`/api/v1/places/${place.id}`);
-      setPlaceData(response2.data.data.content);
-      setPlaceImg(response.data.data.content);
+      const [imgRes, detailRes] = await Promise.all([
+        Api.get(`/api/v1/places/${place.id}/images`),
+        Api.get(`/api/v1/places/${place.id}`),
+      ]);
+      setPlaceImg(imgRes?.data?.data?.content ?? []);
+      setPlaceData(
+        detailRes?.data?.data?.content ?? "현재 장소에 대한 정보가 없습니다."
+      );
     } catch (err) {
       console.log(err);
+      setPlaceImg([]); // 실패 시에도 배열로
+    } finally {
+      setIsImagesLoading(false);
     }
   };
   useEffect(() => {
@@ -50,9 +60,6 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
       setIsBookMark(hasPlace(place.id));
     }
   }, [place]);
-  useEffect(() => {
-    console.log("imgs updated:", placeImg);
-  }, [placeImg]);
 
   const onMouseDown = (e: MouseEvent) => {
     if (!type) return;
@@ -255,14 +262,35 @@ const PlaceInfo = ({ place, type, setMapFocusPlace }: PlaceInfoProps) => {
               onPointerUp={onCarouselPointerUp}
               onPointerLeave={onCarouselPointerUp}
             >
-              {(placeImg && placeImg.length > 0
-                ? placeImg
-                : [{ url: testimage }]
-              ).map((src, idx) => (
-                <S.ImageSlide key={idx}>
-                  <img src={src.url} alt={`${place.name} 이미지 ${idx + 1}`} />
+              {isImagesLoading ? (
+                // ✅ 로딩 중: 스피너 중앙 표시
+                <div
+                  style={{
+                    width: "100%",
+                    minHeight: 160,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    padding: 16,
+                  }}
+                >
+                  <Loading />
+                </div>
+              ) : placeImg && placeImg.length > 0 ? (
+                placeImg.map((src, idx) => (
+                  <S.ImageSlide key={idx}>
+                    <img
+                      src={src.url}
+                      alt={`${place.name} 이미지 ${idx + 1}`}
+                    />
+                  </S.ImageSlide>
+                ))
+              ) : (
+                // ✅ 데이터 없을 때: 플레이스홀더 1장
+                <S.ImageSlide>
+                  <img src={testimage} alt={`${place.name} 기본 이미지`} />
                 </S.ImageSlide>
-              ))}
+              )}
             </S.ImageCarousel>
             <p>{placeData}</p>
           </S.AnotherContainer>
