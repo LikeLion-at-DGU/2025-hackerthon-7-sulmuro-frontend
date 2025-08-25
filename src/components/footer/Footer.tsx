@@ -69,7 +69,7 @@ const Footer = () => {
         <S.ImageContainer>
           <img
             src={
-              location.pathname == ROUTE_PATHS.SAVED
+              isSaved
                 ? IMAGE_CONSTANTS.SavedSelected
                 : IMAGE_CONSTANTS.SavedUnselected
             }
