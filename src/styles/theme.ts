@@ -47,32 +47,32 @@ const theme = {
   colors,
   fonts: {
     // 404 Page
-    ExtraBold90: fontGenerator("Pretendard", "90px", "800", "auto", "normal"),
-    Semibold32: fontGenerator("Pretendard", "32px", "600", "auto", "normal"),
+    ExtraBold90: fontGenerator("Pretendard", "90px", "700", "auto", "normal"),
+    Semibold32: fontGenerator("Pretendard", "32px", "500", "auto", "normal"),
 
     // Head1
-    ExtraBold24: fontGenerator("Pretendard", "24px", "800", "auto", "normal"),
-    Bold24: fontGenerator("Pretendard", "24px", "700", "auto", "normal"),
+    ExtraBold24: fontGenerator("Pretendard", "24px", "700", "auto", "normal"),
+    Bold24: fontGenerator("Pretendard", "24px", "600", "auto", "normal"),
 
     // Head2
-    Bold20: fontGenerator("Pretendard", "20px", "700", "auto", "normal"),
-    SemiBold20: fontGenerator("Pretendard", "20px", "600", "auto", "normal"),
+    Bold20: fontGenerator("Pretendard", "20px", "600", "auto", "normal"),
+    SemiBold20: fontGenerator("Pretendard", "20px", "500", "auto", "normal"),
 
     // Body1
-    Bold16: fontGenerator("Pretendard", "16px", "700", "auto", "normal"),
-    SemiBold16: fontGenerator("Pretendard", "16px", "600", "auto", "normal"),
+    Bold16: fontGenerator("Pretendard", "16px", "600", "auto", "normal"),
+    SemiBold16: fontGenerator("Pretendard", "16px", "500", "auto", "normal"),
     Regular16: fontGenerator("Pretendard", "16px", "400", "auto", "normal"),
 
     // Body2
-    SemiBold14: fontGenerator("Pretendard", "14px", "600", "auto", "normal"),
+    SemiBold14: fontGenerator("Pretendard", "14px", "500", "auto", "normal"),
     Regular14: fontGenerator("Pretendard", "14px", "400", "auto", "normal"),
 
     // small1
-    SemiBold12: fontGenerator("Pretendard", "12px", "600", "auto", "normal"),
+    SemiBold12: fontGenerator("Pretendard", "12px", "500", "auto", "normal"),
     Regular12: fontGenerator("Pretendard", "12px", "400", "auto", "normal"),
 
     // small2
-    SemiBold10: fontGenerator("Pretendard", "10px", "600", "auto", "normal"),
+    SemiBold10: fontGenerator("Pretendard", "10px", "500", "auto", "normal"),
     Regular10: fontGenerator("Pretendard", "10px", "400", "auto", "normal"),
   },
 };
